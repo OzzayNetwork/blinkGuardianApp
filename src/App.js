@@ -4,6 +4,7 @@ import "./App.css";
 import Home from "./pages/home.js";
 import Header from "./components/header.js";
 import Sidebar from "./components/sidebar.js";
+import SendMoney from "./components/sendMoney.js";
 import { Helmet } from "react-helmet";
 // import {Routes,Route} from "react-router-dom";
 import { Route, Routes, HashRouter } from "react-router-dom";
@@ -14,26 +15,19 @@ function App() {
     <>
       <HashRouter>
         <main className="main">
-          <div id="preloader" className="d-none">
-            <div id="status">
-              <div className="spinner-chase">
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-                <div className="chase-dot"></div>
-              </div>
-            </div>
-          </div>
+          
+             
+          <div id="layout-wrapper">
               <Header />
               <Sidebar />
-          <div id="layout-wrapper">
+              <SendMoney />
+             
             <div className="main-content">
               <div className="page-content">
                 <Routes>
-                  <Route to={"/"} element={<Home />}></Route>
+                  <Route exact path={"/"} element={<Home/>}></Route>
                 </Routes>
+                
               </div>
               <footer className="footer ">
                 <div className="container-fluid ">

@@ -1,3 +1,6 @@
+           .modal{
+            transition:0.2s
+           }
            #preloader{
             display: flex;
            }
