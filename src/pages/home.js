@@ -269,10 +269,10 @@ class Home extends React.Component {
                     <div className="card-header bg-white">
                         <h4 className="card-title mb-0 text-capitalize">Recent Transactions for all blinkers</h4>
                     </div>
-                    <div className="card-body px-1">                                           
+                    <div className="card-body px-2">                                           
 
                         <div className="table-responsive">
-                            <table className="table table-nowrap table-borderless align-middle mb-0 table-hover">
+                            <table className="table table-nowrap table-borderless align-middle mb-0 table-hover table-striped">
                                 
                                 <tbody>
                                     <tr>
@@ -316,7 +316,7 @@ class Home extends React.Component {
                                             <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                         </td>
                                         <td className="text-right">
-                                            <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
+                                            <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
                                             <div className="text-muted">20 Jan, 08:47 AM</div>
                                         </td>                                                           
                                     </tr>
@@ -362,7 +362,7 @@ class Home extends React.Component {
                                             <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                         </td>
                                         <td className="text-right">
-                                            <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
+                                            <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
                                             <div className="text-muted">20 Jan, 08:47 AM</div>
                                         </td>                                                           
                                     </tr>
