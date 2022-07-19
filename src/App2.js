@@ -5,7 +5,7 @@ import Home from "./pages/home.js";
 import Header from "./components/header.js";
 import Sidebar from "./components/sidebar.js";
 import SendMoney from "./components/sendMoney.js";
-import AuthMainContainer from "./authentication/authMainContainer.js";
+import Login from "./authentication/login.js";
 import { Helmet } from "react-helmet";
 // import {Routes,Route} from "react-router-dom";
 import { Route, Routes, HashRouter } from "react-router-dom";
@@ -16,10 +16,9 @@ function App() {
     <>
       <HashRouter>
         <main className="main">
-        <AuthMainContainer />
           
              
-          <div id="layout-wrapper" className="d-none">
+          <div id="layout-wrapper" className="">
               <Header />
               <Sidebar />
               <SendMoney />

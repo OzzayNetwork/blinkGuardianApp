@@ -124,6 +124,9 @@ $(window).on('load', function() {
 
 });
 
+const currentYear = new Date().getFullYear();
+$('.this-year').text(currentYear);
+
 $(document).ready(function() {
     $('.selectpicker').selectpicker();
     $('.selectpicker').selectpicker('render')

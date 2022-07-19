@@ -58,7 +58,7 @@ class SendMoney extends React.Component {
                                     </button>
 
                                     
-                                    <div className="dropdown-menu dropdown-menu-lg dropdown-menu-start p-0">
+                                    <div className="dropdown-menu dropdown-menu-lg dropdown-menu-start p-0 w-100">
                                         <div className="p-3">
                                             <div className="row align-items-center">
                                                 <div className="col">

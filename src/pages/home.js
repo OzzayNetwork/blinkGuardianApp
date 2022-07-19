@@ -37,7 +37,7 @@ class Home extends React.Component {
                 <div className="row">
                     <div className="col-lg-4 d-flex align-content-center">
                         <div className="dropdown d-inline-block w-100 d-flex align-items-center">
-                            <button type="button" className="btn header-item waves-effect align-items-center  text-left d-flex" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div className="flex-shrink-0 me-3">
                                     <img className="rounded-circle" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                 </div>
@@ -46,12 +46,12 @@ class Home extends React.Component {
                                     <h6 className="user-title m-0">All My Blinkers</h6>
                                     <p className="text-muted m-0 p-0">Blink Academy</p>
                                 </div>
-                                <i className="mdi mdi-chevron-down d-none d-xl-inline-block me-3 font-21"></i>
+                                <i className="mdi mdi-chevron-down d-inline d-xl-inline-block me-3 font-21"></i>
                                 
                             </button>
 
                             
-                            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-start p-0">
+                            <div className="dropdown-menu dropdown-menu-lg dropdown-menu-start p-0 w-100">
                                 <div className="p-3">
                                     <div className="row align-items-center">
                                         <div className="col">
@@ -101,9 +101,9 @@ class Home extends React.Component {
 
                             <ul className="list-inline user-chat-nav text-end mb-0">                                                   
 
-                                <li className="list-inline-item">
+                                <li className="list-inline-item pr-4">
                                     <div className="dropdown">
-                                        <button className="btn nav-btn" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button className="btn nav-btn mr-4" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i className="bx bx-dots-horizontal-rounded"></i>
                                         </button>
                                         <div className="dropdown-menu dropdown-menu-start">
@@ -139,7 +139,7 @@ class Home extends React.Component {
                                                     <i className="mdi mdi-cash-multiple text-white"></i>
                                                 </span>
                                         </div>
-                                        <p className="text-muted text-truncate mb-2">Pocket Money Balances</p>
+                                        <p className="text-muted text-truncate mb-2">Avg. Daily Consumption</p>
                                         <h5 className="mb-0">KES 450</h5>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@ class Home extends React.Component {
 
 
 <div className="row">
-    <div className="col-md-5 col-lg-4 col-sm-12 px-sm-30px">
+    <div className="col-md-6 col-lg-4 col-sm-12 px-sm-30px">
         <div className="row">
             <div className="col-12 d-non ">
                 <div className="card bg-primary bg-primary-blink blink-card-bg">
@@ -272,7 +272,18 @@ class Home extends React.Component {
                     <div className="card-body px-2">                                           
 
                         <div className="table-responsive">
-                            <table className="table table-nowrap table-borderless align-middle mb-0 table-hover table-striped">
+                            <table className="table table-nowrap  align-middle mb-0 table-hover ">
+                            <thead className="table-light">
+                                <tr>
+                                    
+                                    <th className="" colspan="2">
+                                        Transaction details
+                                    </th>
+                                    <th className="text-right">
+                                        <span>Amount & time</span>
+                                    </th>
+                                </tr>
+                            </thead>
                                 
                                 <tbody>
                                     <tr>
@@ -399,7 +410,7 @@ class Home extends React.Component {
             </div>
         </div>
     </div>
-    <div className="col-md-7 col-lg-8 col-sm-12 px-sm-30px">
+    <div className="col-md-6 col-lg-8 col-sm-12 px-sm-30px">
         <div className="card expenditure-card">
             <div className="card-body">
                 <h4 className="card-title mb-0">Expenditure</h4>
@@ -409,36 +420,107 @@ class Home extends React.Component {
                         <div id="member-salary-chart" className="apex-charts" dir="ltr"></div>
                     </div>
 
-                    <div className="col-lg-12">
-                        <div className="text-muted pt-5">
-                            <div className="row">
-                                <div className="col-auto">
-                                    <div className="text-capitalize pe-4">
-                                        <p className="mb-0">Last month's Expenditure</p>
-                                        <h5>KES 639</h5>
-                                    </div>
-                                </div>
-                                <div className="col-auto">
-                                    <div className="text-capitalize">
-                                        <p className="mb-0">This month's Expenditure</p>
-                                        <h4 className="d-flex">
-                                            <span className="pr-2">KES 562</span>
-                                            <div className="font-size-12 mt-1 text-muted"><span className="badge badge-soft-success font-size-12 me-1"> + 0.2% </span> From previous period</div>
-                                        </h4>
-                                        
-                                    </div>
-                                    <div className="mt-3 d-none">
-                                        <a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View Details <i className="mdi mdi-chevron-right ms-1"></i></a>
-                                    </div>
-                                </div>
-                                
+                    <hr/>
 
-                                
-                                
-                              
-                            </div>                                                
-                        </div>
+
+<div className="col-lg-6 col-6 col-sm-12 mb-3">
+    <div className="text-muted pt-5">
+        <div className="row">
+            <div className="col-auto mb-4">
+                <div className="text-capitalize pe-4">
+                    <p className="mb-0">Last month's Expenditure</p>
+                    <h5>KES 639</h5>
+                </div>
+            </div>
+            <div className="col-auto">
+                <div className="text-capitalize">
+                    <p className="mb-0">This month's Expenditure</p>
+                    <h4 className="d-flex">
+                        <span className="pr-2">KES 562</span>
+                        <div className="font-size-12 mt-1 text-muted"><span className="badge badge-soft-success font-size-12 me-1"> + 0.2% </span> From previous period</div>
+                    </h4>
+                    
+                </div>
+                <div className="mt-3 d-none">
+                    <a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View Details <i className="mdi mdi-chevron-right ms-1"></i></a>
+                </div>
+            </div>
+            
+
+            
+            
+          
+        </div>                                                
+    </div>
+</div>
+<div className="col-lg-6 col-6 col-sm-12">
+    <h4 className="card-title font-12px pt-5 mb-0 ">Expenditure By Other Account Types</h4>
+    <p className="text-muted">Expenditure and transactions </p>
+    <div>
+        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+           
+               
+                <div className="d-flex align-items-center">
+                    <div className="me-3">
+                       
+                        <img className="me-2" src="assets/images/blink-accounts/alternate/schoolFees.svg" alt="" height="40px"/>
+                   </div>
+                    <div>
+                        <h6 className="mb-0 text-capittalize">School fees</h6>
+                        <p className="mb-0 p-0">22 Transactions</p>
                     </div>
+                </div>
+
+               <div className="text-right ms-3 d-flex flex-column">
+                    <small className="mb-0 pb-0">Transaction Amount</small>
+                    <strong className="">KES 23,360</strong>
+               </div>
+               
+        </div>
+
+        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+           
+               
+            <div className="d-flex align-items-center">
+                <div className="me-3">
+                   
+                    <img className="me-2" src="assets/images/blink-accounts/alternate/savings.svg" alt="" height="40px"/>
+               </div>
+                <div>
+                    <h6 className="mb-0 text-capittalize">Savings Account</h6>
+                    <p className="mb-0 p-0">22 Transactions</p>
+                </div>
+            </div>
+
+           <div className="text-right ms-3 d-flex flex-column">
+                <small className="mb-0 pb-0">Transaction Amount</small>
+                <strong className="">KES 23,360</strong>
+           </div>
+           
+        </div>
+
+        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+           
+               
+            <div className="d-flex align-items-center">
+                <div className="me-3">
+                   
+                    <img className="me-2" src="assets/images/blink-accounts/alternate/transport.svg" alt="" height="40px"/>
+               </div>
+                <div>
+                    <h6 className="mb-0 text-capittalize">Transport</h6>
+                    <p className="mb-0 p-0">22 Transactions</p>
+                </div>
+            </div>
+
+           <div className="text-right ms-3 d-flex flex-column">
+                <small className="mb-0 pb-0">Transaction Amount</small>
+                <strong className="">KES 23,360</strong>
+           </div>
+           
+        </div>
+    </div>
+</div>
 
                     
                 </div>
