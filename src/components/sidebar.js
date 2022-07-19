@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import {Link} from "react-router-dom"
 // import $ from 'jquery';
 class Sidebar extends React.Component {
   render() {
@@ -27,9 +28,9 @@ class Sidebar extends React.Component {
                 
 
                 <li>
-                    <a href="index.html" className="waves-effect">
+                    <Link to="/" className="waves-effect">
                         <i className="bx bx-home-circle"></i><span>Home</span>
-                    </a>
+                    </Link>
                 </li>
                 
 

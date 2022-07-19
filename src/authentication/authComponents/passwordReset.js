@@ -1,5 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { Route, Routes, HashRouter } from "react-router-dom";
+import {Link} from "react-router-dom"
 // import $ from 'jquery';
 class PasswordReset extends React.Component {
   render() {
@@ -32,7 +34,7 @@ class PasswordReset extends React.Component {
 
         </form>
         <div className="mt-5 text-center ">
-            <p>Remember It ? <a href="auth-login.html " className="fw-medium text-primary "> Sign In here</a> </p>
+            <p>Remember It ? <Link to="/Login" className="fw-medium text-primary "> Sign In here</Link> </p>
         </div>
     </div>
 </div>

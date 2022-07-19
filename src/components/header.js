@@ -1,5 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import {Link} from "react-router-dom"
 // import $ from 'jquery';
 class Header extends React.Component {
   render() {
@@ -13,7 +14,7 @@ class Header extends React.Component {
           <div className="navbar-header">
             <div className="d-flex">
               <div className="navbar-brand-box">
-                <a href="index.html" className="logo logo-dark">
+                <Link to="/" className="logo logo-dark">
                   <span className="logo-sm">
                     <img
                       src="assets/images/logo-files/favicon.png"
@@ -24,9 +25,9 @@ class Header extends React.Component {
                   <span className="logo-lg">
                     <img src="assets/images/logo-dark.png" alt="" height="17" />
                   </span>
-                </a>
+                </Link>
 
-                <a href="index.html" className="logo logo-light">
+                <Link to="/" className="logo logo-light">
                   <span className="logo-sm">
                     <img
                       src="assets/images/logo-files/blink-icon.svg"
@@ -41,7 +42,7 @@ class Header extends React.Component {
                       height="50"
                     />
                   </span>
-                </a>
+                </Link>
               </div>
 
               <button
@@ -268,13 +269,13 @@ class Header extends React.Component {
                     <span key="t-lock-screen">Lock screen</span>
                   </a>
                   <div className="dropdown-divider"></div>
-                  <a
+                  <Link
                     className="dropdown-item text-danger"
-                    href="auth-login.html"
+                    to="/Login"
                   >
                     <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>{" "}
                     <span key="t-logout">Logout</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

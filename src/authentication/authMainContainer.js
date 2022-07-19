@@ -4,6 +4,7 @@ import PasswordReset from "./authComponents/passwordReset.js";
 import OTPVerification from "./authComponents/otpVerification.js";
 import NewPassword from "./authComponents/newPassword.js";
 import { Helmet } from "react-helmet";
+import { Route, Routes, HashRouter } from "react-router-dom";
 // import $ from 'jquery';
 class AuthMainContainer extends React.Component {
   render() {
@@ -69,7 +70,15 @@ class AuthMainContainer extends React.Component {
                             
                             {/* <PasswordReset/> */}
                             {/* <OTPVerification/> */}
-                            <NewPassword/>
+                            {/* <NewPassword/> */}
+                            
+
+                            <Routes>
+                                <Route exact path={"/"} element={<Login/>}></Route>
+                                <Route exact path={"PasswordReset"} element={<PasswordReset/>}></Route>
+                                <Route exact path={"OTPVerification"} element={<OTPVerification/>}></Route>
+                                <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>
+                            </Routes>
 
                             <div className="mt-4 mt-md-5 text-center">
                                 <p className="mb-0">©

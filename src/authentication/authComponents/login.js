@@ -1,5 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
+import { Route, Routes, HashRouter } from "react-router-dom";
+import {Link} from "react-router-dom"
 // import $ from 'jquery';
 class Login extends React.Component {
   render() {
@@ -25,7 +27,7 @@ class Login extends React.Component {
 
                                         <div className="mb-3">
                                             <div className="float-end">
-                                                <a href="auth-recoverpw.html" className="text-muted">Forgot password?</a>
+                                                <Link to="PasswordReset" className="text-muted">Forgot password?</Link>
                                             </div>
                                             <label className="form-label">Password</label>
                                             <div className="input-group auth-pass-inputgroup">
