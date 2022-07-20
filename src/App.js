@@ -8,9 +8,10 @@ import PasswordReset from "./authentication/authComponents/passwordReset.js";
 import OTPVerification from "./authentication/authComponents/otpVerification.js";
 import NewPassword from "./authentication/authComponents/newPassword.js";
 
-
+import Loader from "./components/loader.js";
 import Home from "./pages/home.js";
 import Header from "./components/header.js";
+import Footer from "./components/Footer.js";
 import Sidebar from "./components/sidebar.js";
 import SendMoney from "./components/sendMoney.js";
 import AuthMainContainer from "./authentication/authMainContainer.js";
@@ -18,11 +19,27 @@ import { Helmet } from "react-helmet";
 // import {Routes,Route} from "react-router-dom";
 import { Route, Routes, HashRouter,Link,useMatch,useResolvedPath,useLocation,BrowserRouter } from "react-router-dom";
 import { unmountComponentAtNode, render } from "react-dom";
+import axios from "axios"
 
 
 
 function App() {
   // return <Home / > ;
+  // var location=useLocation()
+  // console.log(Location)
+  const login=()=>{
+   let data = {
+      "email":"waweru.diliwise@gmail.com",
+      "password":"1234",
+      "userType":"Parent"
+    }
+      axios.post("http://test.blink.co.ke/api/v2/admin/auth/login-with-usertype", data).then((res) => {
+        console.log(res);
+        if (res.status.data===200) {
+          console.log("ygyuguygyu");
+        }
+      })
+  }
 
   const [isActive, setIsActive] = useState(false);
 
@@ -31,19 +48,21 @@ function App() {
     event.currentTarget.classList.toggle('bg-salmon');
     alert("it will be unmounted")
     // unmountComponentAtNode(document.getElementById('layout-wrapper'))
+    // const location=useLocation()
     
 
   };
- 
 
   
 
   return (
     <>
-    <BrowserRouter></BrowserRouter>
+    <BrowserRouter>
+      
+    </BrowserRouter>
+    
       <HashRouter>
-
-     
+      <Loader/>
           <Routes>
             <Route exact path={"/Login"} element={<AuthMainContainer />}>
               <Route exact path={"PasswordReset"} element={<PasswordReset/>}></Route>
@@ -51,13 +70,12 @@ function App() {
               <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>
             </Route> 
           </Routes>
-         <div className="mx-5 px-5">
-         <button onClick className="btn btn-danger pull-right mx-5">Click me to hide Navigation</button>
-         </div>
+         
           
           
-        <main className="">
+        <main className="d-non">        
           <div id="layout-wrapper" className="d-n">
+
               <Header />
               <Sidebar />
               <SendMoney />
@@ -66,22 +84,12 @@ function App() {
                 <Routes>
                   <Route exact path={"/"} element={<Home/>}></Route>
                 </Routes>
-              </div>
-              <footer className="footer ">
-                <div className="container-fluid ">
-                  <div className="row ">
-                    <div className="col-sm-6 ">
-                      <span className="this-year"></span> © Blink!
-                      {/* <span>{this.props.params.id}</span> */}
-                    </div>
-                    <div className="col-sm-6 ">
-                      <div className="text-sm-end d-sm-block ">
-                        Digital Wallet for Students
-                      </div>
-                    </div>
-                  </div>
+
+                <div className="mx-5 px-5 d-none">
+                  <button onClick={login} className="btn btn-danger pull-right mx-5">Click me to hide Navigation</button>
                 </div>
-              </footer>
+              </div>
+              <Footer/>
             </div>
           </div>
           {/* <Home /> */}
