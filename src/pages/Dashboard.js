@@ -21,59 +21,22 @@ import { Route, Routes, HashRouter,Link,useMatch,useResolvedPath,useLocation,Bro
 import { unmountComponentAtNode, render } from "react-dom";
 import axios from "axios"
 
+// import $ from 'jquery';
+const Dashboard=()=>{
+  const location = useLocation();
+  let currentWindow=location.pathname;
 
+  //let currentWindow = location.pathname;
+  let ourBaseURL = "/Login";
+  console.log(currentWindow)
 
-function App() {
-  // return <Home / > ;
-  // var location=useLocation()
-  // console.log(Location)
-  const login=()=>{
-   let data = {
-      "email":"waweru.diliwise@gmail.com",
-      "password":"1234",
-      "userType":"Parent"
-    }
-      axios.post("http://test.blink.co.ke/api/v2/admin/auth/login-with-usertype", data).then((res) => {
-        console.log(res);
-        if (res.status.data===200) {
-          console.log("ygyuguygyu");
-        }
-      })
-  }
-
-  const [isActive, setIsActive] = useState(false);
-
-  const handleClick = event => {
-    // 👇️ toggle isActive state on click
-    event.currentTarget.classList.toggle('bg-salmon');
-    alert("it will be unmounted")
-    // unmountComponentAtNode(document.getElementById('layout-wrapper'))
-    // const location=useLocation()
-    
-
-  };
-
-  
-
+  if (currentWindow.includes(ourBaseURL)) {
+    console.log("We are at the authentication pages");
+  } else {
+    //console.log(location.pathname)
   return (
-    <>
-    <BrowserRouter>
-      
-    </BrowserRouter>
-    
-      <HashRouter>
-      <Loader/>
-          <Routes>
-            <Route exact path={"/Login"} element={<AuthMainContainer />}>
-              <Route exact path={"PasswordReset"} element={<PasswordReset/>}></Route>
-              <Route exact path={"OTPVerification"} element={<OTPVerification/>}></Route>
-              <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>
-            </Route> 
-          </Routes>
-         
-          
-          
-        <main  className="d-non">        
+   <>
+    <main  className="d-non">        
           <div id="layout-wrapper" className="d-n">
 
               <Header />
@@ -96,15 +59,15 @@ function App() {
 
           
         </main>
-      </HashRouter>
-      <Helmet>
-        {/* <!-- App js --> */}
-        <script src="./assets/js/app.js "></script>
-        <script src="./assets/js/custom.js "></script>
-      </Helmet>
-    </>
-  )
+   </>
+  );
+  }
+
+  if(currentWindow==="/"){
+    console.log("we are at the home page")
+  }
+
+  
 }
 
-export default App;
-
+export default Dashboard;

@@ -8,18 +8,24 @@ import { Route, Routes, HashRouter,BrowserRouter } from "react-router-dom";
 import $ from 'jquery';
 
 //this function hides part of the main page
-$('.loginPageOnly').next('main').addClass('d-none');
+const removeMain=()=>{
+    //alert("we are here")
+    $('body .loginPageOnly').next('main').addClass('d-none');
+    $('.loginPageOnly').next('main').addClass('d-none');
+}
+$('body').find('.loginPageOnly').next('main').addClass('d-none');
+window.onload = function () { 
+    $('.loginPageOnly').next('main').addClass('d-none');
+}
 
 const AuthMainContainer =()=>{
-    var loginPages=()=>{
-        alert("we are at the login page")
-    }
+    
     console.log("we are at the authentication pages")
+    {removeMain()}
    
 
     return (
         <> 
-        {loginPages}
           <div className="loginPageOnly">
               <div className="container-fluid p-0">
                   <div className="row g-0">

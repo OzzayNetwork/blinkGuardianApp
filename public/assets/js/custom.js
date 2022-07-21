@@ -120,6 +120,7 @@ $(window).on('load', function() {
     })
 
     // $('.loginPageOnly').next('main').addClass('d-none');
+    $('body .loginPageOnly').next('main').addClass('d-none');
     
 
     
@@ -129,6 +130,7 @@ $(window).on('load', function() {
 const currentYear = new Date().getFullYear();
 $('.this-year').text(currentYear);
 // $('.loginPageOnly').next('main').addClass('d-none');
+$('body .loginPageOnly').next('main').addClass('d-none');
 
 $(document).ready(function() {
     $('.selectpicker').selectpicker();
