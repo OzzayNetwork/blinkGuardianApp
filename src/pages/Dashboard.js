@@ -1,38 +1,22 @@
 import $ from "jquery";
-import logo from "./logo.svg";
-import "./App.css";
+import logo from "../logo.svg";
+import "../App.css";
 import {useState} from 'react';
 
-import Login from "./authentication/authComponents/login.js";
-import PasswordReset from "./authentication/authComponents/passwordReset.js";
-import OTPVerification from "./authentication/authComponents/otpVerification.js";
-import NewPassword from "./authentication/authComponents/newPassword.js";
+import Loader from "../components/loader.js";
+import Home from "../pages/home.js";
+import Header from "../components/header.js";
+import Footer from "../components/Footer.js";
+import Sidebar from "../components/sidebar.js";
+import SendMoney from "../components/sendMoney.js";
+import Transactions from "./transactions/Transactions.js";
 
-import Loader from "./components/loader.js";
-import Home from "./pages/home.js";
-import Header from "./components/header.js";
-import Footer from "./components/Footer.js";
-import Sidebar from "./components/sidebar.js";
-import SendMoney from "./components/sendMoney.js";
-import AuthMainContainer from "./authentication/authMainContainer.js";
+import AuthMainContainer from "../authentication/authMainContainer.js";
 import { Helmet } from "react-helmet";
-// import {Routes,Route} from "react-router-dom";
-import { Route, Routes, HashRouter,Link,useMatch,useResolvedPath,useLocation,BrowserRouter } from "react-router-dom";
-import { unmountComponentAtNode, render } from "react-dom";
-import axios from "axios"
-
+import { Route, Routes, HashRouter,BrowserRouter } from "react-router-dom";
 // import $ from 'jquery';
 const Dashboard=()=>{
-  const location = useLocation();
-  let currentWindow=location.pathname;
-
-  //let currentWindow = location.pathname;
-  let ourBaseURL = "/Login";
-  console.log(currentWindow)
-
-  if (currentWindow.includes(ourBaseURL)) {
-    console.log("We are at the authentication pages");
-  } else {
+  
     //console.log(location.pathname)
   return (
    <>
@@ -46,10 +30,11 @@ const Dashboard=()=>{
               <div className="page-content">
                 <Routes>
                   <Route exact path={"/"} element={<Home/>}></Route>
+                  <Route exact path={"/Transactions"} element={<Transactions/>}></Route>
                 </Routes>
 
                 <div className="mx-5 px-5 d-none">
-                  <button onClick={login} className="btn btn-danger pull-right mx-5">Click me to hide Navigation</button>
+                  <button  className="btn btn-danger pull-right mx-5">Click me to hide Navigation</button>
                 </div>
               </div>
               <Footer/>
@@ -57,15 +42,17 @@ const Dashboard=()=>{
           </div>
           {/* <Home /> */}
 
+          <Helmet>
+            {/* <!-- App js --> */}
+            <script src="./assets/js/app.js "></script>
+            <script src="./assets/js/custom.js "></script>
+        </Helmet>
+
           
         </main>
    </>
   );
-  }
-
-  if(currentWindow==="/"){
-    console.log("we are at the home page")
-  }
+  
 
   
 }

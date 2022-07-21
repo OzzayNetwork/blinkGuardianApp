@@ -81,10 +81,10 @@ const Sidebar=()=>{
                       
   
                           <li>
-                              <a href="transactions.html" className="waves-effect">
+                              <Link to="/Transactions" className="waves-effect">
                                   <i className="mdi-progress-clock mdi"></i>
                                   <span>My Trransactions</span>
-                              </a>
+                              </Link>
                           </li>
   
                       </ul>

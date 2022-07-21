@@ -7,6 +7,8 @@ import Login from "./authentication/authComponents/login.js";
 import PasswordReset from "./authentication/authComponents/passwordReset.js";
 import OTPVerification from "./authentication/authComponents/otpVerification.js";
 import NewPassword from "./authentication/authComponents/newPassword.js";
+import Dashboard from "./pages/Dashboard.js";
+import Transactions from "./pages/transactions/Transactions.js";
 
 import Loader from "./components/loader.js";
 import Home from "./pages/home.js";
@@ -69,33 +71,14 @@ function App() {
               <Route exact path={"OTPVerification"} element={<OTPVerification/>}></Route>
               <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>
             </Route> 
+
+            {/* go to the dasboard page */}
+            <Route exact path={"/"} element={<Dashboard/>}>
+              <Route exact path={"Transactions"} element={<Transactions/>}></Route>
+            </Route>
+
           </Routes>
-         
-          
-          
-        <main  className="d-non">        
-          <div id="layout-wrapper" className="d-n">
-
-              <Header />
-              <Sidebar />
-              <SendMoney />
-            <div className="main-content">
-              <div className="page-content">
-                <Routes>
-                  <Route exact path={"/"} element={<Home/>}></Route>
-                </Routes>
-
-                <div className="mx-5 px-5 d-none">
-                  <button onClick={login} className="btn btn-danger pull-right mx-5">Click me to hide Navigation</button>
-                </div>
-              </div>
-              <Footer/>
-            </div>
-          </div>
-          {/* <Home /> */}
-
-          
-        </main>
+        
       </HashRouter>
       <Helmet>
         {/* <!-- App js --> */}
