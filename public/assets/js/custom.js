@@ -123,7 +123,33 @@ $(window).on('load', function() {
     $('body .loginPageOnly').next('main').addClass('d-none');
     $('body').on('click','.close-alert', function(){
         $(this).parent().addClass('d-none');
-    })
+    });
+
+    //creating abrevitions
+    var theName=$('.profile-abriv-jay').text()
+    function initialName(words) {
+        
+        
+        return words
+            .replace(/\b(\w)\w+/g, '$1.')
+            .replace(/\s/g, '')
+            .replace(/\.$/, '')
+            
+    }
+    
+    
+   
+    
+
+
+    //$('.bg-random').addClass("bgrandom"+randomNum)
+    $('body .bg-random').each(function(index) {
+
+        const randomNum=Math.floor(Math.random() * 10) + 1
+        $(this).addClass("bgrandom"+randomNum)
+    });
+
+    // converting figures to kenyan currency
     
 
     

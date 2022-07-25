@@ -4,6 +4,16 @@ import {Link,useLocation,matchRoutes} from "react-router-dom"
 
 // import $ from 'jquery';
 const Header=()=>{
+
+  // loged in parent details
+  const parentId=localStorage.getItem("parentId")
+  const parentEmail= localStorage.getItem("parentEmail")
+  const parentUserName= localStorage.getItem("parentUserName")
+  const parentFName=localStorage.getItem("parentUserFName")
+  const parentLName=localStorage.getItem("parentUserLName")
+  // console.log(localStorage)
+
+
   const logout=()=>{
     localStorage.clear();
     window.location.reload();
@@ -13,7 +23,7 @@ const Header=()=>{
 
   //let currentWindow = location.pathname;
   let ourBaseURL = "/Login";
-  console.log(currentWindow)
+  //console.log(currentWindow)
 
   if (currentWindow.includes(ourBaseURL)) {
     console.log("We are at the authentication pages");
@@ -249,19 +259,24 @@ const Header=()=>{
             <div className="dropdown d-inline-block">
               <button
                 type="button"
-                className="btn header-item waves-effect"
+                className="btn header-item waves-effect d-flex justify-content-center align-items-center"
                 id="page-header-user-dropdown"
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
                 <img
-                  className="rounded-circle header-profile-user"
+                  className="rounded-circle header-profile-user d-none"
                   src="assets/images/users/avatar-1.jpg"
                   alt="Header Avatar"
                 />
-                <span className="d-none d-xl-inline-block ms-1" key="t-henry">
-                  Adroa Balinda
+                <div className="avatar-sm mx-auto ">
+                    <span className="avatar-title rounded-circle bg-primary-blink font-size-16 profile-abriv">
+                        {parentFName.charAt(0)+parentLName.charAt(0)}
+                    </span>
+                </div>
+                <span className="d-none d-xl-inline-block ms-1 prof-name" key="t-henry">
+                  {parentFName+" "+parentLName}
                 </span>
                 <i className="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
               </button>

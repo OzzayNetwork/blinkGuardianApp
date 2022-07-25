@@ -1210,6 +1210,56 @@
                   .btn-send div{
                     display: flex;
                   }
-                  .acount-type a.active::before{
-                    
-                  }
+                 /* background random colors for profiles */
+                 .bgrandom1{
+                    background:#789eec !important;
+                    background-color:#789eec !important
+                 }
+
+                 .bgrandom10{
+                    background:#77c491 !important;
+                    background-color:#77c491 !important;
+                 }
+
+                 .bgrandom2{
+                    background:#6660e1 !important;
+                    background-color:#6660e1 !important
+                 }
+
+                 .bgrandom3{
+                    background:#c83f8c !important;
+                    background-color:#c83f8c !important
+                 }
+
+                 .bgrandom4{
+                    background:#d35132 !important;
+                    background-color:#d35132 !important
+                 }
+
+                 .bgrandom5{
+                    background:#0000d6 !important;
+                    background-color:#0000d6 !important
+                 }
+
+                 .bgrandom6{
+                    background:#c7006e !important;
+                    background-color:#c7006e !important
+                 }
+
+                 .bgrandom7{
+                    background:#e54304 !important;
+                    background-color:#e54304 !important
+                 }
+
+                 .bgrandom8{
+                    background:#008b00 !important;
+                    background-color:#008b00 !important
+                 }
+
+                 .bgrandom9{
+                    background:#d602ee !important;
+                    background-color:#d602ee !important;
+                 }
+                 .border-white{
+                    border: 5px solid #ffffff8f !important;
+                 }

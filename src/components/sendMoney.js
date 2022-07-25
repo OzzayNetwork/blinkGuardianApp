@@ -1,7 +1,99 @@
-import React from "react";
+import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
+import AuthService from "../services/auth.service";
 import $ from 'jquery';
+
 const SendMoney=()=>{
+    const parentId=localStorage.getItem("parentId")
+    const parentEmail= localStorage.getItem("parentEmail")
+    const parentUserName= localStorage.getItem("parentUserName")
+    const parentFName=localStorage.getItem("parentUserFName")
+    const parentLName=localStorage.getItem("parentUserLName")
+    const parentWalletBal=localStorage.getItem("guardianWalletBal")
+
+
+    const [students, setstudents] = useState([])
+    const [studentProfile, setStudentProfile] = useState({})
+    const [firstStudent,setFirstStudent]=useState({})
+    const [schoolName,setSchoolName]=useState("")
+    const [myBlinkersCount,setMyBlinkersCount]=useState(0);
+    
+    useEffect(() => {
+        //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
+        const allBlinkers=AuthService.getLogedInAssociates()
+        setstudents(allBlinkers)
+        setFirstStudent(allBlinkers[0])
+        setMyBlinkersCount(allBlinkers.length)
+        //console.log(allBlinkers[0])
+        
+        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+            setStudentProfile(res.data.data.userProfile)
+            console.log(studentProfile)
+        }).catch((err)=>{
+
+        })
+    },[])
+
+    // converting numbers to currency
+    const kenyaCurrency=(num)=>{
+        return 'KES ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
+
+    //this function helps get the details pertaining to the details of a student's account
+    const targetId=firstStudent.userId
+    // alert(targetId)
+
+
+    const getInstitututionName=(studentId)=>{
+        var studentInstitutionName
+        AuthService.getStudentDetails(studentId).then((res)=>{
+            console.log(res)
+          //  setSchoolName(res.data.data.associates[0].institution.institutionName)
+          
+          studentInstitutionName=res.data.data.associates[0].cardId
+            //alert(schoolName);
+            console.log("the school Name is "+studentInstitutionName)
+            
+        })
+        return studentInstitutionName
+    }
+
+    
+
+    console.log(students);
+    const blinkerClicked=(studentId,clickedIndex)=>{
+        AuthService.getStudentDetails(studentId).then((res)=>{
+           
+            console.log(res)
+            setSchoolName(res.data.data.associates[0].institution.institutionName)
+            //alert(schoolName);
+            console.log("the school Name is "+schoolName)
+            setStudentProfile(res.data.data.userProfile)
+            console.log(studentProfile)
+            //alert(clickedIndex)
+
+            const allBlinkers=AuthService.getLogedInAssociates()
+
+            setFirstStudent(allBlinkers[clickedIndex])
+            setMyBlinkersCount(allBlinkers.length)
+            //console.log(allBlinkers[0])
+            //alert(studentId)
+        
+        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
+            setStudentProfile(res.data.data.userProfile)
+            console.log(studentProfile)
+        }).catch((err)=>{
+
+        })
+        })
+        // const returnedData= AuthService.getStudentDetails(studentId)
+        // const GetSchoolName=returnedData.data.cardStatus
+        
+
+       
+
+    }
+
     return (
         <>
           <Helmet>
@@ -43,12 +135,17 @@ const SendMoney=()=>{
                                   <div className="dropdown d-inline-block w-100 d-flex align-items-center mb-4 bg-info bg-opacity-25">
                                       <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                           <div className="flex-shrink-0 me-3">
-                                              <img className="rounded-circle avatar-sm" src="assets/images/users/avatar-5.jpg" alt="Generic placeholder image" height="65"/>
+                                            <div class="avatar-sm mx-auto ">
+                                                <span class="avatar-title rounded-circle bg-random font-size-24">
+                                                {studentProfile.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
+                                                </span>
+                                            </div>
+                                              <img className="rounded-circle avatar-sm d-none" src="assets/images/users/avatar-5.jpg" alt="Generic placeholder image" height="65"/>
                                           </div>
                                           
                                           <div className="flex-grow-1 chat-user-box me-3">
-                                              <h6 className="user-title m-0">Kelvin Thuku </h6>
-                                              <p className="text-muted m-0 p-0">Blink Academy</p>
+                                              <h6 className="user-title m-0">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h6>
+                                              <p className="text-muted m-0 p-0">{studentProfile.institution != undefined && studentProfile.institution.institutionName}</p>
                                           </div>
                                           <div className="d-flex justify-content-center align-items-center">
                                               <span className="d-flex align-items-center"><small className="text-info mr-2">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
@@ -69,37 +166,24 @@ const SendMoney=()=>{
                                               </div>
                                           </div>
                                           <div data-simplebar style={{ maxheight: "230px" }}>
-                                              <a href="javascript: void(0);" className="d-flex px-3 pb-2">
-                                                  <div className="flex-shrink-0 me-3">
-                                                      <img className="rounded-circle" src="assets/images/users/avatar-1.jpg" alt="Generic placeholder image" height="36"/>
-                                                  </div>
-                                                  <div className="flex-grow-1 chat-user-box">
-                                                      <p className="user-title m-0">Alex wankala</p>
-                                                      <p className="text-muted">St Mary's primary school</p>
-                                                  </div>                                                            
-                                              </a>
-  
-                                              <a href="javascript: void(0);" className="d-flex px-3 pb-2">
-                                                  <div className="flex-shrink-0 me-3">
-                                                      <img className="rounded-circle" src="assets/images/users/avatar-2.jpg" alt="Generic placeholder image" height="36"/>
-                                                  </div>
-                                                  <div className="flex-grow-1 chat-user-box">
-                                                      <p className="user-title m-0">Kelvin Thuku</p>
-                                                      <p className="text-muted">Amani Primary School</p>
-                                                  </div>
-  
-                                              </a>
-  
-                                              <a href="javascript: void(0);" className="d-flex px-3 pb-2">
-                                                  <div className="flex-shrink-0 me-3">
-                                                      <img className="rounded-circle" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
-                                                  </div>
-                                                  <div className="flex-grow-1 chat-user-box">
-                                                      <p className="user-title m-0">Veronicah Wanja</p>
-                                                      <p className="text-muted">Amani Primary School</p>
-                                                  </div>
-  
-                                              </a>
+                                          {students.length> 0 &&
+                                                students.map((item, index)=>(
+                                                    <a onClick={()=> blinkerClicked(item.userId,index)} href="#"   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                                        <div className="flex-shrink-0 me-3">
+                                                            <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
+                                                            <div className="avatar-sm mx-auto ">
+                                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
+                                                                    {item.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-grow-1 chat-user-box">
+                                                            <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
+                                                            <p className="text-muted">{item.blinkId}</p>
+                                                        </div>                                                            
+                                                    </a>
+                                                ))
+                                            }  
                                           
                                           </div>
                                           
@@ -187,7 +271,7 @@ const SendMoney=()=>{
                                                   <div className="form-group">
                                                       <label for="">Your MPESA Phone Number</label>
                                                       <div className="form-floating mb-3">
-                                                          <input type="text" className="form-control font-21 text-success form-control-lg" id="phone-input" placeholder="Enter Name"/>
+                                                          <input type="text" className="form-control font-21 text-success form-control-lg" id="phone-input" placeholder="Enter your phone No."/>
                                                           <label for="floatingnameInput">Phone No.</label>
                                                       </div>
                                                   </div>
@@ -200,13 +284,13 @@ const SendMoney=()=>{
                                                   <div className="flex-shrink-0 me-3">
                                                       <div className="avatar-sm">
                                                           <span className="avatar-title bg-primary bg-soft text-primary rounded-circle font-size-16">
-                                                              YA
+                                                            {parentFName.charAt(0)+parentLName.charAt(0)}
                                                           </span>
                                                       </div>
                                                   </div>
                                                   <div className="d-flex flex-column">
-                                                      <p className="m-0 p-0 text-uppercase">My Guardian Wallet (Yemi Alade)</p>                                                
-                                                      <p className="mb-0 p-0"> <small>My Wallet Bal: <strong>KES 25,236</strong></small></p>
+                                                      <p className="m-0 p-0 text-uppercase">My Guardian Wallet ({parentFName+" "+parentLName})</p>                                                
+                                                      <p className="mb-0 p-0"> <small>My Wallet Bal: <strong>KES {parentWalletBal}</strong></small></p>
   
                                                       
                                                   </div>

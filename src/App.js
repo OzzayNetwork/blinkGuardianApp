@@ -3,6 +3,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
 
+// importing sevices
+import AuthServices from "./services/auth.service";
+
 import Login from "./authentication/authComponents/login.js";
 import PasswordReset from "./authentication/authComponents/passwordReset.js";
 import OTPVerification from "./authentication/authComponents/otpVerification.js";
@@ -57,7 +60,7 @@ function App() {
 
   useEffect(() => {
     let loggedParentId = localStorage.getItem("parentId");
-    console.log(loggedParentId);
+    //console.log(loggedParentId);
   });
 
   const [theParentId, setTheParentId] = useState("0K");
