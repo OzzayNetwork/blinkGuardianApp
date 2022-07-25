@@ -8,7 +8,7 @@ const Transactions =()=> {
         <>
 
         <Helmet>
-        <title>Blink! | Transactions</title>
+        <title>Blink! | All Transactions</title>
         </Helmet>    {/* the modals container */}
         <div className="container-fluid">
              {/* <!-- start page title --> */}

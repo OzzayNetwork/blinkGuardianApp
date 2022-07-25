@@ -4,6 +4,10 @@ import {Link,useLocation,matchRoutes} from "react-router-dom"
 
 // import $ from 'jquery';
 const Header=()=>{
+  const logout=()=>{
+    localStorage.clear();
+    window.location.reload();
+  }
   const location = useLocation();
   let currentWindow=location.pathname;
 
@@ -276,13 +280,15 @@ const Header=()=>{
                   <span key="t-lock-screen">Lock screen</span>
                 </a>
                 <div className="dropdown-divider"></div>
-                <Link
+                <a
+                href="#"
+                onClick={logout}
                   className="dropdown-item text-danger"
-                  to="/Login"
+                  
                 >
                   <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i>{" "}
                   <span key="t-logout">Logout</span>
-                </Link>
+                </a>
               </div>
             </div>
           </div>

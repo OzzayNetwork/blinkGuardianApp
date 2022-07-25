@@ -19,6 +19,7 @@ window.onload = function () {
 }
 
 const AuthMainContainer =()=>{
+    //alert(" wer are at the authinticatuon main page "+theParentId)
     
     console.log("we are at the authentication pages")
     {removeMain()}
@@ -89,7 +90,7 @@ const AuthMainContainer =()=>{
   
                                      
                                         <Routes>
-                                            <Route exact path={"/"} element={<Login/>}></Route>
+                                            <Route exact path={"/"} element={<Login />}></Route>
                                             <Route exact path={"PasswordReset"} element={<PasswordReset/>}></Route>
                                             <Route exact path={"OTPVerification"} element={<OTPVerification/>}></Route>
                                             <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>

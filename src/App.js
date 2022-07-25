@@ -1,7 +1,7 @@
 import $ from "jquery";
 import logo from "./logo.svg";
 import "./App.css";
-import {useState} from 'react';
+import { useState, useEffect } from "react";
 
 import Login from "./authentication/authComponents/login.js";
 import PasswordReset from "./authentication/authComponents/passwordReset.js";
@@ -9,6 +9,7 @@ import OTPVerification from "./authentication/authComponents/otpVerification.js"
 import NewPassword from "./authentication/authComponents/newPassword.js";
 import Dashboard from "./pages/Dashboard.js";
 import Transactions from "./pages/transactions/Transactions.js";
+import Protected from "./components/protected";
 
 import Loader from "./components/loader.js";
 import Home from "./pages/home.js";
@@ -19,66 +20,103 @@ import SendMoney from "./components/sendMoney.js";
 import AuthMainContainer from "./authentication/authMainContainer.js";
 import { Helmet } from "react-helmet";
 // import {Routes,Route} from "react-router-dom";
-import { Route, Routes, HashRouter,Link,useMatch,useResolvedPath,useLocation,BrowserRouter } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  Navigate,
+  HashRouter,
+  Link,
+  useMatch,
+  useResolvedPath,
+  useLocation,
+  BrowserRouter,
+} from "react-router-dom";
 import { unmountComponentAtNode, render } from "react-dom";
-import axios from "axios"
-
-
+import axios from "axios";
 
 function App() {
   // return <Home / > ;
   // var location=useLocation()
   // console.log(Location)
-  const login=()=>{
-   let data = {
-      "email":"waweru.diliwise@gmail.com",
-      "password":"1234",
-      "userType":"Parent"
-    }
-      axios.post("http://test.blink.co.ke/api/v2/admin/auth/login-with-usertype", data).then((res) => {
-        console.log(res);
-        if (res.status.data===200) {
-          console.log("ygyuguygyu");
-        }
-      })
-  }
+  // const login=()=>{
+  //  let data = {
+  //     "email":"waweru.diliwise@gmail.com",
+  //     "password":"1234",
+  //     "userType":"Parent"
+  //   }
+  //     axios.post("http://test.blink.co.ke/api/v2/admin/auth/login-with-usertype", data).then((res) => {
+  //       console.log(res);
+  //       if (res.status.data===200) {
+  //         console.log("ygyuguygyu");
+  //       }
+  //     })
+  // }
 
+  // const [parentId,setParentId]=useState("")
+  // setParentId("Passed from parent");
+
+  useEffect(() => {
+    let loggedParentId = localStorage.getItem("parentId");
+    console.log(loggedParentId);
+  });
+
+  const [theParentId, setTheParentId] = useState("0K");
   const [isActive, setIsActive] = useState(false);
+  //alert("main hook "+theParentId)
 
-  const handleClick = event => {
+  // useEffect(setParentId(JSON.parse(localStorage.getItem('parentId')),parentId))
+
+  const handleClick = (event) => {
     // 👇️ toggle isActive state on click
-    event.currentTarget.classList.toggle('bg-salmon');
-    alert("it will be unmounted")
+    event.currentTarget.classList.toggle("bg-salmon");
+    alert("it will be unmounted");
     // unmountComponentAtNode(document.getElementById('layout-wrapper'))
-    // const location=useLocation()
-    
-
+    // const location=useLocation();
   };
-
-  
 
   return (
     <>
-    <BrowserRouter>
-      
-    </BrowserRouter>
-    
+      <BrowserRouter></BrowserRouter>
+
       <HashRouter>
-      <Loader/>
-          <Routes>
-            <Route exact path={"/Login"} element={<AuthMainContainer />}>
-              <Route exact path={"PasswordReset"} element={<PasswordReset/>}></Route>
-              <Route exact path={"OTPVerification"} element={<OTPVerification/>}></Route>
-              <Route exact path={"NewPassword"} element={<NewPassword/>}></Route>
-            </Route> 
+        <Loader />
+        <Routes>
+          {/* show this if the person is not logged in */}
+          {!localStorage.getItem("parentId") ? (
+           <> <Route exact path={"/Login"} element={<AuthMainContainer />}>
+              <Route
+                exact
+                path={"PasswordReset"}
+                element={<PasswordReset />}
+              ></Route>
 
-            {/* go to the dasboard page */}
-            <Route exact path={"/"} element={<Dashboard/>}>
-              <Route exact path={"Transactions"} element={<Transactions/>}></Route>
+              <Route
+                exact
+                path={"OTPVerification"}
+                element={<OTPVerification />}
+              ></Route>
+              
+              <Route
+                exact
+                path={"NewPassword"}
+                element={<NewPassword />}
+              ></Route>
             </Route>
-
-          </Routes>
-        
+              <Route path="*" element={<Navigate to="/Login" />}></Route>
+              </>
+          ) : (
+           <> <Route exact path={"/"} element={<Dashboard />}>
+              <Route
+                exact
+                path={"Transactions"}
+                element={<Transactions />}
+              ></Route>
+            </Route>
+              <Route path="*" element={<Navigate to="/" />}></Route>
+              </>
+          )}
+          {/* go to the dasboard page */}
+        </Routes>
       </HashRouter>
       <Helmet>
         {/* <!-- App js --> */}
@@ -86,8 +124,7 @@ function App() {
         <script src="./assets/js/custom.js "></script>
       </Helmet>
     </>
-  )
+  );
 }
 
 export default App;
-

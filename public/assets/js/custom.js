@@ -121,6 +121,9 @@ $(window).on('load', function() {
 
     // $('.loginPageOnly').next('main').addClass('d-none');
     $('body .loginPageOnly').next('main').addClass('d-none');
+    $('body').on('click','.close-alert', function(){
+        $(this).parent().addClass('d-none');
+    })
     
 
     

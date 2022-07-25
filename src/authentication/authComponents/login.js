@@ -1,14 +1,21 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Helmet } from "react-helmet";
 import { Route, Routes, HashRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import $ from 'jquery';
+import $ from 'jquery';
+
+
+
 const Login = () => {
+  //alert("we are at the login page "+theParentId)
+
 
 const [username, setUsername]=useState("");
 const [passWord,setPassword]=useState("");
 const [errorMsg, seterrorMsg]=useState("");
+
+
 
   const loginStart = (event) => {
     event.preventDefault();
@@ -25,14 +32,30 @@ const [errorMsg, seterrorMsg]=useState("");
       )
       .then((res) => {
         console.log(res);
+        
         if(res.status===200){
             seterrorMsg(res.data.statusDescription)
-         
+          // $('.msg-holder').removeClass('d-none')
             localStorage.setItem("parentId", res.data.data.userId)
+            $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+            setUsername(data.email);
+           // alert(res.data.data.userId);
+           window.location.reload()
+            console.log(localStorage);
+            //setTheParentId(res.data.data.userId);
+            //alert(theParentId = {parentId})
+            //alert(theParentId)
+           
+           
         }
       }).catch((err)=>{
         console.log(err.response.data.statusDescription);
         seterrorMsg(err.response.data.statusDescription)
+        //  $('.msg-holder-err ').removeClass('d-none');
+        //  $('.msg-holder-err .alert').alert('show');
+        //  alert("we are not logger");
+         //show
+        $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');;
       })
   };
 
@@ -44,10 +67,23 @@ const [errorMsg, seterrorMsg]=useState("");
       <div className="my-auto">
         <div>
           <h5 className="text-primary">Welcome Back !</h5>
-          <p className="text-muted">
-            Sign in to continue Using <strong>Blink!</strong>
-          </p>
-          <p>{errorMsg}</p>
+          <div className="msg-holder-err ">
+            <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
+                <i class="mdi mdi-block-helper me-2"></i>
+                {errorMsg}
+                <button type="button" class="btn-close close-alert"></button>
+            </div>
+          </div>
+
+          {/* <div className="d-none msg-holder-success">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="mdi mdi-block-helper me-2"></i>
+                {errorMsg}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div> */}
+
+          <p className="d-none">{errorMsg}</p>
         </div>
 
         <div className="mt-4">

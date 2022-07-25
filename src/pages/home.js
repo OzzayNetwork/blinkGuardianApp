@@ -36,7 +36,7 @@ const Home=()=>{
                         <div className="row">
                             <div className="col-lg-4 d-flex align-content-center">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
-                                    <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                         </div>
@@ -100,7 +100,7 @@ const Home=()=>{
 
                                     <ul className="list-inline user-chat-nav text-end mb-0">                                                   
 
-                                        <li className="list-inline-item pr-4">
+                                        <li className="list-inline-item pr-sm-0 pr-4">
                                             <div className="dropdown">
                                                 <button className="btn nav-btn mr-4" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i className="bx bx-dots-horizontal-rounded"></i>
@@ -286,7 +286,7 @@ const Home=()=>{
                                             
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                 <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
@@ -302,14 +302,14 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right px-sm-0">
                                                         <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
                                                         <div className="text-muted">20 Jan, 08:47 AM</div>
                                                     </td>                                                           
                                                 </tr>
 
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                 <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
@@ -325,14 +325,14 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right px-sm-0">
                                                         <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
                                                         <div className="text-muted">20 Jan, 08:47 AM</div>
                                                     </td>                                                           
                                                 </tr>
 
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                 <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
@@ -348,15 +348,15 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right px-sm-0">
                                                         <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
                                                         <div className="text-muted">20 Jan, 08:47 AM</div>
                                                     </td>                                                           
                                                 </tr>
 
                                                 <tr>
-                                                    <th scope="row">
-                                                        <div className="d-flex align-items-center">
+                                                    <th scope="row" className="px-sm-0">
+                                                        <div className="d-flex align-items-center" >
                                                             <div className="avatar-xs me-0">
                                                                 <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
                                                                     <i className="mdi mdi-arrow-down-bold"></i>
@@ -371,14 +371,14 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right px-sm-0">
                                                         <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
                                                         <div className="text-muted">20 Jan, 08:47 AM</div>
                                                     </td>                                                           
                                                 </tr>
 
                                                 <tr>
-                                                    <th scope="row">
+                                                    <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                 <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
@@ -394,7 +394,7 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0">Alex Wanjala</p>
                                                     </td>
-                                                    <td className="text-right">
+                                                    <td className="text-right px-sm-0">
                                                         <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
                                                         <div className="text-muted">20 Jan, 08:47 AM</div>
                                                     </td>                                                           
@@ -422,7 +422,7 @@ const Home=()=>{
                                 <hr/>
 
 
-            <div className="col-lg-6 col-6 col-sm-12 mb-3">
+            <div className="col-lg-6  col-sm-12 mb-3">
                 <div className="text-muted pt-5">
                     <div className="row">
                         <div className="col-auto mb-4">
@@ -452,7 +452,7 @@ const Home=()=>{
                     </div>                                                
                 </div>
             </div>
-            <div className="col-lg-6 col-6 col-sm-12">
+            <div className="col-lg-6 col-sm-12">
                 <h4 className="card-title font-12px pt-5 mb-0 ">Expenditure By Other Account Types</h4>
                 <p className="text-muted">Expenditure and transactions </p>
                 <div>

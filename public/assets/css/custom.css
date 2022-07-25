@@ -1112,6 +1112,13 @@
                     padding-left: 30px !important;
                     padding-right: 30px !important;
                 }
+                .pr-sm-0{
+                    padding-right:0px !important;
+                }
+                .px-sm-0{
+                    padding-right: 0px !important;
+                    padding-left: 0px !important;
+                }
             }
             
             @media screen and (max-width: 767px) {
