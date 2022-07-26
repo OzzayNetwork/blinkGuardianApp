@@ -1,13 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {Helmet} from "react-helmet";
 import AuthService from "../services/auth.service";
+import Moment from 'moment';
 
-// import $ from 'jquery';
+import $ from 'jquery';
 // import   JquerryAccordion   from "./customPlugins/jquerryAccordion";
 const Home=()=>{
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
+
+    // this stores all the student transactions
+    const [studentTransactions, setStudentTransactions] = useState([])
+
+    //getting selected account pocket money id
+    const[blinkWalletAccountNum,setBlinkWalletAccountNum]=useState("")
+
     const [firstStudent,setFirstStudent]=useState({})
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
@@ -22,9 +30,41 @@ const Home=()=>{
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             setStudentProfile(res.data.data.userProfile)
+            
+            //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+            setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+            console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
+            //alert(blinkWalletAccountNum)
             console.log(studentProfile)
         }).catch((err)=>{
 
+        })
+
+        console.log("The transactions should appear down here as an object")
+
+        AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+            //setStudentProfile(res.data.data.userProfile)
+            setStudentTransactions(res.data.data)
+            // console.log("We are here for transactions")
+            // console.log(res.data.data)
+            // console.log("The transactions start here <br/>"+res.data.length)
+            //alert(studentTransactions.length)
+            
+            if(res.data.data.length!=0){
+                //alert("not zero")
+                $('body .show-trans-cont').removeClass("d-none");
+                $('body .no-trans-cont').addClass("d-none")
+            }
+            if(res.data.data.length===0){
+                //alert("it is a zero")
+                $('body .show-trans-cont').addClass("d-none");
+                $('body .no-trans-cont').removeClass("d-none")
+            }
+
+          
+
+        }).catch((err)=>{
+            console.log(err)
         })
     },[])
 
@@ -32,6 +72,31 @@ const Home=()=>{
     const kenyaCurrency=(num)=>{
         return 'KES ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
+
+    //checking if a transaction is a deposit and if it is deposit we will set the return value to true
+    const isDepositTransaction=(transactionType)=>{
+        if (transactionType==="Deposit"){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    //phone number formating function starts here
+    function phoneOutput(str) {
+        //Filter only numbers from the input
+        let cleaned = ('' + str).replace(/\D/g, '');
+
+        //Check if the input is of correct length
+        let match = cleaned.match(/^(\d{3})(\d{3})(\d{3})(\d{3})$/);
+
+        if (match) {
+            return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+          };
+        
+          return str
+      }
 
     //this function helps get the details pertaining to the details of a student's account
     const targetId=firstStudent.userId
@@ -75,7 +140,37 @@ const Home=()=>{
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
             setStudentProfile(res.data.data.userProfile)
+
+            //clicke blinker wallet Id
+            setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+
             console.log(studentProfile)
+
+            //clicked blinker transactions
+            AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
+            //setStudentProfile(res.data.data.userProfile)
+            setStudentTransactions(res.data.data)
+            // console.log("We are here for transactions")
+            // console.log(res.data.data)
+            // console.log("The transactions start here <br/>"+res.data.length)
+            //alert(studentTransactions.length)
+            
+            if(res.data.data.length!=0){
+                //alert("not zero")
+                $('body .show-trans-cont').removeClass("d-none");
+                $('body .no-trans-cont').addClass("d-none")
+            }
+            if(res.data.data.length===0){
+                //alert("it is a zero")
+                $('body .show-trans-cont').addClass("d-none");
+                $('body .no-trans-cont').removeClass("d-none")
+            }
+
+          
+
+        }).catch((err)=>{
+            console.log(err)
+        })
         }).catch((err)=>{
 
         })
@@ -272,7 +367,7 @@ const Home=()=>{
                                         <div className="flex-shrink-0 align-self-center mb-3">
                                             <img src="assets/images/users/avatar-1.jpg" className="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
                                             <div class="avatar-md mx-auto ">
-                                                <span class="avatar-title rounded-circle bg-random font-size-24 border-white">
+                                                <span class="avatar-title rounded-circle bgrandom7 font-size-24 border-white">
                                                 {studentProfile.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
                                                 </span>
                                             </div>
@@ -314,7 +409,7 @@ const Home=()=>{
                                 <div className="card-footer">
                                     <div className="text-white">
                                         <p className="text-white-50 text-truncate mb-0">Wallet Balance.</p>
-                                        <h3 className="text-white kenyan-carency">{studentProfile.blinkaccounts != undefined && kenyaCurrency(studentProfile.blinkaccounts[0].currentBalance)}</h3>
+                                        <h3 className="text-white kenyan-carency">{studentProfile.blinkaccounts != undefined && kenyaCurrency(studentProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
                                        
                                     
                                     </div>
@@ -351,11 +446,12 @@ const Home=()=>{
                             </div>
                         </div>
                         <div className="col-12">
+                            {/* <div className="card history-card"> */}
                             <div className="card history-card">
                                 <div className="card-header bg-white">
                                     <h4 className="card-title mb-0 text-capitalize">Recent Transactions for {firstStudent.firstName}</h4>
                                 </div>
-                                <div className="card-body px-2 d-none">                                           
+                                <div className="card-body px-2 show-trans-cont">                                           
 
                                     <div className="table-responsive">
                                         <table className="table table-nowrap  align-middle mb-0 table-hover ">
@@ -372,133 +468,62 @@ const Home=()=>{
                                         </thead>
                                             
                                             <tbody>
+
+                                            {studentTransactions.length>0 && studentTransactions.slice(-4).map((transaction,index)=>(
                                                 <tr>
                                                     <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
-                                                                <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
-                                                                    <i className="mdi mdi-arrow-up-bold"></i>
-                                                                </span>
+                                                               
+                                                                {isDepositTransaction(transaction.transType)?(
+                                                                    <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
+                                                                        <i className="mdi mdi-arrow-down-bold"></i>
+                                                                    </span>
+                                                                ):(
+                                                                    <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
+                                                                        <i className="mdi mdi-arrow-up-bold"></i>
+                                                                     </span>
+                                                                )}
                                                             </div>
                                                             
                                                         </div>
                                                     </th>
                                                     <td>
                                                         <div className="text-truncate">
-                                                            Oranges (3), Mandazi
+                                                                {isDepositTransaction(transaction.transType)?(
+                                                                    phoneOutput(transaction.accountFrom)
+                                                                ):(
+                                                                    transaction.blinkMerchant.merchantName                                                                   
+                                                                )}
+                                                            {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
                                                         </div>
-                                                        <p className="text-muted p-0 m-0">Alex Wanjala</p>
+                                                        <p className="text-muted p-0 m-0"><small>Receipt No.</small> {transaction.receiptNumber}</p>
                                                     </td>
                                                     <td className="text-right px-sm-0">
-                                                        <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
-                                                        <div className="text-muted">20 Jan, 08:47 AM</div>
-                                                    </td>                                                           
-                                                </tr>
 
-                                                <tr>
-                                                    <th scope="row" className="px-sm-0">
-                                                        <div className="d-flex align-items-center">
-                                                            <div className="avatar-xs me-0">
-                                                                <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                                    <i className="mdi mdi-arrow-down-bold"></i>
-                                                                </span>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                    </th>
-                                                    <td>
-                                                        <div className="text-truncate">
-                                                            Wallet top up from Kelvin
-                                                        </div>
-                                                        <p className="text-muted p-0 m-0">Alex Wanjala</p>
-                                                    </td>
-                                                    <td className="text-right px-sm-0">
-                                                        <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
-                                                        <div className="text-muted">20 Jan, 08:47 AM</div>
+                                                             {isDepositTransaction(transaction.transType)?(
+                                                            <h5 className="font-size-14 mb-1 text-success">{kenyaCurrency(transaction.amount)}</h5>
+                                                            ):(
+                                                                <h5 className="font-size-14 mb-1 text-danger">{kenyaCurrency(transaction.amount)}</h5>                                                                 
+                                                            )}
+                                                        <div className="text-muted">{Moment(transaction.dateCreated).format('d MMM yyyy, h:mm A')}</div>
                                                     </td>                                                           
                                                 </tr>
-
-                                                <tr>
-                                                    <th scope="row" className="px-sm-0">
-                                                        <div className="d-flex align-items-center">
-                                                            <div className="avatar-xs me-0">
-                                                                <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
-                                                                    <i className="mdi mdi-arrow-up-bold"></i>
-                                                                </span>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                    </th>
-                                                    <td>
-                                                        <div className="text-truncate">
-                                                            Oranges (3), Mandazi
-                                                        </div>
-                                                        <p className="text-muted p-0 m-0">Alex Wanjala</p>
-                                                    </td>
-                                                    <td className="text-right px-sm-0">
-                                                        <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
-                                                        <div className="text-muted">20 Jan, 08:47 AM</div>
-                                                    </td>                                                           
-                                                </tr>
-
-                                                <tr>
-                                                    <th scope="row" className="px-sm-0">
-                                                        <div className="d-flex align-items-center" >
-                                                            <div className="avatar-xs me-0">
-                                                                <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                                    <i className="mdi mdi-arrow-down-bold"></i>
-                                                                </span>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                    </th>
-                                                    <td>
-                                                        <div className="text-truncate">
-                                                            Wallet top up from Kelvin
-                                                        </div>
-                                                        <p className="text-muted p-0 m-0">Alex Wanjala</p>
-                                                    </td>
-                                                    <td className="text-right px-sm-0">
-                                                        <h5 className="font-size-14 mb-1 text-success">KES 50</h5>
-                                                        <div className="text-muted">20 Jan, 08:47 AM</div>
-                                                    </td>                                                           
-                                                </tr>
-
-                                                <tr>
-                                                    <th scope="row" className="px-sm-0">
-                                                        <div className="d-flex align-items-center">
-                                                            <div className="avatar-xs me-0">
-                                                                <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                                    <i className="mdi mdi-arrow-down-bold"></i>
-                                                                </span>
-                                                            </div>
-                                                            
-                                                        </div>
-                                                    </th>
-                                                    <td>
-                                                        <div className="text-truncate">
-                                                            Wallet top up from Kelvin
-                                                        </div>
-                                                        <p className="text-muted p-0 m-0">Alex Wanjala</p>
-                                                    </td>
-                                                    <td className="text-right px-sm-0">
-                                                        <h5 className="font-size-14 mb-1 text-danger">KES 50</h5>
-                                                        <div className="text-muted">20 Jan, 08:47 AM</div>
-                                                    </td>                                                           
-                                                </tr>
-                                            
+                                               
+                                            ))}
                                             </tbody>
                                         </table>
                                     </div>
                                     <div className="text-center mt-4"><a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View More <i className="mdi mdi-arrow-right ms-1"></i></a></div>
                                 </div>
-                                <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center">
+                                <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center no-trans-cont">
                                     <div className="p-5 py-0">
                                         <img src="assets/images/illustration-images/empty-transactions.svg" className="img mb-4"/>
                                     </div>
                                     <h4 className="fw-bold">No Transactions Yet</h4>
                                     <p>No transactions have been registered with the student, you can start by sending them money first </p>
-                                    <a className="font-size-24px" href="" data-bs-toggle="modal" data-bs-target="#walletTopUp">Send Money</a>
+                                    <a className="font-size-24px d-none" href="" data-bs-toggle="modal" data-bs-target="#walletTopUp">Send Money</a>
+                                    <a href="javascript: void(0);" data-bs-toggle="modal" data-bs-target="#walletTopUp" className="text-primary font-16">Send Money <span className="flip-x"><span ><i class="mdi mdi-arrow-right-thick"></i></span></span> </a>
                                 </div>
                             </div>
                         </div>
@@ -508,7 +533,7 @@ const Home=()=>{
                     <div className="card expenditure-card">
                         <div className="card-body">
                             <h4 className="card-title mb-0">Expenditure</h4>
-                            <small className="mb-4 text-muted">The last 12 Months for All Blinkers</small>
+                            <small className="mb-4 text-muted">The last 12 Months for {studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</small>
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div id="member-salary-chart" className="apex-charts" dir="ltr"></div>

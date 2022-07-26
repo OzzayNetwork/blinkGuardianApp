@@ -136,7 +136,7 @@ $(window).on('load', function() {
             .replace(/\.$/, '')
             
     }
-    
+   
     
    
     

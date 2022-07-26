@@ -105,15 +105,16 @@ const [errorMsg, seterrorMsg]=useState("");
           <form onSubmit={loginStart}>
             <div className="mb-3">
               <label for="username" className="form-label">
-                Username
+                Email address
               </label>
               <input
-                type="text"
+                type="email"
                 className="form-control"
                 id="username"
                 placeholder="Enter username"
                 onChange={(event)=>setUsername(event.target.value)}
                 required="true"
+                required parsley-type="email"
               />
             </div>
 
