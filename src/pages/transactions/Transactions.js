@@ -522,7 +522,7 @@ const Transactions =()=> {
                                         </thead>
                                         <tbody>
                                         {transactionProducts?.length>0 && StdFunctions.isMerchantPay(transactionServiceCategory)===true && transactionProducts.map((productItem,index)=>(
-                                            <tr>
+                                            <tr className="text-capitalize">
                                                 <th scope="row">{index+1}</th>
                                                 <td>{productItem.productName}</td>
                                                 <td className="text-center">{productItem.units}</td>
@@ -534,7 +534,7 @@ const Transactions =()=> {
                                             
                                         </tbody>
                                         {StdFunctions.isMerchantPay(transactionServiceCategory)?(
-                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th colspan="2" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
+                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{transactionProducts?.length}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
                                             
                                         ):(
                                             <></>
