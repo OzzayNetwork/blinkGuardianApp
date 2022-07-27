@@ -61,6 +61,10 @@ const Home=()=>{
                 //alert("not zero")
                 $('body .show-trans-cont').removeClass("d-none");
                 $('body .no-trans-cont').addClass("d-none")
+                $('.product-items').each(function(index) {
+                    const products = $(this).text()
+                   $(this).text(StdFunctions.removeFirstCharacter(products))
+                });
             }
             if(res.data.data.length===0){
                 //alert("it is a zero")
@@ -136,6 +140,10 @@ const Home=()=>{
                 //alert("not zero")
                 $('body .show-trans-cont').removeClass("d-none");
                 $('body .no-trans-cont').addClass("d-none")
+                $('.product-items').each(function(index) {
+                    const products = $(this).text()
+                   $(this).text(StdFunctions.removeFirstCharacter(products))
+                });
             }
             if(res.data.data.length===0){
                 //alert("it is a zero")
@@ -470,15 +478,35 @@ const Home=()=>{
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div className="text-truncate">
+                                                        <div  className="text-truncate text-capitalize product-items-trunc" >
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     StdFunctions.phoneOutput(transaction.accountFrom)
                                                                 ):(
-                                                                    transaction.blinkMerchant.merchantName                                                                   
+                                                                    <span></span>                                                                  
                                                                 )}
+                                                                <span className="product-items" 
+                                                                
+                                                                >                                    
+                                                                    {
+                                                                        transaction.productsSold.length> 0 && transaction.productsSold.map((product,index)=>(<span>,{product.productName} </span>)) 
+                                                                    }  
+                                                                </span>
                                                             {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
                                                         </div>
-                                                        <p className="text-muted p-0 m-0"><small>Receipt No.</small> {transaction.receiptNumber}</p>
+                                                        <p className="text-muted p-0 m-0">
+                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                    <small>Receipt No.</small> 
+                                                               ):(
+                                                                   <small></small>                                                                  
+                                                               )}
+                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                   
+                                                                    transaction.receiptNumber
+                                                                ):(
+                                                                    transaction.blinkMerchant.merchantName                                                                  
+                                                                )}
+                                                            
+                                                        </p>
                                                     </td>
                                                     <td className="text-right px-sm-0 text-capitalize">
 

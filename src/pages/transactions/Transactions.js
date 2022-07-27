@@ -26,7 +26,13 @@ const Transactions =()=> {
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
 
-    useEffect(() => {
+     useEffect(() => {
+        $('.product-items').each(function(index) {
+            const products = $(this).text()
+           $(this).text(StdFunctions.removeFirstCharacter(products))
+        });
+        //function that removed the first character
+       
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
@@ -62,6 +68,10 @@ const Transactions =()=> {
                 //alert("not zero")
                 $('body .show-trans-cont').removeClass("d-none");
                 $('body .no-trans-cont').addClass("d-none")
+                $('.product-items').each(function(index) {
+                    const products = $(this).text()
+                   $(this).text(StdFunctions.removeFirstCharacter(products))
+                });
             }
             if(res.data.data.length===0){
                 //alert("it is a zero")
@@ -135,12 +145,18 @@ const Transactions =()=> {
                 //alert("not zero")
                 $('body .show-trans-cont').removeClass("d-none");
                 $('body .no-trans-cont').addClass("d-none")
+                $('.product-items').each(function(index) {
+                    const products = $(this).text()
+                   $(this).text(StdFunctions.removeFirstCharacter(products))
+                });
             }
             if(res.data.data.length===0){
                 //alert("it is a zero")
                 $('body .show-trans-cont').addClass("d-none");
                 $('body .no-trans-cont').removeClass("d-none")
             }
+
+            
 
           
 
@@ -150,11 +166,18 @@ const Transactions =()=> {
         }).catch((err)=>{
 
         })
+        $('.product-items').each(function(index) {
+            const products = $(this).text()
+           $(this).text(StdFunctions.removeFirstCharacter(products))
+        });
         })
         // const returnedData= AuthService.getStudentDetails(studentId)
         // const GetSchoolName=returnedData.data.cardStatus
         
-
+        $('.product-items').each(function(index) {
+            const products = $(this).text()
+           $(this).text(StdFunctions.removeFirstCharacter(products))
+        });
        
 
     }
@@ -312,7 +335,19 @@ const Transactions =()=> {
                                         <strong>-</strong>                                                                  
                                     )}
                                 </td>
-                                <td className="text-capitalize text-nowrap">2</td>
+                                <td className="text-capitalize text-nowrap">
+                                    {StdFunctions.isArrayEmpty(transaction.productsSold.length)?(
+                                       <strong>-</strong>
+                                    ):(
+                                    <span></span>
+                                    )}
+                                    <span className="product-items">                                    
+                                        {
+                                            transaction.productsSold.length> 0 && transaction.productsSold.map((product,index)=>(<span>,{product.productName} </span>)) 
+                                        }  
+                                    </span>
+                                                                    
+                                </td>
                                 <td className="text-capitalize text-nowrap">
                                     {
                                         Moment(transaction.dateCreated).calendar(null, {

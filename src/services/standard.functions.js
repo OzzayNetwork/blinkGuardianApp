@@ -31,6 +31,22 @@ class stdFunctions {
           return str
     }
 
+    //check if array is empty
+    isArrayEmpty=(num)=>{
+        if(num===0){
+           return true
+        }
+        else{
+            return false
+        }
+    }
+
+    //function that removed the first character
+    removeFirstCharacter=(str)=>{
+        str=str.substr(1)
+        return(str)
+    }
+
     //checking if i have more than one blinkers
     isBlinkersMore=(num)=>{
         if(num===1){

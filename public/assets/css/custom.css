@@ -1263,3 +1263,7 @@
                  .border-white{
                     border: 5px solid #ffffff8f !important;
                  }
+
+                 .product-items-trunc{
+                    max-width:170px !important
+                 }
