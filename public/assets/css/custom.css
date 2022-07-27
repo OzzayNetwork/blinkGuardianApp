@@ -1267,3 +1267,30 @@
                  .product-items-trunc{
                     max-width:170px !important
                  }
+                 .transactions-details-table>div{
+                    border: 2px solid #343a40;
+                    border-radius: 15px;
+                    border-color: #93979c;
+                 }
+                 .transactions-details-table>div table tfoot tr{
+                   border-top: 1px solid black;
+                   border-style: dashed;
+                   border-color: #93979c;
+                 }
+                 .transactions-details-table>div table thead tr:last-child{
+                    border-bottom: 1px solid black;
+                    border-style: dashed;
+                    border-color: #93979c;
+                  }
+                  .border-15px{
+                    border-radius: 10px !important;
+                  }
+                  .single-receipt tbody tr:first-child td,.single-receipt tbody tr:first-child th{
+                    padding-top: 15px;
+                  }
+                  .single-receipt tbody tr:last-child th,.single-receipt tbody tr:last-child td{
+                    padding-bottom: 15px;
+                  }
+                  .border-1px-solid{
+                    border: 1px solid #78797c2e;
+                  }

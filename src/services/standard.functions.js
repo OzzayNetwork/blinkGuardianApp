@@ -3,12 +3,26 @@ import {baseUrl, axiosInstance} from './API';
 class stdFunctions {
    // converting numbers to currency
    kenyaCurrency=(num)=>{
-        return 'KES ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+        let formatCurrency = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "KES",
+      })
+      return formatCurrency.format(num)
     }
 
     //checking if a transaction is a deposit 
     isDepositTransaction=(transactionType)=>{
         if (transactionType==="Deposit"){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    //is money transfer
+    isMoneyTransfer=(str)=>{
+        if(str==="Money_transfer"){
             return true
         }
         else{
@@ -56,6 +70,36 @@ class stdFunctions {
             return true
         }
     }
+
+    //checking if a transaction is a goods purchase transaction
+    isGoodsPurchase=(str)=>{
+        if(str==="Merchant_Pay"){
+            return true
+        }
+        if(str==="Money_transfer"){
+            return true
+        }
+        if(str==="Deposit"){
+            return false
+        }
+    }
+
+    //checking if transaction is a merchant pay
+    isMerchantPay=(str)=>{
+        if(str==="Merchant_Pay"){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    parentId=localStorage.getItem("parentId")
+     parentEmail= localStorage.getItem("parentEmail")
+     parentUserName= localStorage.getItem("parentUserName")
+     parentFName=localStorage.getItem("parentUserFName")
+     parentLName=localStorage.getItem("parentUserLName")
+     parentWalletBal=localStorage.getItem("guardianWalletBal")
 }
 
 export default new stdFunctions();

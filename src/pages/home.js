@@ -633,23 +633,20 @@ const Home=()=>{
                     </div>
 
                     <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                    
-                        
-                        <div className="d-flex align-items-center">
+                         <div className="d-flex align-items-center">
                             <div className="me-3">
-                            
                                 <img className="me-2" src="assets/images/blink-accounts/alternate/transport.svg" alt="" height="40px"/>
-                        </div>
+                            </div>
                             <div>
                                 <h6 className="mb-0 text-capittalize">Transport</h6>
                                 <p className="mb-0 p-0">22 Transactions</p>
                             </div>
                         </div>
 
-                    <div className="text-right ms-3 d-flex flex-column">
+                        <div className="text-right ms-3 d-flex flex-column">
                             <small className="mb-0 pb-0">Transaction Amount</small>
                             <strong className="">KES 23,360</strong>
-                    </div>
+                        </div>
                     
                     </div>
                 </div>
