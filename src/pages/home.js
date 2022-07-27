@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Helmet} from "react-helmet";
 import AuthService from "../services/auth.service";
-import Moment from 'moment';
+import StdFunctions from "../services/standard.functions";
+import Moment from 'moment'
+import {Link,useLocation,matchRoutes} from "react-router-dom";
+
 
 import $ from 'jquery';
 // import   JquerryAccordion   from "./customPlugins/jquerryAccordion";
@@ -12,6 +15,9 @@ const Home=()=>{
 
     // this stores all the student transactions
     const [studentTransactions, setStudentTransactions] = useState([])
+
+    //getting number of transactions per blinker
+    const[transactionsCount,getTransactionsCount]=useState(0)
 
     //getting selected account pocket money id
     const[blinkWalletAccountNum,setBlinkWalletAccountNum]=useState("")
@@ -49,6 +55,7 @@ const Home=()=>{
             // console.log(res.data.data)
             // console.log("The transactions start here <br/>"+res.data.length)
             //alert(studentTransactions.length)
+            getTransactionsCount(res.data.length)
             
             if(res.data.data.length!=0){
                 //alert("not zero")
@@ -67,36 +74,6 @@ const Home=()=>{
             console.log(err)
         })
     },[])
-
-    // converting numbers to currency
-    const kenyaCurrency=(num)=>{
-        return 'KES ' + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
-
-    //checking if a transaction is a deposit and if it is deposit we will set the return value to true
-    const isDepositTransaction=(transactionType)=>{
-        if (transactionType==="Deposit"){
-            return true
-        }
-        else{
-            return false
-        }
-    }
-
-    //phone number formating function starts here
-    function phoneOutput(str) {
-        //Filter only numbers from the input
-        let cleaned = ('' + str).replace(/\D/g, '');
-
-        //Check if the input is of correct length
-        let match = cleaned.match(/^(\d{3})(\d{3})(\d{3})(\d{3})$/);
-
-        if (match) {
-            return '(' + match[1] + ') ' + match[2] + '-' + match[3]
-          };
-        
-          return str
-      }
 
     //this function helps get the details pertaining to the details of a student's account
     const targetId=firstStudent.userId
@@ -203,8 +180,7 @@ const Home=()=>{
 
                     <div className="page-title-right">
                         <ol className="breadcrumb m-0">
-                            <li className="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
-                            <li className="breadcrumb-item active">Dashboard</li>
+                            <li className="breadcrumb-item"><Link to="/">Dashboards</Link></li>
                         </ol>
                     </div>
 
@@ -233,7 +209,13 @@ const Home=()=>{
                                             <h6 className="user-title m-0 font-size-18">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                             <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                                         </div>
-                                        <i className="mdi mdi-chevron-down d-inline d-xl-inline-block me-3 font-21"></i>
+                                        {StdFunctions.isBlinkersMore(students.length)?(
+                                            <div className="d-flex justify-content-center align-items-center">
+                                               <span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                            </div>
+                                            ):(
+                                            <span></span>
+                                            )}
                                         
                                     </button>
                                     
@@ -250,27 +232,26 @@ const Home=()=>{
                                                 </div>
                                             </div>
                                         </div>
-                                        <div  style={{ maxheight: "230px" }}>
-                                            {students.length> 0 &&
-                                                students.map((item, index)=>(
-                                                    <a onClick={()=> blinkerClicked(item.userId,index)} href="#"   className="d-flex px-3 pb-2 waves-effect dropdown-item">
-                                                        <div className="flex-shrink-0 me-3">
-                                                            <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
-                                                            <div className="avatar-sm mx-auto ">
-                                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
-                                                                    {item.firstName.charAt(0)+item.middleName.charAt(0)}
-                                                                </span>
-                                                            </div>
+                                        {students.length> 1 && students.map((item, index)=>(
+                                            <div  style={{ maxheight: "230px" }}>
+                                                <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                                    <div className="flex-shrink-0 me-3">
+                                                        <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
+                                                        <div className="avatar-sm mx-auto ">
+                                                            <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
+                                                                {item.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                            </span>
                                                         </div>
-                                                        <div className="flex-grow-1 chat-user-box">
-                                                            <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
-                                                            <p className="text-muted">{item.blinkId}</p>
-                                                        </div>                                                            
-                                                    </a>
-                                                ))
-                                            }                                           
-                                        
-                                        </div>
+                                                    </div>
+                                                    <div className="flex-grow-1 chat-user-box">
+                                                        <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
+                                                        <p className="text-muted">{item.blinkId}</p>
+                                                    </div>                                                            
+                                                </a>
+                                                </div>
+                                            ))
+                                            
+                                        }  
                                         
                                     </div>
 
@@ -409,7 +390,7 @@ const Home=()=>{
                                 <div className="card-footer">
                                     <div className="text-white">
                                         <p className="text-white-50 text-truncate mb-0">Wallet Balance.</p>
-                                        <h3 className="text-white kenyan-carency">{studentProfile.blinkaccounts != undefined && kenyaCurrency(studentProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
+                                        <h3 className="text-white kenyan-carency">{studentProfile.blinkaccounts != undefined && StdFunctions.kenyaCurrency(studentProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
                                        
                                     
                                     </div>
@@ -469,13 +450,13 @@ const Home=()=>{
                                             
                                             <tbody>
 
-                                            {studentTransactions.length>0 && studentTransactions.slice(-4).map((transaction,index)=>(
+                                            {studentTransactions.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
                                                 <tr>
                                                     <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                
-                                                                {isDepositTransaction(transaction.transType)?(
+                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
                                                                         <i className="mdi mdi-arrow-down-bold"></i>
                                                                     </span>
@@ -490,8 +471,8 @@ const Home=()=>{
                                                     </th>
                                                     <td>
                                                         <div className="text-truncate">
-                                                                {isDepositTransaction(transaction.transType)?(
-                                                                    phoneOutput(transaction.accountFrom)
+                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                    StdFunctions.phoneOutput(transaction.accountFrom)
                                                                 ):(
                                                                     transaction.blinkMerchant.merchantName                                                                   
                                                                 )}
@@ -499,14 +480,19 @@ const Home=()=>{
                                                         </div>
                                                         <p className="text-muted p-0 m-0"><small>Receipt No.</small> {transaction.receiptNumber}</p>
                                                     </td>
-                                                    <td className="text-right px-sm-0">
+                                                    <td className="text-right px-sm-0 text-capitalize">
 
-                                                             {isDepositTransaction(transaction.transType)?(
-                                                            <h5 className="font-size-14 mb-1 text-success">{kenyaCurrency(transaction.amount)}</h5>
+                                                             {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                            <h5 className="font-size-14 mb-1 text-success">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>
                                                             ):(
-                                                                <h5 className="font-size-14 mb-1 text-danger">{kenyaCurrency(transaction.amount)}</h5>                                                                 
+                                                                <h5 className="font-size-14 mb-1 text-danger">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>                                                                 
                                                             )}
-                                                        <div className="text-muted">{Moment(transaction.dateCreated).format('d MMM yyyy, h:mm A')}</div>
+                                                        <div className="text-muted">
+                                                        {
+                                                            Moment(transaction.dateCreated).calendar(null, {
+                                                            sameElse: 'DD MMM YYYY  hh:mm A'
+                                                        })}
+                                                        </div>
                                                     </td>                                                           
                                                 </tr>
                                                

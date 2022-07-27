@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
 import AuthService from "../services/auth.service";
+import StdFunctions from "../services/standard.functions";
+
 import $ from 'jquery';
 
 const SendMoney=()=>{
@@ -147,9 +149,13 @@ const SendMoney=()=>{
                                               <h6 className="user-title m-0">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h6>
                                               <p className="text-muted m-0 p-0">{studentProfile.institution != undefined && studentProfile.institution.institutionName}</p>
                                           </div>
-                                          <div className="d-flex justify-content-center align-items-center">
-                                              <span className="d-flex align-items-center"><small className="text-info mr-2">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
-                                          </div>
+                                          {StdFunctions.isBlinkersMore(students.length)?(
+                                                <div className="d-flex justify-content-center align-items-center">
+                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                </div>
+                                            ):(
+                                            <span></span>
+                                            )}
                                           
                                       </button>
   
@@ -165,27 +171,26 @@ const SendMoney=()=>{
                                                   </div>
                                               </div>
                                           </div>
-                                          <div data-simplebar style={{ maxheight: "230px" }}>
-                                          {students.length> 0 &&
-                                                students.map((item, index)=>(
-                                                    <a onClick={()=> blinkerClicked(item.userId,index)} href="#"   className="d-flex px-3 pb-2 waves-effect dropdown-item">
-                                                        <div className="flex-shrink-0 me-3">
-                                                            <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
-                                                            <div className="avatar-sm mx-auto ">
-                                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
-                                                                    {item.firstName.charAt(0)+item.middleName.charAt(0)}
-                                                                </span>
-                                                            </div>
+                                          {students.length> 1 && students.map((item, index)=>(
+                                            <div  style={{ maxheight: "230px" }}>
+                                                <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                                    <div className="flex-shrink-0 me-3">
+                                                        <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
+                                                        <div className="avatar-sm mx-auto ">
+                                                            <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
+                                                                {item.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                            </span>
                                                         </div>
-                                                        <div className="flex-grow-1 chat-user-box">
-                                                            <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
-                                                            <p className="text-muted">{item.blinkId}</p>
-                                                        </div>                                                            
-                                                    </a>
-                                                ))
-                                            }  
-                                          
-                                          </div>
+                                                    </div>
+                                                    <div className="flex-grow-1 chat-user-box">
+                                                        <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
+                                                        <p className="text-muted">{item.blinkId}</p>
+                                                    </div>                                                            
+                                                </a>
+                                                </div>
+                                            ))
+                                            
+                                        }    
                                           
                                       </div>
   

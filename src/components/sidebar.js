@@ -83,7 +83,7 @@ const Sidebar=()=>{
                           <li>
                               <Link to="/Transactions" className="waves-effect">
                                   <i className="mdi-progress-clock mdi"></i>
-                                  <span>My Trransactions</span>
+                                  <span>Transactions</span>
                               </Link>
                           </li>
   

@@ -9,7 +9,7 @@ class AuthService {
     return axiosInstance.get(baseUrl + "/api/v2/accounts/fetchAccountById/" + studentAccountId);
    }
    getStudentTransactions(blinkAccountId,blinkUserId){
-      return axiosInstance.get(baseUrl + "/api/v2/transactions/searchTransaction?accountTo="+blinkAccountId+"&userId="+blinkUserId);
+      return axiosInstance.get(baseUrl + "/api/v2/transactions/searchTransaction?pageNo=1&pageSize=100&userId="+blinkUserId);
      }
 }
 
