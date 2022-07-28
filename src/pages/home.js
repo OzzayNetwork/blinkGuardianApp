@@ -25,6 +25,17 @@ const Home=()=>{
     const [firstStudent,setFirstStudent]=useState({})
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
+
+
+    //transaction states start here
+    const[boughtItemsQty,setBoughtItemsQty]=useState(0)
+    const[transactionDetails,setTransactionDetails]=useState({})
+    const[transactionProducts,setTransactionProducts]=useState([])
+    const [transactionTackShop,settransactiontackShop]=useState("")
+    const[transactionInstitution,setTransactionInstitution]=useState("")
+    const[transactionFee,setTransactionFee]=useState("")
+    const[transactionServiceCategory,setTransactionServiceCategory]=useState("")
+    //transaction states end here
     
     useEffect(() => {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
@@ -167,6 +178,33 @@ const Home=()=>{
        
 
     }
+
+    //getting clcicked transaction details
+    let QuantityOfItems=0
+    //getting transaction details
+    const clickedTransaction=(transactionId,tuckShop,transactionFee,transactingInstitute,serviceCategory,clickedTransactionProducts)=>{
+        //alert(transactionId)
+        setTransactionDetails(studentTransactions.find(x=>x.transactionId===transactionId))
+        setTransactionProducts(clickedTransactionProducts)
+        settransactiontackShop(tuckShop)
+        setTransactionInstitution(transactingInstitute)
+        setTransactionServiceCategory(serviceCategory)
+        setTransactionFee(transactionFee)
+
+        console.log("the clicked transaction Produuct Items")
+        console.log(transactionProducts)
+
+       
+            clickedTransactionProducts.map((productItem)=>{
+           
+            setBoughtItemsQty(QuantityOfItems+=productItem.units)
+        })
+        console.log("The total items are: "+QuantityOfItems)
+
+
+    }
+    //getting clicked transaction ends here
+
     
 
    
@@ -459,7 +497,7 @@ const Home=()=>{
                                             <tbody>
 
                                             {studentTransactions.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
-                                                <tr>
+                                                <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
                                                     <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
@@ -667,6 +705,175 @@ const Home=()=>{
 
 
             </div>
+
+            {/* transaction details modal */}
+        <div className="modal fade" id="transaction-details" tabindex="-1" role="dialog" aria-bs-labelledby="exampleModalCenterTitle" aria-bs-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+              <div className="modal-dialog modal-dialog-centered modal-md text-center" role="document">
+              <div className="modal-content">
+                  <div className="modal-header d-none">
+                      <span className="badge badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Send Money</span>
+                  
+                          
+                      <button type="button" className="btn btn-light position-relative p-0 avatar-xs rounded-circle close-modal" data-bs-dismiss="modal" aria-label="Close">
+                          <span className="avatar-title bg-transparent text-reset font-18px">
+                              <i className="bx bx-x"></i>
+                          </span>
+                      </button>
+  
+                  </div>
+                  <div className="modal-body">
+                      <div className="d-flex justify-content-between align-items-center">
+                          <span className="badge  badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Transaction details</span>
+                  
+                          
+                      <button type="button" className="btn btn-light position-relative p-0 avatar-xs rounded-circle pull-right close-modal" data-bs-dismiss="modal" aria-label="Close">
+                          <span className="avatar-title bg-transparent text-reset font-18px">
+                              <i className="bx bx-x"></i>
+                          </span>
+                      </button>
+                      </div>
+  
+                      <div className="payment-panel-parent">
+                          <div className="">
+                                <div className="flex-shrink-0 me-3 mt-4 mb-3">
+                                    <div class="avatar-md mx-auto ">
+                                        <span class="avatar-title rounded-circle bg-random font-size-24">
+                                            {studentProfile.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
+                                        </span>
+                                    </div>
+                                    <img className="rounded-circle avatar-sm d-none" src="assets/images/users/avatar-5.jpg" alt="Generic placeholder image" height="65"/>
+                                </div>
+                                <h4 className="mb-0 text-uppercase">
+                                {studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}
+                                </h4>
+                                <p className="text-muted text-uppercase mb-2">{firstStudent?.blinkId}</p>
+                                <span className="text-uppercase badge badge-soft-info">
+                                    {transactionServiceCategory}
+                                </span>
+                                <h2 className=" text-uppercase mt-4 mb-1">
+                                        {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
+                                            <span className="">-{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</span>
+                                            
+                                        ):(
+                                            <span className="">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</span>
+                                        )}
+                                   
+                                </h2>
+                                <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+
+                            </div>
+                            <div className="px-4 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
+                            
+                                <div className="d-flex flex-column boarder-grey border-1 justify-content-center align-items-center w-100  p-3">
+                                   
+                                    <table className="table table-borderless mb-0 mt-0 table-sm single-receipt">
+                                            {StdFunctions.isMerchantPay(transactionServiceCategory)?(
+                                                <></>
+                                            ):(
+                                               <p className="mb-0 pb-0 mt-3"><blockquote className="text-center"><span className="text-muted">Receipt No.</span> {transactionDetails?.receiptNumber}</blockquote></p>
+                                                                                          
+                                            )}
+
+                                            {StdFunctions.isDepositTransaction(transactionDetails?.transType)?(
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                            ):(
+                                                  <></>                                        
+                                            )}
+                                            {StdFunctions.isMoneyTransfer(transactionDetails?.transType)?(
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                            ):(
+                                                  <></>                                        
+                                            )}
+                                            <thead className="table-border">
+                                                {StdFunctions.isMerchantPay(transactionServiceCategory)?(
+                                                    <tr>
+                                                    <th colspan="4" className="text-black text-uppercase pb-0 mb-0">
+                                                        <blockquote className=""><span className="text-muted">Receipt No.</span> {transactionDetails?.receiptNumber}</blockquote>
+                                                    </th>
+                                                </tr>
+                                            ):(
+                                                <></>
+                                            )}
+
+                                            {StdFunctions.isMerchantPay(transactionServiceCategory)?(
+                                                <tr>
+                                                    <th scope="col" colspan="2">Items</th>
+                                                    <th scope="col" className="text-center">Qty</th>
+                                                    <th scope="col" className="text-right">Price</th>
+                                                </tr>  
+                                            ):(
+                                                <></>
+                                            )}
+                                            
+                                        </thead>
+                                        <tbody>
+                                        {transactionProducts?.length>0 && StdFunctions.isMerchantPay(transactionServiceCategory)===true && transactionProducts.map((productItem,index)=>(
+                                            <tr className="text-capitalize">
+                                                <th scope="row">{index+1}.</th>
+                                                <td>{productItem.productName}</td>
+                                                <td className="text-center">{productItem.units}</td>
+                                                <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice)}</td>
+                                            </tr>
+                                        ))}
+                                            
+                                           
+                                            
+                                        </tbody>
+                                        {StdFunctions.isMerchantPay(transactionServiceCategory)?(
+                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
+                                            
+                                        ):(
+                                            <></>
+                                        )}
+                                    </table>
+                                </div>                                        
+                            </div>
+                            <div className="px-4 pt-3 mt-3">
+                                <div className="border-1px-solid bg-light px-4 py-3 mb-3 d-flex align-items-center justify-content-between border-15px">
+                                    <div className="d-flex align-items-center">
+
+
+                                    <div class="d-flex align-items-center">
+                                            {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
+                                                <div class="avatar-xs me-3">
+                                                    <span class="avatar-title rounded-circle bg-danger text-white font-size-18">
+                                                        <i class="mdi mdi-arrow-up-bold"></i>
+                                                    </span>
+                                                </div>                                                
+                                            ):(
+                                                <div class="avatar-xs me-3">
+                                                    <span class="avatar-title rounded-circle bg-success text-white font-size-18">
+                                                        <i class="mdi mdi-arrow-down-bold"></i>
+                                                    </span>
+                                                </div>
+                                            )}
+                                            
+                                            </div>
+                                            <div className="text-left">
+                                                <h6 className="mb-0 text-capitalize">Receipted At <span className="fw-semibold">{transactionTackShop}</span>  
+                                                <small> ({" "+transactionInstitution})</small></h6>
+                                                <p className="mb-0 p-0 text-capitalize">
+                                                {
+                                                    Moment(transactionDetails?.dateCreated).calendar(null, {
+                                                    sameElse: 'DD MMM YYYY  hh:mm A'
+                                                })}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                       
+                                    
+                                </div>
+                            </div>
+
+                            
+                          
+                      </div>
+                  </div>
+                  
+              </div>
+              </div>
+          </div>
         </>
     );
 

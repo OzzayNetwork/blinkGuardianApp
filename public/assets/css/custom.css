@@ -1294,3 +1294,7 @@
                   .border-1px-solid{
                     border: 1px solid #78797c2e;
                   }
+                  .mouse-pointer{
+                    cursor:pointer !important;
+                  }
+                  
