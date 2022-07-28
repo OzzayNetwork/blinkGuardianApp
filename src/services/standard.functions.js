@@ -38,15 +38,16 @@ class stdFunctions {
     phoneOutput=(str)=> {
         //Filter only numbers from the input
         let cleaned = ('' + str).replace(/\D/g, '');
+        cleaned=('+' + cleaned).replace(/\D/g, '');
 
         //Check if the input is of correct length
         let match = cleaned.match(/^(\d{3})(\d{3})(\d{3})(\d{3})$/);
 
         if (match) {
-            return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+           return '+' + match[1] + ' ' + match[2] + ' ' + match[3]+ '' + match[4]
           };
         
-          return str
+         return str
     }
 
     //check if array is empty
@@ -98,7 +99,7 @@ class stdFunctions {
         }
     }
 
-    parentId=localStorage.getItem("parentId")
+     parentId=localStorage.getItem("parentId")
      parentEmail= localStorage.getItem("parentEmail")
      parentUserName= localStorage.getItem("parentUserName")
      parentFName=localStorage.getItem("parentUserFName")

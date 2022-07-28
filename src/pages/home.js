@@ -528,7 +528,7 @@ const Home=()=>{
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div className="text-center mt-4"><a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View More <i className="mdi mdi-arrow-right ms-1"></i></a></div>
+                                    <div className="text-center mt-4"><Link to="/transactions" className="btn btn-primary waves-effect waves-light btn-sm">View More <i className="mdi mdi-arrow-right ms-1"></i></Link></div>
                                 </div>
                                 <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center no-trans-cont">
                                     <div className="p-5 py-0">
