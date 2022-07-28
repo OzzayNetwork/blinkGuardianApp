@@ -47,14 +47,20 @@ const [errorMsg, seterrorMsg]=useState("");
             localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
             //localStorage.setItem("parentFName",res.data.userProfile.firstName);
 
-           // alert(  localStorage.setItem("parentId", res.data.data.userId))
+            //setting active blinker
+
+            localStorage.setItem("activeBlinker", JSON.stringify(res.data.data.associates[res.data.data.associates.length-1].userId))
+            localStorage.setItem("activeBlinkerIndex", JSON.stringify(res.data.data.associates.length-1))
+
+
+           //alert(  localStorage.setItem("parentId", res.data.data.userId))
             console.log(localStorage)
             
            // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
 
             $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
             setUsername(data.email);
-           // alert(res.data.data.userId);
+           //alert(res.data.data.userId);
             window.location.reload()
             console.log(localStorage);
             //setTheParentId(res.data.data.userId);

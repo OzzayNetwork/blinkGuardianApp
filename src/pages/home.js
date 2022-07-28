@@ -207,7 +207,7 @@ const Home=()=>{
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                             <div className="avatar-sm mx-auto ">
-                                                <span className="avatar-title rounded-circle bg-random font-size-24">
+                                                <span className="avatar-title rounded-circle bg-random font-size-20">
                                                     {studentProfile.institution != undefined && firstStudent.firstName.charAt(0)+""+firstStudent.middleName.charAt(0)}
                                                 </span>
                                             </div>
@@ -346,7 +346,7 @@ const Home=()=>{
 
 
             <div className="row">
-                <div className="col-md-6 col-lg-4 col-sm-12 px-sm-30px">
+                <div className="col-md-6 col-lg-6 col-xl-5 col-sm-12 px-sm-30px">
                     <div className="row">
                         <div className="col-12 d-non ">
                             <div className="card bg-primary bg-primary-blink blink-card-bg">
@@ -440,7 +440,7 @@ const Home=()=>{
                                 <div className="card-header bg-white">
                                     <h4 className="card-title mb-0 text-capitalize">Recent Transactions for {firstStudent.firstName}</h4>
                                 </div>
-                                <div className="card-body px-2 show-trans-cont">                                           
+                                <div className="card-body px-2 show-trans-cont d-none">                                           
 
                                     <div className="table-responsive">
                                         <table className="table table-nowrap  align-middle mb-0 table-hover ">
@@ -543,7 +543,7 @@ const Home=()=>{
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 col-lg-8 col-sm-12 px-sm-30px">
+                <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 px-sm-30px">
                     <div className="card expenditure-card">
                         <div className="card-body">
                             <h4 className="card-title mb-0">Expenditure</h4>
@@ -556,101 +556,101 @@ const Home=()=>{
                                 <hr/>
 
 
-            <div className="col-lg-6  col-sm-12 mb-3">
-                <div className="text-muted pt-5">
-                    <div className="row">
-                        <div className="col-auto mb-4">
-                            <div className="text-capitalize pe-4">
-                                <p className="mb-0">Last month's Expenditure</p>
-                                <h5>KES 639</h5>
-                            </div>
-                        </div>
-                        <div className="col-auto">
-                            <div className="text-capitalize">
-                                <p className="mb-0">This month's Expenditure</p>
-                                <h4 className="d-flex">
-                                    <span className="pr-2">KES 562</span>
-                                    <div className="font-size-12 mt-1 text-muted"><span className="badge badge-soft-success font-size-12 me-1"> + 0.2% </span> From previous period</div>
-                                </h4>
-                                
-                            </div>
-                            <div className="mt-3 d-none">
-                                <a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View Details <i className="mdi mdi-chevron-right ms-1"></i></a>
-                            </div>
-                        </div>
-                        
+                                <div className="col-lg-6  col-sm-12 mb-3">
+                                    <div className="text-muted pt-5">
+                                        <div className="row">
+                                            <div className="col-auto mb-4">
+                                                <div className="text-capitalize pe-4">
+                                                    <p className="mb-0">Last month's Expenditure</p>
+                                                    <h5>KES 639</h5>
+                                                </div>
+                                            </div>
+                                            <div className="col-auto">
+                                                <div className="text-capitalize">
+                                                    <p className="mb-0">This month's Expenditure</p>
+                                                    <h4 className="d-flex">
+                                                        <span className="pr-2">KES 562</span>
+                                                        <div className="font-size-12 mt-1 text-muted"><span className="badge badge-soft-success font-size-12 me-1"> + 0.2% </span> From previous period</div>
+                                                    </h4>
+                                                    
+                                                </div>
+                                                <div className="mt-3 d-none">
+                                                    <a href="javascript: void(0);" className="btn btn-primary waves-effect waves-light btn-sm">View Details <i className="mdi mdi-chevron-right ms-1"></i></a>
+                                                </div>
+                                            </div>
+                                            
 
-                        
-                        
-                    
-                    </div>                                                
-                </div>
-            </div>
-            <div className="col-lg-6 col-sm-12">
-                <h4 className="card-title font-12px pt-5 mb-0 ">Expenditure By Other Account Types</h4>
-                <p className="text-muted">Expenditure and transactions </p>
-                <div>
-                    <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                    
-                        
-                            <div className="d-flex align-items-center">
-                                <div className="me-3">
-                                
-                                    <img className="me-2" src="assets/images/blink-accounts/alternate/schoolFees.svg" alt="" height="40px"/>
-                            </div>
-                                <div>
-                                    <h6 className="mb-0 text-capittalize">School fees</h6>
-                                    <p className="mb-0 p-0">22 Transactions</p>
+                                            
+                                            
+                                        
+                                        </div>                                                
+                                    </div>
                                 </div>
-                            </div>
+                                <div className="col-lg-6 col-sm-12">
+                                    <h4 className="card-title font-12px pt-5 mb-0 ">Expenditure By Other Account Types</h4>
+                                    <p className="text-muted">Expenditure and transactions </p>
+                                    <div>
+                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+                                        
+                                            
+                                                <div className="d-flex align-items-center">
+                                                    <div className="me-3">
+                                                    
+                                                        <img className="me-2" src="assets/images/blink-accounts/alternate/schoolFees.svg" alt="" height="40px"/>
+                                                </div>
+                                                    <div>
+                                                        <h6 className="mb-0 text-capittalize">School fees</h6>
+                                                        <p className="mb-0 p-0">22 Transactions</p>
+                                                    </div>
+                                                </div>
 
-                        <div className="text-right ms-3 d-flex flex-column">
-                                <small className="mb-0 pb-0">Transaction Amount</small>
-                                <strong className="">KES 23,360</strong>
-                        </div>
-                        
-                    </div>
+                                            <div className="text-right ms-3 d-flex flex-column">
+                                                    <small className="mb-0 pb-0">Transaction Amount</small>
+                                                    <strong className="">KES 23,360</strong>
+                                            </div>
+                                            
+                                        </div>
 
-                    <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                    
-                        
-                        <div className="d-flex align-items-center">
-                            <div className="me-3">
-                            
-                                <img className="me-2" src="assets/images/blink-accounts/alternate/savings.svg" alt="" height="40px"/>
-                        </div>
-                            <div>
-                                <h6 className="mb-0 text-capittalize">Savings Account</h6>
-                                <p className="mb-0 p-0">22 Transactions</p>
-                            </div>
-                        </div>
+                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+                                        
+                                            
+                                            <div className="d-flex align-items-center">
+                                                <div className="me-3">
+                                                
+                                                    <img className="me-2" src="assets/images/blink-accounts/alternate/savings.svg" alt="" height="40px"/>
+                                            </div>
+                                                <div>
+                                                    <h6 className="mb-0 text-capittalize">Savings Account</h6>
+                                                    <p className="mb-0 p-0">22 Transactions</p>
+                                                </div>
+                                            </div>
 
-                    <div className="text-right ms-3 d-flex flex-column">
-                            <small className="mb-0 pb-0">Transaction Amount</small>
-                            <strong className="">KES 23,360</strong>
-                    </div>
-                    
-                    </div>
+                                        <div className="text-right ms-3 d-flex flex-column">
+                                                <small className="mb-0 pb-0">Transaction Amount</small>
+                                                <strong className="">KES 23,360</strong>
+                                        </div>
+                                        
+                                        </div>
 
-                    <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                         <div className="d-flex align-items-center">
-                            <div className="me-3">
-                                <img className="me-2" src="assets/images/blink-accounts/alternate/transport.svg" alt="" height="40px"/>
-                            </div>
-                            <div>
-                                <h6 className="mb-0 text-capittalize">Transport</h6>
-                                <p className="mb-0 p-0">22 Transactions</p>
-                            </div>
-                        </div>
+                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
+                                            <div className="d-flex align-items-center">
+                                                <div className="me-3">
+                                                    <img className="me-2" src="assets/images/blink-accounts/alternate/transport.svg" alt="" height="40px"/>
+                                                </div>
+                                                <div>
+                                                    <h6 className="mb-0 text-capittalize">Transport</h6>
+                                                    <p className="mb-0 p-0">22 Transactions</p>
+                                                </div>
+                                            </div>
 
-                        <div className="text-right ms-3 d-flex flex-column">
-                            <small className="mb-0 pb-0">Transaction Amount</small>
-                            <strong className="">KES 23,360</strong>
-                        </div>
-                    
-                    </div>
-                </div>
-            </div>
+                                            <div className="text-right ms-3 d-flex flex-column">
+                                                <small className="mb-0 pb-0">Transaction Amount</small>
+                                                <strong className="">KES 23,360</strong>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
 
                 
                             </div>

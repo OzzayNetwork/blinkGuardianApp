@@ -1,6 +1,10 @@
 import {baseUrl, axiosInstance} from './API';
+import React, {useState, useEffect} from 'react';
+
 
 class stdFunctions {
+    //getting active blinker
+
    // converting numbers to currency
    kenyaCurrency=(num)=>{
         let formatCurrency = new Intl.NumberFormat("en-US", {
@@ -100,6 +104,8 @@ class stdFunctions {
      parentFName=localStorage.getItem("parentUserFName")
      parentLName=localStorage.getItem("parentUserLName")
      parentWalletBal=localStorage.getItem("guardianWalletBal")
+     ActiveBlinker=parseInt(localStorage.getItem("activeBlinker"))
+     ActiveBlinkerIndex=parseInt(localStorage.getItem("activeBlinkerIndex"))
 }
 
 export default new stdFunctions();

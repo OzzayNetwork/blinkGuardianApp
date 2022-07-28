@@ -10,6 +10,7 @@ import $ from 'jquery';
 const Transactions =()=> {
     const transactionsCountTwo=0
 
+    const[boughtItemsQty,setBoughtItemsQty]=useState(0)
     const[transactionDetails,setTransactionDetails]=useState({})
     const[transactionProducts,setTransactionProducts]=useState([])
     const [transactionTackShop,settransactiontackShop]=useState("")
@@ -190,7 +191,7 @@ const Transactions =()=> {
     }
 
     //date formating
-
+    let QuantityOfItems=0
     //getting transaction details
     const clickedTransaction=(transactionId,tuckShop,transactionFee,transactingInstitute,serviceCategory,clickedTransactionProducts)=>{
         //alert(transactionId)
@@ -203,6 +204,14 @@ const Transactions =()=> {
 
         console.log("the clicked transaction Produuct Items")
         console.log(transactionProducts)
+
+       
+            clickedTransactionProducts.map((productItem)=>{
+           
+            setBoughtItemsQty(QuantityOfItems+=productItem.units)
+        })
+        console.log("The total items are: "+QuantityOfItems)
+
 
     }
 
@@ -523,7 +532,7 @@ const Transactions =()=> {
                                         <tbody>
                                         {transactionProducts?.length>0 && StdFunctions.isMerchantPay(transactionServiceCategory)===true && transactionProducts.map((productItem,index)=>(
                                             <tr className="text-capitalize">
-                                                <th scope="row">{index+1}</th>
+                                                <th scope="row">{index+1}.</th>
                                                 <td>{productItem.productName}</td>
                                                 <td className="text-center">{productItem.units}</td>
                                                 <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice)}</td>
@@ -534,7 +543,7 @@ const Transactions =()=> {
                                             
                                         </tbody>
                                         {StdFunctions.isMerchantPay(transactionServiceCategory)?(
-                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{transactionProducts?.length}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
+                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
                                             
                                         ):(
                                             <></>
