@@ -1207,6 +1207,14 @@
                     background-color: #ffe5b9;
                     position: relative;
                   }
+                  .acount-type a.active:before{
+                    position: absolute;
+                    content: "\F0E1E";
+                    right: 15px;
+                    top: 15px;
+                    color: #0078d4;
+                    font: normal normal normal 24px/1 "Material Design Icons";
+                  }
                   .btn-send div{
                     display: flex;
                   }

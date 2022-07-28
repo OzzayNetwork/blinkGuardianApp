@@ -34,6 +34,68 @@ class stdFunctions {
         }
     }
 
+    //checking if account is active
+    isActiveAccount=(str)=>{
+       if(str==="Active"){
+        return true
+       } 
+       else{
+        return false
+       }
+    }
+
+
+    //checking if account is pocket money
+    isPocketMoney=(str)=>{
+        if(str==="POCKECT_MONEY"){
+         return true
+        } 
+        else{
+         return false
+        }
+     }
+
+     
+    //checking if an account id a welfare account
+    isWelfareAccount=(str)=>{
+        if(str==="WELFARE_ACCOUNT"){
+         return true
+        } 
+        else{
+         return false
+        }
+     }
+
+
+    //removing and underscore
+    removeUnderscore=(str)=>{
+        let cleaned = ('_' + str).replace(/\D/g, ' ');
+
+        str=str.replace('_',' ')
+        return str;
+    }
+
+    //remove specified character
+    removeSpecificCharacter=(str,character)=>{
+        let cleaned = (character + str).replace(/\D/g, ' ');
+
+        //str=str.replace(",",' ')
+        return str;
+    }
+
+    //formating characters to a specific style
+    chunkSubstr=(str, size)=> {
+        
+        const numChunks = Math.ceil(str.length / size)
+        const chunks = new Array(numChunks)
+      
+        for (let i = 0, o = 0; i < numChunks; ++i, o += size) {
+          chunks[i] = str.substr(o, size)
+        }
+
+        return chunks
+      }
+
     //phone number formating function starts here
     phoneOutput=(str)=> {
         //Filter only numbers from the input

@@ -19,6 +19,11 @@ const SendMoney=()=>{
     const [firstStudent,setFirstStudent]=useState({})
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
+
+    //Accounts states start here
+    const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
+    const [numOfAccounts,setNumOfAccounts]=useState(0)
+    //account states end here
     
     useEffect(() => {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
@@ -30,7 +35,9 @@ const SendMoney=()=>{
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             setStudentProfile(res.data.data.userProfile)
-            console.log(studentProfile)
+            setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
+            setNumOfAccounts(allBlinkAccounts.length)
+
         }).catch((err)=>{
 
         })
@@ -83,6 +90,9 @@ const SendMoney=()=>{
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
             setStudentProfile(res.data.data.userProfile)
+            setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
+            setNumOfAccounts(allBlinkAccounts.length)
+
             console.log(studentProfile)
         }).catch((err)=>{
 
@@ -138,7 +148,7 @@ const SendMoney=()=>{
                                       <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                           <div className="flex-shrink-0 me-3">
                                             <div class="avatar-sm mx-auto ">
-                                                <span class="avatar-title rounded-circle bg-random font-size-24">
+                                                <span class="avatar-title rounded-circle bg-random font-size-20">
                                                 {studentProfile.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
                                                 </span>
                                             </div>
@@ -198,46 +208,48 @@ const SendMoney=()=>{
                                   </div>
   
                                   <label className="text-capitalize text-muted mb-4">Account you are sending the money to</label>
-                                  <div className="mb-4 acount-type" data-simplebar>
-                                      <a href="javascript: void(0);" className="d-flex px-3 mb-3 pl-0 align-items-center active">
-                                          <div className="flex-shrink-0 me-3">
-                                              <img className="rounded-circle avatar-sm" src="assets/images/blink-accounts/wallet.svg" alt="Generic placeholder image" />
-                                          </div>
-                                          <div className="flex-grow-1 chat-user-box">
-                                              <p className="user-title m-0 text-uppercase font-14px">Pocket Money</p>
-                                          </div>                                                            
-                                      </a>
-  
-                                      <a href="javascript: void(0);" className="d-flex px-3 mb-3 pl-0 align-items-center">
-                                          <div className="flex-shrink-0 me-3">
-                                              <img className="rounded-circle avatar-sm" src="assets/images/blink-accounts/school-fees.svg" alt="Generic placeholder image" />
-                                          </div>
-                                          <div className="flex-grow-1 chat-user-box">
-                                              <p className="user-title m-0 text-uppercase font-14px">School fees</p>
-                                          </div>
-  
-                                      </a>
-  
-                                      <a href="javascript: void(0);" className="d-flex px-3 mb-3 pl-0 align-items-center">
-                                          <div className="flex-shrink-0 me-3">
-                                              <img className="rounded-circle avatar-sm" src="assets/images/blink-accounts/transport.svg" alt="Generic placeholder image" />
-                                          </div>
-                                          <div className="flex-grow-1 chat-user-box">
-                                              <p className="user-title m-0 text-uppercase font-14px">Transport</p>
-                                          </div>
-  
-                                      </a>
-  
-                                      <a href="javascript: void(0);" className="d-flex px-3 mb-3 pl-0 align-items-center">
-                                          <div className="flex-shrink-0 me-3">
-                                              <img className="rounded-circle avatar-sm" src="assets/images/blink-accounts/savings.svg" alt="Generic placeholder image" />
-                                          </div>
-                                          <div className="flex-grow-1 chat-user-box">
-                                              <p className="user-title m-0 text-uppercase font-14px">Savings</p>
-                                          </div>
-  
-                                      </a>
-                                  
+                                  <div className="mb-4 acount-type">
+                                     
+
+                                      <div>
+
+                                        {allBlinkAccounts.length> 0 && allBlinkAccounts.slice(0,40).map((account, index)=>(
+                                            
+                                                <div>
+                                                    <div className="d-none">Testing to see if my if else statememnt might work</div>
+                                                        {StdFunctions.isActiveAccount(account.accountStatus) ? (
+                                                            <a href="javascript: void(0);" className={`d-flex px-3 mb-3 pl-0 py-2 align-items-center text-capitalize ${StdFunctions.isPocketMoney(account.blinkersAccountType) ? "active" : ""}`}>
+                                                                <div className="flex-shrink-0 me-3">
+                                                                    <img className="rounded-circle avatar-sm d-none" src="assets/images/blink-accounts/savings.svg" alt="Generic placeholder image" />
+                                                                    {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
+                                                                        <img className="me-2" src="assets/images/blink-accounts/wellfare-alt.svg" alt="" height="40px"/>
+                                                                        
+                                                                        ) : (
+                                                                        <></>
+                                                                    )}
+                                                                    {StdFunctions.isPocketMoney(account.blinkersAccountType) ? (
+                                                                        <img className="me-2" src="assets/images/blink-accounts/wallet-alt.svg" alt="" height="40px"/>
+                                                                        
+                                                                        ) : (
+                                                                        <></>
+                                                                    )}
+                                                                </div>
+                                                                <div className="flex-grow-1 chat-user-box">
+                                                                    <p className="user-title m-0 text-uppercase font-14px mb-0 pb-0">{StdFunctions.removeUnderscore(account.blinkersAccountType)}</p>
+                                                                    <small>Acc Name.: <strong>{account.accountName}</strong></small>
+                                                                </div>
+                                                            </a>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    
+                                                    
+                                                </div>
+                                            ))
+                                            
+                                        }  
+                                                                            
+                                        </div>
                                   </div>
   
                                   <label for="" className="text-capitalize">Amount to send</label>

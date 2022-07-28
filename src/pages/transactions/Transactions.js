@@ -60,6 +60,8 @@ const Transactions =()=> {
 
         })
 
+        
+
         console.log("The transactions should appear down here as an object")
 
         AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
@@ -399,7 +401,7 @@ const Transactions =()=> {
                                             <td>
                                                 <div className="d-flex justify-content-end">
                                                     <button type="button" className="btn btn-primary btn-sm waves-effect waves-light text-nowrap me-3" onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details">View Details</button>
-                                                    <button type="button" className="btn btn-info btn-sm waves-effect waves-light text-nowrap me-3" data-bs-toggle="modal" data-bs-target=".receipting-modal">Items Bought</button>
+                                                    <button type="button" className="btn d-none btn-info btn-sm waves-effect waves-light text-nowrap me-3" data-bs-toggle="modal" data-bs-target=".receipting-modal">Items Bought</button>
 
                                                 </div>
                                             </td>
@@ -471,7 +473,7 @@ const Transactions =()=> {
                                 </h4>
                                 <p className="text-muted text-uppercase mb-2">{firstStudent?.blinkId}</p>
                                 <span className="text-uppercase badge badge-soft-info">
-                                    {transactionServiceCategory}
+                                    {StdFunctions.removeUnderscore(transactionServiceCategory)}
                                 </span>
                                 <h2 className=" text-uppercase mt-4 mb-1">
                                         {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(

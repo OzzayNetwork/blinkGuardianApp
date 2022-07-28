@@ -10,6 +10,7 @@ import $ from 'jquery';
 // import   JquerryAccordion   from "./customPlugins/jquerryAccordion";
 const Home=()=>{
 
+
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
 
@@ -25,6 +26,7 @@ const Home=()=>{
     const [firstStudent,setFirstStudent]=useState({})
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
+    
 
 
     //transaction states start here
@@ -35,7 +37,15 @@ const Home=()=>{
     const[transactionInstitution,setTransactionInstitution]=useState("")
     const[transactionFee,setTransactionFee]=useState("")
     const[transactionServiceCategory,setTransactionServiceCategory]=useState("")
+
     //transaction states end here
+
+   
+
+    //Accounts states start here
+    const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
+    const [numOfAccounts,setNumOfAccounts]=useState(0)
+    //account states end here
     
     useEffect(() => {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
@@ -47,15 +57,24 @@ const Home=()=>{
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             setStudentProfile(res.data.data.userProfile)
-            
-            //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
             //alert(blinkWalletAccountNum)
             console.log(studentProfile)
+            //all other accounts
+            setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
+            setNumOfAccounts(allBlinkAccounts.length)
+            //alert(numOfAccounts)
+            console.log("All accounts for first blinker are "+allBlinkAccounts)
+            console.log(allBlinkAccounts)
+
+
         }).catch((err)=>{
 
         })
+
+
+        
 
         console.log("The transactions should appear down here as an object")
 
@@ -137,6 +156,12 @@ const Home=()=>{
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
 
             console.log(studentProfile)
+            //all other accounts
+            setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
+            setNumOfAccounts(allBlinkAccounts.length)
+            //alert(numOfAccounts)
+            console.log("All accounts for first blinker are "+allBlinkAccounts)
+            console.log(allBlinkAccounts)
 
             //clicked blinker transactions
             AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
@@ -594,7 +619,7 @@ const Home=()=>{
                                 <hr/>
 
 
-                                <div className="col-lg-6  col-sm-12 mb-3">
+                                <div className="col-lg-12  col-sm-12 mb-3">
                                     <div className="text-muted pt-5">
                                         <div className="row">
                                             <div className="col-auto mb-4">
@@ -606,7 +631,7 @@ const Home=()=>{
                                             <div className="col-auto">
                                                 <div className="text-capitalize">
                                                     <p className="mb-0">This month's Expenditure</p>
-                                                    <h4 className="d-flex">
+                                                    <h4 className="d-flex flex-column">
                                                         <span className="pr-2">KES 562</span>
                                                         <div className="font-size-12 mt-1 text-muted"><span className="badge badge-soft-success font-size-12 me-1"> + 0.2% </span> From previous period</div>
                                                     </h4>
@@ -624,69 +649,77 @@ const Home=()=>{
                                         </div>                                                
                                     </div>
                                 </div>
-                                <div className="col-lg-6 col-sm-12">
-                                    <h4 className="card-title font-12px pt-5 mb-0 ">Expenditure By Other Account Types</h4>
+                                <div className="col-lg-12 col-sm-12">
+                                    <h4 className="card-title font-12px pt-5 mb-0 ">All Accounts summary for {firstStudent.firstName}</h4>
                                     <p className="text-muted">Expenditure and transactions </p>
                                     <div>
-                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                                        
+
+                                        {allBlinkAccounts.length> 0 && allBlinkAccounts.slice(0,40).map((account, index)=>(
                                             
-                                                <div className="d-flex align-items-center">
-                                                    <div className="me-3">
+                                                <div>
+                                                    <div className="d-none">Testing to see if my if else statememnt might work</div>
+                                                        {StdFunctions.isActiveAccount(account.accountStatus) ? (
+                                                        <div className={`bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between text-capitalize ${StdFunctions.isPocketMoney(account.blinkersAccountType) ? "bg-warning" : "bg-danger "}`}>
+                                                        {/* <div className={'bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between text-capitalize ${StdFunctions.isWelfareAccount(account.blinkersAccountType)?"d-none":""}'}> */}
+                                                            <div className="d-flex align-items-center">
+
+                                                                <div className="me-3">
+                                                                    {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
+                                                                        <img className="me-2" src="assets/images/blink-accounts/welfare.svg" alt="" height="40px"/>
+                                                                        
+                                                                        ) : (
+                                                                        <></>
+                                                                    )}
+                                                                    {StdFunctions.isPocketMoney(account.blinkersAccountType) ? (
+                                                                        <img className="me-2" src="assets/images/blink-accounts/card.svg" alt="" height="40px"/>
+                                                                        
+                                                                        ) : (
+                                                                        <></>
+                                                                    )}
+                                                                    
+                                                                </div>
+
+                                                            <div>
+                                                                <h6 className="mb-0 text-capittalize">{account.accountName}</h6>
+                                                                <small className="mb-0 p-0">Acc Type: <strong>{StdFunctions.removeUnderscore(account.blinkersAccountType)}</strong></small>
+                                                                {" "}
+                                                                <small className="mb-0 p-0">Acc No.: <strong>{StdFunctions.chunkSubstr(account.accountNumber,4)}</strong></small>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="text-right ms-3 d-flex flex-column">
+                                                            {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
+                                                                <small className="mb-0 pb-0">Target Amount</small>
+                                                                
+                                                                    ) : (
+                                                                        <small className="mb-0 pb-0">Current Balance</small>
+                                                            )}
+
+                                                            {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
+                                                                <strong className="">{StdFunctions.kenyaCurrency(account.targetAmount)}</strong>
+                                                                
+                                                                    ) : (
+                                                                        <strong className="">{StdFunctions.kenyaCurrency(account.currentBalance)}</strong>
+                                                            )}
+                                                           
+                                                            <></>
+                                                            
+                                                            
+                                                                
+                                                                
+                                                        </div>
                                                     
-                                                        <img className="me-2" src="assets/images/blink-accounts/alternate/schoolFees.svg" alt="" height="40px"/>
-                                                </div>
-                                                    <div>
-                                                        <h6 className="mb-0 text-capittalize">School fees</h6>
-                                                        <p className="mb-0 p-0">22 Transactions</p>
                                                     </div>
+                                                    ) : (
+                                                        <></>
+                                                    )}
+                                                    
+                                                    
                                                 </div>
-
-                                            <div className="text-right ms-3 d-flex flex-column">
-                                                    <small className="mb-0 pb-0">Transaction Amount</small>
-                                                    <strong className="">KES 23,360</strong>
-                                            </div>
+                                            ))
                                             
-                                        </div>
-
-                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                                        
-                                            
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-3">
-                                                
-                                                    <img className="me-2" src="assets/images/blink-accounts/alternate/savings.svg" alt="" height="40px"/>
-                                            </div>
-                                                <div>
-                                                    <h6 className="mb-0 text-capittalize">Savings Account</h6>
-                                                    <p className="mb-0 p-0">22 Transactions</p>
-                                                </div>
-                                            </div>
-
-                                        <div className="text-right ms-3 d-flex flex-column">
-                                                <small className="mb-0 pb-0">Transaction Amount</small>
-                                                <strong className="">KES 23,360</strong>
-                                        </div>
-                                        
-                                        </div>
-
-                                        <div className="bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between">
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-3">
-                                                    <img className="me-2" src="assets/images/blink-accounts/alternate/transport.svg" alt="" height="40px"/>
-                                                </div>
-                                                <div>
-                                                    <h6 className="mb-0 text-capittalize">Transport</h6>
-                                                    <p className="mb-0 p-0">22 Transactions</p>
-                                                </div>
-                                            </div>
-
-                                            <div className="text-right ms-3 d-flex flex-column">
-                                                <small className="mb-0 pb-0">Transaction Amount</small>
-                                                <strong className="">KES 23,360</strong>
-                                            </div>
-                                        
-                                        </div>
+                                        }  
+                                                                               
                                     </div>
                                 </div>
 
@@ -748,7 +781,7 @@ const Home=()=>{
                                 </h4>
                                 <p className="text-muted text-uppercase mb-2">{firstStudent?.blinkId}</p>
                                 <span className="text-uppercase badge badge-soft-info">
-                                    {transactionServiceCategory}
+                                    {StdFunctions.removeUnderscore(transactionServiceCategory)}
                                 </span>
                                 <h2 className=" text-uppercase mt-4 mb-1">
                                         {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
