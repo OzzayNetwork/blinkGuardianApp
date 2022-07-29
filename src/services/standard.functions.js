@@ -34,6 +34,27 @@ class stdFunctions {
         }
     }
 
+    //checking if phone number is valid
+    isValidPhoneNum=(str)=>{
+        if(str.length>9){
+            return true
+        }
+        else{
+            return false
+        }
+
+    }
+
+    //checking if a number is greater than 0
+    isGreaterThanZero=(str)=>{
+        str=parseFloat(str)
+        if(str>0){
+            return true
+        }
+        else{
+            return false
+        }
+    }
     //checking if account is active
     isActiveAccount=(str)=>{
        if(str==="Active"){
@@ -81,6 +102,20 @@ class stdFunctions {
 
         //str=str.replace(",",' ')
         return str;
+    }
+
+    //comparing two separate strings
+    areTheyThesame(str1,str2){
+
+        console.log("String 1 is "+str1+" String two is "+str2)
+        if(str1===str2){
+            console.log("we found a match")
+            return true
+        }
+        else{
+            console.log("No match found")
+            return false
+        }
     }
 
     //formating characters to a specific style
@@ -169,6 +204,7 @@ class stdFunctions {
      parentWalletBal=localStorage.getItem("guardianWalletBal")
      ActiveBlinker=parseInt(localStorage.getItem("activeBlinker"))
      ActiveBlinkerIndex=parseInt(localStorage.getItem("activeBlinkerIndex"))
+     parentPhoneNo=localStorage.getItem("parentPhone")
 }
 
 export default new stdFunctions();

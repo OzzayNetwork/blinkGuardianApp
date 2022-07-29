@@ -40,6 +40,7 @@ const [errorMsg, seterrorMsg]=useState("");
           //setting the local storage with some data
             localStorage.setItem("parentId", res.data.data.userId)
             localStorage.setItem("parentEmail", res.data.data.email)
+            localStorage.setItem("parentPhone", res.data.data.msisdn)
             localStorage.setItem("parentUserName", res.data.data.userName)
             localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
             localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)

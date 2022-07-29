@@ -94,7 +94,7 @@ $(window).on('load', function() {
         
 
     });
-    $('body').on('click', '.btn-send', function(){
+    $('body').on('click', '.btn-sen', function(){
         $('#walletTopUp .modal-footer').addClass('d-none');
         $('#walletTopUp .close-modal').addClass('d-none');
         $('.stk-timer-container').removeClass('d-none').siblings().addClass('d-none');
@@ -117,6 +117,12 @@ $(window).on('load', function() {
                 timeleft -= 1;
                
             }, 1000);
+    })
+
+    // converting figures to kenyan currency
+    $('body').on('click','.accountsSelector', function(){
+        $(this).addClass(active).siblings().removeClass('active')
+        alert("clicked")
     })
 
     // $('.loginPageOnly').next('main').addClass('d-none');
@@ -149,7 +155,7 @@ $(window).on('load', function() {
         $(this).addClass("bgrandom"+randomNum)
     });
 
-    // converting figures to kenyan currency
+    
     
 
     

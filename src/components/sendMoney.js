@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
 import AuthService from "../services/auth.service";
 import StdFunctions from "../services/standard.functions";
-
+import axios from "axios";
 import $ from 'jquery';
 
 const SendMoney=()=>{
@@ -12,6 +12,10 @@ const SendMoney=()=>{
     const parentFName=localStorage.getItem("parentUserFName")
     const parentLName=localStorage.getItem("parentUserLName")
     const parentWalletBal=localStorage.getItem("guardianWalletBal")
+    const [errorMsg, seterrorMsg]=useState("")
+    const [stkMsg, setStkMsg]=useState("")
+
+    console.log(localStorage)
 
 
     const [students, setstudents] = useState([])
@@ -24,6 +28,18 @@ const SendMoney=()=>{
     const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
     const [numOfAccounts,setNumOfAccounts]=useState(0)
     //account states end here
+
+    //active account
+    const[activeAccount,setActiveAccount]=useState("")
+    //end of active ACCOUNT
+
+    //send money inputs
+    const [sendAmount,setSendAmount]=useState("")
+    const [mpesaPhoneNum,setMpesaPhoneNum]=useState(StdFunctions.parentPhoneNo)
+    const [sendMethod,setSendMethod]=useState("MPESA")
+    const [sendAccountName,setSendAccountName]=useState("")
+    const [mpesaTrue,setMpesaTrue]=useState(true)
+    const [transactionStatus,setTransactionStatus]=useState("")
     
     useEffect(() => {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
@@ -37,6 +53,9 @@ const SendMoney=()=>{
             setStudentProfile(res.data.data.userProfile)
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
+            setActiveAccount(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+            setSendAccountName(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkersAccountType)
+            //alert(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
 
         }).catch((err)=>{
 
@@ -92,6 +111,9 @@ const SendMoney=()=>{
             setStudentProfile(res.data.data.userProfile)
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
+            setActiveAccount(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+           setSendAccountName(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkersAccountType)
+            console.log(allBlinkAccounts)
 
             console.log(studentProfile)
         }).catch((err)=>{
@@ -105,6 +127,82 @@ const SendMoney=()=>{
        
 
     }
+
+    const accountClicked=(accountId,accountName)=>{
+        $(this).addClass("active").siblings().removeClass("active")
+        setActiveAccount(accountId)
+        setSendAccountName(accountName)
+        
+    }
+
+    const sendMoneyStart=(event)=>{
+
+        $('.btn-send').prop('disabled', true);
+
+        event.preventDefault(); 
+        let data = {
+            
+            TransactionType:"CustomerPayBillOnline",
+            PayBillNumber:"175555",
+            Amount:sendAmount,
+            PhoneNumber:mpesaPhoneNum,
+            CheckoutPhoneNumber:mpesaPhoneNum,
+            AccountReference:activeAccount,
+            TransactionDesc:"Topping up to "+StdFunctions.removeUnderscore(sendAccountName),
+            userProfileId:StdFunctions.parentId,
+            userId:StdFunctions.parentId,
+            transactionServiceId:1,
+            merchantId:1
+          };
+
+          AuthService.sendStkPush(data).then((res)=>{
+            console.log(res.data)
+            if(res.data.statusCode===200){
+                $('#walletTopUp .modal-footer').addClass('d-none');
+                $('#walletTopUp .close-modal').addClass('d-none');
+                $('.stk-timer-container').removeClass('d-none').siblings().addClass('d-none');
+                $(".stk-sent-msg").removeClass("d-none")
+                setStkMsg(res.data.statusDescription)
+                $('#login-msg').addClass('d-none')
+
+                //checking if transaction was succesful
+                //console.log("transactionStatus: "+res.data.data.transactionId)
+                //console.log(AuthService.fetchTransactionByTransactionId(res.data.data.transactionId).data.statusDescription)
+                //setTransactionStatus(AuthService.fetchTransactionByTransactionId(res.data.data.transactionId))
+                //if(transactionStatus===)
+                
+                var timeleft = 30;
+                var downloadTimer = setInterval(function () {
+                    if (timeleft <= 0) {
+                        clearInterval(downloadTimer);
+                        //alert("You took to long to confirm the transaction, click send money to retry or ");
+                        seterrorMsg("You took to long to confirm the transaction, click send money to Resend the Payment request or check the phone number if its correct")
+                        $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all')
+                        $(".stk-sent-msg").addClass("d-none")
+                        $(".stk-timer").text("0 s");
+                        $('.btn-send').prop('disabled', false);
+                        $('#walletTopUp .close-modal').removeClass('d-none');
+        
+                        $('#walletTopUp .modal-footer').removeClass('d-none');
+                        $('.stk-timer-container').addClass('d-none').siblings().removeClass('d-none');
+                    }
+        
+                    $(".stk-timer").text(timeleft + " s");
+                        timeleft -= 1;
+                       
+                    }, 1000);
+
+            }
+          })
+
+        
+        console.log("Amount sending is KES:"+sendAmount)
+        //alert(sendAmount)
+        //alert(mpesaPhoneNum)
+       
+    }
+
+
 
     return (
         <>
@@ -125,7 +223,7 @@ const SendMoney=()=>{
                       </button>
   
                   </div>
-                  <div className="modal-body">
+                  <form className="modal-body" id="payment-form" onSubmit={sendMoneyStart}>
                       <div className="d-flex justify-content-between align-items-center">
                           <span className="badge  badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Send Money</span>
                   
@@ -159,7 +257,7 @@ const SendMoney=()=>{
                                               <h6 className="user-title m-0">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h6>
                                               <p className="text-muted m-0 p-0">{studentProfile.institution != undefined && studentProfile.institution.institutionName}</p>
                                           </div>
-                                          {StdFunctions.isBlinkersMore(students.length)?(
+                                            {StdFunctions.isBlinkersMore(students.length)?(
                                                 <div className="d-flex justify-content-center align-items-center">
                                                     <span className="d-flex align-items-center"><small className="text-info mr-3">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                                 </div>
@@ -218,7 +316,7 @@ const SendMoney=()=>{
                                                 <div>
                                                     <div className="d-none">Testing to see if my if else statememnt might work</div>
                                                         {StdFunctions.isActiveAccount(account.accountStatus) ? (
-                                                            <a href="javascript: void(0);" className={`d-flex px-3 mb-3 pl-0 py-2 align-items-center text-capitalize ${StdFunctions.isPocketMoney(account.blinkersAccountType) ? "active" : ""}`}>
+                                                            <a onClick={()=>accountClicked(account.accountNumber,account.blinkersAccountType)}  className={`d-flex px-3 mb-3 pl-0 py-2 align-items-center accountsSelector cursor-pointer text-capitalize ${StdFunctions.areTheyThesame(account.accountNumber,activeAccount) ? "active" : ""}`}>
                                                                 <div className="flex-shrink-0 me-3">
                                                                     <img className="rounded-circle avatar-sm d-none" src="assets/images/blink-accounts/savings.svg" alt="Generic placeholder image" />
                                                                     {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
@@ -254,9 +352,10 @@ const SendMoney=()=>{
   
                                   <label for="" className="text-capitalize">Amount to send</label>
                                   <div className="form-floating mb-3">
-                                      <input type="text" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name"/>
+                                      <input type="number" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name" required ="true" onChange={(event)=>setSendAmount(event.target.value)} name="SendAMount"/>
                                       <label for="floatingnameInput">KES</label>
                                   </div>
+                                  
                               </div>
                               
                           </div>
@@ -282,20 +381,20 @@ const SendMoney=()=>{
                                               <div className="accordion-body">
                                                   <div>
                                                       <p>
-                                                          A payment request of <strong className="text-black">KES 235</strong> plus <strong className="text-black">KES 50 as transaction</strong> fee will be sent to the MPESA number you enter below.
+                                                          A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}</strong> plus <strong className="text-black">KES 50 as transaction</strong> fee will be sent to the MPESA number you enter below.
                                                       </p>
                                                   </div>
                                                   <div className="form-group">
                                                       <label for="">Your MPESA Phone Number</label>
                                                       <div className="form-floating mb-3">
-                                                          <input type="text" className="form-control font-21 text-success form-control-lg" id="phone-input" placeholder="Enter your phone No."/>
-                                                          <label for="floatingnameInput">Phone No.</label>
+                                                          <input type="text" className="form-control font-21 text-success form-control-lg" id="phone-input" value={mpesaPhoneNum} onChange={(event)=>setMpesaPhoneNum(event.target.value)} name="phoneNum" placeholder="Enter your phone No."/>
+                                                          <label for="floatingnameInput">MPESA Phone No.</label>
                                                       </div>
                                                   </div>
                                               </div>
                                           </div>
                                       </div>
-                                      <div className="accordion-item">
+                                      <div className="accordion-item d-none">
                                           <h2 className="accordion-header" id="headingTwo">
                                               <button className="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                   <div className="flex-shrink-0 me-3">
@@ -344,8 +443,8 @@ const SendMoney=()=>{
                                       </div>
   
                                       <div className="col-lg-6 align-self-end">
-                                          <div className=" text-right text-black">
-                                              Alex Wanjala                                           
+                                          <div className=" text-right text-black text-uppercase">
+                                          {firstStudent?.firstName+" "+firstStudent?.middleName}                                          
                                           </div>
                                       </div>
   
@@ -357,7 +456,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              Pocket Money Wallet                                         
+                                              {StdFunctions.removeUnderscore(sendAccountName)}                                        
                                           </div>
                                       </div>
   
@@ -381,7 +480,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 250                                        
+                                              {StdFunctions.kenyaCurrency(sendAmount)}                                      
                                           </div>
                                       </div>
   
@@ -393,7 +492,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 50                                        
+                                              KES 0.00                                        
                                           </div>
                                       </div>
                                       <div className="col-12 text-black"><hr className="mb-0 pb-0"/></div>
@@ -406,39 +505,68 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end text-uppercase">
                                           <div className=" text-right text-black font-21 fw-bold">
-                                              KES 300                                        
+                                          {StdFunctions.kenyaCurrency(sendAmount)}                                         
                                           </div>
                                       </div>
                                   </div>
   
                                   <div className="mpesa-confirmation ">
-                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">KES 300</strong> will be sent to your <strong className="text-black">phone number (0704549859)</strong> soon after you click the <strong className="text-black text-capitalize">Send Money</strong> button bellow. 
+                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> will be sent to your <strong className="text-black">phone number ({mpesaPhoneNum})</strong> soon after you click the <strong className="text-black text-capitalize">Send Money</strong> button bellow. 
                                           <br/>
                                           <br/>
                                           Remember to <strong className="text-black">Check your phone</strong> to confirm payment by entering your Mpesa pin.</p>
-  
-                                          <button href="javascript: void(0);" className="btn btn-primary btn-flex flex-grow-1 waves-effect btn-send waves-light text-center w-100">
-                                              <div className="d-flex justify-content-center align-items-center"> 
-                                                  <div className="stk-timer-container d-none justify-content-center align-items-center">
-                                                      <span className="mdi mdi-timer-outline font-16px"></span>
-                                                      <span className="stk-timer px-2"></span>
-                                                  </div>
-                                                  <div className="justify-content-center align-items-center d-flex">
-                                                      <span className="px-2">Send Money</span> 
-                                                      <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
-                                                  </div>
-  
-                                              </div>
-                                          </button>
+                                          <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
+                                                <i class="mdi mdi-block-helper me-2"></i>
+                                                {errorMsg}
+                                                <button type="button" class="btn-close close-alert"></button>
+                                            </div>
+                                          
+                                          {StdFunctions.isValidPhoneNum(mpesaPhoneNum)? (
+                                                <button type="submit" form="payment-form" className="btn btn-primary btn-flex flex-grow-1 waves-effect  waves-light text-center w-100">
+                                                    <div className="d-flex justify-content-center align-items-center"> 
+                                                        <div className="stk-timer-container d-none justify-content-center align-items-center">
+                                                            <span className="mdi mdi-timer-outline font-16px"></span>
+                                                            <span className="stk-timer px-2"></span>
+                                                        </div>
+                                                        <div className="justify-content-center align-items-center d-flex">
+                                                            <span className="px-2">Send Money</span> 
+                                                            <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
+                                                        </div>
+        
+                                                    </div>
+                                                </button>                                       
+                                            ) : (
+                                                <button disabled="true" type="submit" className="btn btn-primary btn-flex flex-grow-1 waves-effect btn-send waves-light text-center w-100">
+                                                    <div className="d-flex justify-content-center align-items-center"> 
+                                                        <div className="stk-timer-container d-none justify-content-center align-items-center">
+                                                            <span className="mdi mdi-timer-outline font-16px"></span>
+                                                            <span className="stk-timer px-2"></span>
+                                                        </div>
+                                                        <div className="justify-content-center align-items-center d-flex">
+                                                            <span className="px-2">Send Money</span> 
+                                                            <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
+                                                        </div>
+        
+                                                    </div>
+                                             </button>
+                                    )}
+                                    <p className="stk-sent-msg mt-2 fw-bold font-size12px d-none text-capitalize text-success">{stkMsg}</p>
                                   </div>
   
                                   <div className="my-wallet-confirmation d-none">
                                       <p className="text-muted mt-4 "><strong className="text-uppercase text-black">KES 300</strong> will be deducted from your guardian blink wallet and amount will be credited to <strong className="text-capitalize text-black">Alex's pocket money account</strong>.</p>
                                       <p className="text-muted">confirm transaction by clicking the <strong className="text-capitalize text-black">send money</strong> button.</p>
                                       
-                                      <button href="javascript: void(0);" className="btn btn-primary btn-flex flex-grow-1 waves-effect waves-light text-center w-100">
-                                          <div className="d-flex justify-content-center align-items-center"> <span className="mx-2">Send Money</span> <div className="flip-x"><i className="mdi mdi-reply flip-x ms-3 font-16px"></i></div></div>
-                                      </button>
+                                     
+                                      {StdFunctions.isValidPhoneNum(mpesaPhoneNum)? (
+                                            <button  className="btn btn-primary btn-send btn-flex flex-grow-1 waves-effect waves-light text-center w-100">
+                                             <div className="d-flex justify-content-center align-items-center"> <span className="mx-2">Send Money</span> <div className="flip-x"><i className="mdi mdi-reply flip-x ms-3 font-16px"></i></div></div>
+                                            </button>                                        
+                                            ) : (
+                                                <button disabled="true" className="btn btn-primary btn-flex flex-grow-1 waves-effect waves-light text-center w-100">
+                                                    <div className="d-flex justify-content-center align-items-center"> <span className="mx-2">Send Money</span> <div className="flip-x"><i className="mdi mdi-reply flip-x ms-3 font-16px"></i></div></div>
+                                                </button>
+                                    )}
   
                                   </div>
   
@@ -450,7 +578,7 @@ const SendMoney=()=>{
                                   <img src="assets/images/payment-confirmation-images/sent.svg" height="200" alt=""/>                                
                               </div>
                               <h4 className="text-blink-primary fw-bold">We Have A blink!</h4>
-                              <p className="text-muted mb-4"><strong className="text-black">KES 300</strong> has been sent to <strong className="text-black">Tom Jerry</strong> successfully as his <strong className="text-black">pocket Money</strong>. New Balance is KES 12,306</p>
+                              <p className="text-muted mb-4"><strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> has been sent to <strong className="text-black">Tom Jerry</strong> successfully as his <strong className="text-black">pocket Money</strong>. New Balance is KES 12,306</p>
   
                               <div className="border p-4 rounded ">
                                   <div className="row">
@@ -508,13 +636,21 @@ const SendMoney=()=>{
                               </div>
                           </div>
                       </div>
-                  </div>
+                      
+                  </form>
                   <div className="modal-footer d-flex">
                       <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previouse </button>
-                      <button href="javascript: void(0);" className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
-                      <button href="javascript: void(0);" className="btn btn-primary btn-flex flex-grow-1 waves-effect waves-light text-center d-none">
-                      <div className="d-flex justify-content-center align-items-center"> <span>Send Money</span> <div className="flip-x"><i className="mdi mdi-reply flip-x ms-3 font-16px"></i></div></div>
+                        {StdFunctions.isGreaterThanZero(sendAmount)? (
+                            <button  className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
+                            
+                                ) : (
+                            <button  disabled="true" className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
+                        )}
+
+                      <button type="submit" href="javascript: void(0);" className="btn btn-primary btn-flex flex-grow-1 waves-effect waves-light text-center d-none">
+                        <div className="d-flex justify-content-center align-items-center"> <span>Send Money</span> <div className="flip-x"><i className="mdi mdi-reply flip-x ms-3 font-16px"></i></div></div>
                       </button>
+                      
                   </div>
               </div>
               </div>

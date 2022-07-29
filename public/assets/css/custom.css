@@ -999,6 +999,9 @@
                 color: #556ee6;
                 position: relative;
             }
+            .navbar-nav a.active .chat-user-box p.user-title{
+                font-weight: bold !important;
+            }
             
             .navbar-nav a {
                 color: #74788d;
