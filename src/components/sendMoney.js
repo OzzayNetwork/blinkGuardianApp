@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useRef} from 'react';
 import { Helmet } from "react-helmet";
 import AuthService from "../services/auth.service";
 import StdFunctions from "../services/standard.functions";
@@ -40,8 +40,23 @@ const SendMoney=()=>{
     const [sendAccountName,setSendAccountName]=useState("")
     const [mpesaTrue,setMpesaTrue]=useState(true)
     const [transactionStatus,setTransactionStatus]=useState("")
+    const[sendMoneytransactionId,setSendMoneytransactionId]=useState("")
+    const [sendMoneyCallback,setSendMoneyCallBack]=useState({})
+    const[accountBalance,setAccountBalance]=useState("")
+    const prevAmount = useRef();
+    const blinkaudio=new Audio('../assets/sounds/notification-tone-swift-gesture.mp3');
+
+    const [reoadState, setReoadState] = useState(1);
+       const reloadComponent = () => {
+        setReoadState(Math.random());
+        window.location.reload(false)
+        }
+
     
     useEffect(() => {
+        //calling the send money function
+        sendMoneyStart()
+        blinkerClicked()
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
@@ -55,12 +70,14 @@ const SendMoney=()=>{
             setNumOfAccounts(allBlinkAccounts.length)
             setActiveAccount(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             setSendAccountName(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkersAccountType)
+            setAccountBalance(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)
+            prevAmount.current = accountBalance
             //alert(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
 
         }).catch((err)=>{
 
         })
-    },[])
+    },[accountBalance,sendMoneyCallback])
 
     // converting numbers to currency
     const kenyaCurrency=(num)=>{
@@ -113,6 +130,8 @@ const SendMoney=()=>{
             setNumOfAccounts(allBlinkAccounts.length)
             setActiveAccount(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
            setSendAccountName(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkersAccountType)
+           setAccountBalance(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)
+           prevAmount.current = accountBalance
             console.log(allBlinkAccounts)
 
             console.log(studentProfile)
@@ -128,14 +147,14 @@ const SendMoney=()=>{
 
     }
 
-    const accountClicked=(accountId,accountName)=>{
+    const accountClicked=async(accountId,accountName)=>{
         $(this).addClass("active").siblings().removeClass("active")
         setActiveAccount(accountId)
         setSendAccountName(accountName)
         
     }
 
-    const sendMoneyStart=(event)=>{
+    const sendMoneyStart=async(event)=>{
 
         $('.btn-send').prop('disabled', true);
 
@@ -154,7 +173,8 @@ const SendMoney=()=>{
             transactionServiceId:1,
             merchantId:1
           };
-
+          let theStatus="Pending"
+         
           AuthService.sendStkPush(data).then((res)=>{
             console.log(res.data)
             if(res.data.statusCode===200){
@@ -163,13 +183,25 @@ const SendMoney=()=>{
                 $('.stk-timer-container').removeClass('d-none').siblings().addClass('d-none');
                 $(".stk-sent-msg").removeClass("d-none")
                 setStkMsg(res.data.statusDescription)
-                $('#login-msg').addClass('d-none')
+                setSendMoneytransactionId(res.data.data.transactionId)
+                $('#login-msg').addClass('d-none');
+
+                let SendMonyeTrsansactionId=res.data.data.transactionId
+                //alert(SendMonyeTrsansactionId)
+                setSendMoneyCallBack(AuthService.getTransactionById(465))
+
+                console.log("Call back details")
+                console.log(sendMoneyCallback)
+
+                //getting the transaction ID
+
 
                 //checking if transaction was succesful
                 //console.log("transactionStatus: "+res.data.data.transactionId)
                 //console.log(AuthService.fetchTransactionByTransactionId(res.data.data.transactionId).data.statusDescription)
-                //setTransactionStatus(AuthService.fetchTransactionByTransactionId(res.data.data.transactionId))
-                //if(transactionStatus===)
+                
+
+                
                 
                 var timeleft = 30;
                 var downloadTimer = setInterval(function () {
@@ -188,7 +220,39 @@ const SendMoney=()=>{
                     }
         
                     $(".stk-timer").text(timeleft + " s");
-                        timeleft -= 1;
+                        
+                        if(timeleft>=20){
+                            //alert("we are at 20")
+                            
+                            theStatus=res.data.data.paymentCallBackStatus
+                            //theStatus
+                            //setTransactionStatus(AuthService.fetchTransactionByTransactionId(SendMonyeTrsansactionId).data.transactionStatus)
+                            
+                        }
+                        if(timeleft<20){
+                            setTransactionStatus("Successful")
+                            theStatus="Successful"
+                        }
+
+                        if(theStatus==="Successful"){
+                           console.log("The transaction went through: ")
+                           $(".payment-panel").addClass('d-none').siblings('.sent-success').removeClass('d-none')
+                           
+                           blinkaudio.play()
+                           
+                           blinkaudio.currentTime = 0;
+                           setTimeout(function() { blinkaudio.pause(); }, 1000);
+                           
+
+                        }
+
+                        if(theStatus!="Successful"){
+                            timeleft -= 1;
+                            console.log("checking the transactionstatus: the status at "+timeleft+" is "+transactionStatus)
+                        }
+
+                        //setTransactionStatus(res.data.data.paymentCallBackStatus)
+                        //setTransactionStatus("True")
                        
                     }, 1000);
 
@@ -200,6 +264,9 @@ const SendMoney=()=>{
         //alert(sendAmount)
         //alert(mpesaPhoneNum)
        
+    }
+    const reloadPage=(event)=>{
+        //window.location.reload(false);
     }
 
 
@@ -459,6 +526,18 @@ const SendMoney=()=>{
                                               {StdFunctions.removeUnderscore(sendAccountName)}                                        
                                           </div>
                                       </div>
+
+                                      <div className="col-lg-6">
+                                          <div className="text-muted mt-4">
+                                              Account No.                                           
+                                          </div>
+                                      </div>
+  
+                                      <div className="col-lg-6 align-self-end">
+                                          <div className=" text-right text-black">
+                                              {StdFunctions.removeUnderscore(activeAccount)}                                        
+                                          </div>
+                                      </div>
   
                                       <div className="col-lg-6">
                                           <div className="text-muted mt-4">
@@ -578,7 +657,7 @@ const SendMoney=()=>{
                                   <img src="assets/images/payment-confirmation-images/sent.svg" height="200" alt=""/>                                
                               </div>
                               <h4 className="text-blink-primary fw-bold">We Have A blink!</h4>
-                              <p className="text-muted mb-4"><strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> has been sent to <strong className="text-black">Tom Jerry</strong> successfully as his <strong className="text-black">pocket Money</strong>. New Balance is KES 12,306</p>
+                              <p className="text-muted mb-4"><strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> has been sent to <strong className="text-black">Tom Jerry</strong> successfully as his <strong className="text-black"> {StdFunctions.removeUnderscore(sendAccountName)} </strong>. New Balance is {StdFunctions.kenyaCurrency(accountBalance)}</p>
   
                               <div className="border p-4 rounded ">
                                   <div className="row">
@@ -590,7 +669,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 53                                        
+                                              {prevAmount.current}                                        
                                           </div>
                                       </div>
   
@@ -602,7 +681,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 250                                        
+                                              {StdFunctions.kenyaCurrency(sendAmount)}                                        
                                           </div>
                                       </div>
   
@@ -614,7 +693,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 50                                        
+                                              KES 0.00                                        
                                           </div>
                                       </div>
                                       <div className="col-12 text-black"><hr className="mb-0 pb-0"/></div>
@@ -627,13 +706,15 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end text-uppercase">
                                           <div className=" text-right text-black font-21 fw-bold">
-                                              KES 303                                        
+                                              {StdFunctions.kenyaCurrency(accountBalance)}                                        
                                           </div>
                                       </div>
                                   </div>
   
                                           
                               </div>
+                              
+                              <button type="button" onClick={reloadComponent} className="btn btn-flex btn-100 btn-primary flex-grow-1 w-100 font-size-16 text-uppercase my-3 "><i className="mdi mdi-check-bold ms-3 font-16px pr-2"></i>Done!</button>
                           </div>
                       </div>
                       

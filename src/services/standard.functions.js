@@ -107,13 +107,10 @@ class stdFunctions {
     //comparing two separate strings
     areTheyThesame(str1,str2){
 
-        console.log("String 1 is "+str1+" String two is "+str2)
         if(str1===str2){
-            console.log("we found a match")
             return true
         }
         else{
-            console.log("No match found")
             return false
         }
     }

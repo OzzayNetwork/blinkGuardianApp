@@ -107,7 +107,7 @@ const Home=()=>{
         }).catch((err)=>{
             console.log(err)
         })
-    },[])
+    },[firstStudent,transactionProducts])
 
     //this function helps get the details pertaining to the details of a student's account
     const targetId=firstStudent.userId

@@ -18,6 +18,9 @@ class AuthService {
    fetchTransactionByTransactionId(transactionId){
       return axiosInstance.post(baseUrl+"/api/v2/transactions/fetchTransactionByTransactionId/"+transactionId)
    }
+   getTransactionById(trsansactionId){
+      return axiosInstance.post(baseUrl+"/api/v2/transactions/searchTransaction?transactionId/"+trsansactionId)
+   }
 }
 
 export default new AuthService();
