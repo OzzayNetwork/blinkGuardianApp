@@ -45,6 +45,17 @@ class stdFunctions {
 
     }
 
+    //checking if a number is greater than one
+    isgreaterThanOne=(str)=>{
+        str=parseFloat(str)
+        if(str>1){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
     //checking if a number is greater than 0
     isGreaterThanZero=(str)=>{
         str=parseFloat(str)
