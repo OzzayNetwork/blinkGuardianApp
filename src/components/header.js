@@ -65,16 +65,25 @@ const Header=()=>{
                 </span>
               </Link>
             </div>
+            
 
             <button
               type="button"
-              className="btn btn-sm px-3 font-size-16 header-item waves-effect"
+              className="btn btn-sm px-3 font-size-16 header-item waves-effect d-sm-none d-md-inline"
               id="vertical-menu-btn"
             >
               <i className="fa fa-fw fa-bars"></i>
             </button>
 
-            <form className="app-search d-none d-lg-block">
+            <Link to="/" className="px-3 d-flex justify-content-center align-items-center d-md-none">
+                <img
+                  src="assets/images/logo-files/blink-color.svg"
+                  alt=""
+                  height="40"
+                />
+              </Link>
+
+            <form className="app-search d-none">
               <div className="position-relative">
                 <input
                   type="text"
@@ -87,7 +96,7 @@ const Header=()=>{
           </div>
 
           <div className="d-flex">
-            <div className="dropdown d-inline-block d-lg-none ms-2">
+            <div className="dropdown d-inline-block d-lg-none ms-2 d-none">
               <button
                 type="button"
                 className="btn header-item noti-icon waves-effect"
@@ -309,6 +318,96 @@ const Header=()=>{
           </div>
         </div>
       </header>
+
+      {/* mobile navigation starts here */}
+    <header id="bottom-nav" className="px-3 d-none d-md-none d-sm-flex">
+        <div className="navbar-header d-flex w-100">
+          <div className="d-flex justify-content-between d-flex w-100 align-items-center">
+            <div className="dropdown d-inline-block ms-2">
+              <Link to="/"
+                className="btn active header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
+              >
+                <i className="bx bx-home-circle font-size-30"></i>
+              </Link>
+              
+              <div
+                className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                aria-labelledby="page-header-search-dropdown"
+              >
+               
+              </div>
+            </div>
+
+            
+
+            <div className="dropdown d-inline-block ms-2">
+              <Link to="/Transactions"
+                className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
+                
+              >
+                <i className="mdi-progress-clock mdi font-size-30"></i>
+              </Link>
+              
+              <div
+                className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                aria-labelledby="page-header-search-dropdown"
+              >
+               
+              </div>
+            </div>
+
+            <div class="avatar-sm  send-money-mobile">
+              <span data-bs-toggle="modal" data-bs-target="#walletTopUp" class="avatar-title rounded-circle bg-primary-blink font-size-16 profile-abriv">
+                <img src="assets/images/plus-white.svg" alt=""/>
+              </span>
+            </div>
+
+            <div className="dropdown d-inline-block ms-2">
+              <Link to="/"
+                className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
+              >
+                <i className="bx bx-file font-size-30"></i>
+              </Link>
+              
+              <div
+                className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                aria-labelledby="page-header-search-dropdown"
+              >
+               
+              </div>
+            </div>
+
+           
+
+            <div className="dropdown d-inline-block ms-2">
+              <Link to="/Transactions"
+                className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
+                
+              >
+                <i className="bx bx-user font-size-30"></i>
+              </Link>
+              
+              <div
+                className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                aria-labelledby="page-header-search-dropdown"
+              >
+               
+              </div>
+            </div>
+
+            <div className="dropdown d-none d-lg-inline-block ms-1">
+              <button
+                type="button"
+                className="btn header-item noti-icon waves-effect"
+                data-bs-toggle="fullscreen"
+              >
+                <i className="bx bx-fullscreen"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+    {/* mobile navigation end */}
     </>
   );
   }

@@ -10,6 +10,17 @@
     box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03)
 }
 
+#bottom-nav {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1002;
+    background-color: #fff;
+    -webkit-box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03);
+    box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03)
+}
+
 .navbar-header {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -166,7 +177,7 @@
     content: "\ea3f"
 }
 
-body[data-topbar=dark] #page-topbar {
+body[data-topbar=dark] #page-topbar,body[data-topbar=dark] #bottom-nav {
     background-color: #2a3042
 }
 
@@ -1136,7 +1147,7 @@ body[data-sidebar=colored].vertical-collpsed .vertical-menu #sidebar-menu ul li 
     }
 }
 
-body[data-layout=horizontal][data-topbar=colored] #page-topbar {
+body[data-layout=horizontal][data-topbar=colored] #page-topbar,body[data-layout=horizontal][data-topbar=colored] #bottom-nav {
     background-color: #556ee6;
     -webkit-box-shadow: none;
     box-shadow: none
@@ -1208,7 +1219,7 @@ body[data-layout-size=boxed] #layout-wrapper {
     box-shadow: 0 .75rem 1.5rem rgba(18, 38, 63, .03)
 }
 
-body[data-layout-size=boxed] #page-topbar {
+body[data-layout-size=boxed] #page-topbar,body[data-layout-size=boxed] #bottom-nav {
     max-width: 1300px;
     margin: 0 auto
 }
@@ -1224,6 +1235,7 @@ body[data-layout-size=boxed].vertical-collpsed .footer {
 
 body[data-layout=horizontal][data-layout-size=boxed] #layout-wrapper,
 body[data-layout=horizontal][data-layout-size=boxed] #page-topbar,
+body[data-layout=horizontal][data-layout-size=boxed] #bottom-nav,
 body[data-layout=horizontal][data-layout-size=boxed] .footer {
     max-width: 100%
 }
@@ -1242,6 +1254,7 @@ body[data-layout=horizontal][data-layout-size=boxed] .navbar-header {
 
 @media (min-width:992px) {
     body[data-layout-scrollable=true][data-layout=horizontal] #page-topbar,
+    body[data-layout-scrollable=true][data-layout=horizontal] #bottom-nav,
     body[data-layout-scrollable=true][data-layout=horizontal] .topnav {
         position: absolute
     }

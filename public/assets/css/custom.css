@@ -1066,8 +1066,47 @@
                 background-color: #f57611 !important;
                 border-color: #f57611 !important;
             }
-            
+            .font-30px{
+                font-size: 30px !important;
+            }
+            .send-money-mobile .rounded-circle{
+                position: relative;
+            }
+            .send-money-mobile .rounded-circle::before{
+                position: absolute;
+                content: "";
+                background-color: white;
+                width: 180%;
+                height: 180%;
+                display: flex;
+                border-radius: 50%;
+                z-index: -1;
+            }
+            .send-money-mobile img{
+                height: 26px;
+            }
+            .padding-sm-94{
+                padding-bottom: calc(94px) !important;
+            }
+            #bottom-nav a.active i{
+                color: #ec5b0e !important;
+            } 
+            .bg-danger{
+                background-color: #FF0000 !important;
+            }
             @media (max-width: 576px) {
+                .transaction-date{
+                    font-size: 10px;
+                }
+                .d-sm-flex{
+                    display: flex !important;
+                }
+                .product-items-trunc{
+                    width: 120px !important;
+                }
+                .d-sm-none{
+                    display:none !important
+                }
                 .the-msg-2 {
                     max-width: 76vw;
                 }

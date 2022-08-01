@@ -234,9 +234,9 @@ const Transactions =()=> {
         <div className="row">
             <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 className="mb-sm-0 font-size-18">Blink Transactions</h4>
+                    <h4 className="mb-sm-0 font-size-18">Transactions For {firstStudent.firstName} </h4>
 
-                    <div className="page-title-right">
+                    <div className="page-title-right d-sm-none d-md-flex">
                         <ol className="breadcrumb m-0">
                             <li className="breadcrumb-item"><Link to="/">Dashboards</Link></li>
                             <li className="breadcrumb-item active">{firstStudent.firstName} Transactions</li>
@@ -248,10 +248,10 @@ const Transactions =()=> {
         </div>
         {/* <!-- end page title --> */}
         <div className="row">
-            <div className="col-12">
+            <div className="col-12 px-sm-30px">
                 <div className="card">
-                    <div className="card-header bg-white d-flex justify-content-between align-items-center w-100 border-bottom">
-                        <div className="col-sm-4 col-md-6 col-lg-8 col-xl-5">
+                    <div className="card-header bg-white w-100 d-flex justify-content-between align-items-center w-100 border-bottom">
+                        <div className="col-sm-12 w-100 col-md-6 col-lg-8 col-xl-5">
                         <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                             <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div className="flex-shrink-0 me-3">
@@ -270,8 +270,8 @@ const Transactions =()=> {
 
                                 
                                 {StdFunctions.isBlinkersMore(students.length)?(
-                                            <div className="d-flex justify-content-center align-items-center">
-                                                <span className="d-flex align-items-center"><small className="text-info mr-3">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                            <div className="d-flex   justify-content-center align-items-center">
+                                                <span className="d-flex align-items-center"><small className="text-info mr-3 d-sm-none d-md-flex">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                             </div>
                                         ):(
                                         <span></span>
@@ -321,7 +321,7 @@ const Transactions =()=> {
                         </div>
                     </div>
                     <div className="card-body show-trans-cont">
-                        <div className="table-responsive">
+                        <div className="table-responsive  d-xs-none d-md-flex d-sm-none">
 
                             <table className="table align-middle table-nowrap table-hover  contacts-table table-striped " id="datatable-buttons">
                                 <thead className="table-light text-capitalize">
@@ -411,6 +411,92 @@ const Transactions =()=> {
                                     
                                 </tbody>
                                 
+                            </table>
+                        </div>
+                        <div className="table-responsive d-md-none d-sm-flex">
+                            <table className="table table-nowrap  align-middle mb-0 table-hover ">
+                                <thead className="table-light">
+                                    <tr>
+                                        
+                                        <th className="" colspan="2">
+                                            Transaction details
+                                        </th>
+                                        <th className="text-right">
+                                            <span>Amount & time</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+
+                                {studentTransactions.length>0 && studentTransactions.map((transaction,index)=>(
+                                    <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
+                                        <th scope="row" className="px-sm-0">
+                                            <div className="d-flex align-items-center">
+                                                <div className="avatar-xs me-0">
+                                                    
+                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                        <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
+                                                            <i className="mdi mdi-arrow-down-bold"></i>
+                                                        </span>
+                                                    ):(
+                                                        <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
+                                                            <i className="mdi mdi-arrow-up-bold"></i>
+                                                            </span>
+                                                    )}
+                                                </div>
+                                                
+                                            </div>
+                                        </th>
+                                        <td>
+                                            <div  className="text-truncate text-capitalize product-items-trunc" >
+                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                        StdFunctions.phoneOutput(transaction.accountFrom)
+                                                    ):(
+                                                        <span></span>                                                                  
+                                                    )}
+                                                    <span className="product-items" 
+                                                    
+                                                    >                                    
+                                                        {
+                                                            transaction.productsSold.length> 0 && transaction.productsSold.map((product,index)=>(<span>,{product.productName} </span>)) 
+                                                        }  
+                                                    </span>
+                                                {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
+                                            </div>
+                                            <p className="text-muted p-0 m-0 text-truncate  product-items-trunc">
+                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                        <small className="d-none d-md-block">Receipt No.</small> 
+                                                    ):(
+                                                        <small></small>                                                                  
+                                                    )}
+                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                        
+                                                        transaction.receiptNumber
+                                                    ):(
+                                                        transaction.blinkMerchant.merchantName                                                                  
+                                                    )}
+                                                
+                                            </p>
+                                        </td>
+                                        <td className="text-right px-sm-0 text-capitalize">
+
+                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                <h5 className="font-size-14 mb-1 text-success">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>
+                                                ):(
+                                                    <h5 className="font-size-14 mb-1 text-danger">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>                                                                 
+                                                )}
+                                            <div className="text-muted transaction-date">
+                                            {
+                                                Moment(transaction.dateCreated).calendar(null, {
+                                                sameElse: 'DD MMM YYYY  hh:mm A'
+                                            })}
+                                            </div>
+                                        </td>                                                           
+                                    </tr>
+                                    
+                                ))}
+                                </tbody>
                             </table>
                         </div>
                     </div>

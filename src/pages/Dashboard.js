@@ -27,7 +27,7 @@ const Dashboard=()=>{
               <Sidebar />
               <SendMoney />
             <div className="main-content">
-              <div className="page-content">
+              <div className="page-content padding-sm-94">
                 <Routes>
                   <Route exact path={"/"} element={<Home/>}></Route>
                   <Route exact path={"/Transactions"} element={<Transactions/>}></Route>

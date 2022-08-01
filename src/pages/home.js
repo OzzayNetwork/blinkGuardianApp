@@ -244,7 +244,7 @@ const Home=()=>{
         <div className="container-fluid">
 
         {/* <!-- start page title --> */}
-        <div className="row">
+        <div className="row d-none">
             <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 className="mb-sm-0 font-size-18">Dashboard</h4>
@@ -264,7 +264,7 @@ const Home=()=>{
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-4 d-flex align-content-center">
+                            <div className="col-lg-4 d-flex align-content-center p-sm-0">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                                     <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="flex-shrink-0 me-3">
@@ -326,7 +326,7 @@ const Home=()=>{
                                         
                                     </div>
 
-                                    <ul className="list-inline user-chat-nav text-end mb-0">                                                   
+                                    <ul className="list-inline user-chat-nav text-end mb-0 d-none">                                                   
 
                                         <li className="list-inline-item pr-sm-0 pr-4">
                                             <div className="dropdown">
@@ -345,10 +345,10 @@ const Home=()=>{
                                 </div>
                             </div>
 
-                            <div className="col-lg-8 align-self-center">
+                            <div className="col-lg-8 col-sm-12 align-self-center p-sm-0">
                                 <div className="text-lg-left mt-4 mt-lg-0">
                                     <div className="row">
-                                        <div className="col-3 col-sm-3 col-md-3">
+                                        <div className="col-sm-6  col-md-3 d-none">
                                             <div>
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-info font-size-24">
@@ -359,7 +359,7 @@ const Home=()=>{
                                                 <h5 className="mb-0">{myBlinkersCount}</h5>
                                             </div>
                                         </div>
-                                        <div className="col-3 col-sm-3 col-md-3">
+                                        <div className=" col-sm-3 d-none d-sm-none col-md-3">
                                             <div>
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-success font-size-24">
@@ -370,7 +370,7 @@ const Home=()=>{
                                                 <h5 className="mb-0">KES 450</h5>
                                             </div>
                                         </div>
-                                        <div className="col-3 col-sm-3 col-md-3">
+                                        <div className="d-sm-none  d-none  col-sm-3 col-md-3">
                                             <div>
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle font-size-24">
@@ -381,7 +381,7 @@ const Home=()=>{
                                                 <h5 className="mb-0">22</h5>
                                             </div>
                                         </div>
-                                        <div className="col-3 col-sm-3 col-md-3">
+                                        <div className="col-sm-6 col-md-3 d-none">
                                             <div>
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-pink font-size-24">
@@ -391,6 +391,44 @@ const Home=()=>{
                                                 <p className="text-muted text-truncate mb-2">Pending Tasks</p>
                                                 <h5 className="mb-0">180</h5>
 
+                                            </div>
+                                        </div>
+
+                                        {/* account options start here */}
+
+                                        <div className="col-12 d-none">
+                                            <hr/>
+                                        </div>
+                                        <div className="col-4 ">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                                <div className="avatar-sm mb-3">
+                                                    <span className="avatar-title rounded-circle bg-info font-size-24">
+                                                            <i className="mdi mdi-clipboard-text-multiple-outline text-white"></i>
+                                                        </span>
+                                                </div>
+                                                <p className="text-muted text-truncate mb-2">{firstStudent.firstName}'s Tasks</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-4 ">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                                <div className="avatar-sm mb-3">
+                                                    <span className="avatar-title rounded-circle bg-primary-blink font-size-24">
+                                                            <i className="mdi mdi-shield-account-outline text-white"></i>
+                                                        </span>
+                                                </div>
+                                                <p className="text-muted text-truncate mb-2">{firstStudent.firstName}'s Profile</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-4 ">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                                <div className="avatar-sm mb-3">
+                                                    <span className="avatar-title rounded-circle bg-danger font-size-24">
+                                                            <i className="mdi mdi-lock-remove-outline text-white"></i>
+                                                        </span>
+                                                </div>
+                                                <p className="text-muted text-truncate mb-2">Block {firstStudent.firstName}</p>
                                             </div>
                                         </div>
                                         
@@ -556,14 +594,14 @@ const Home=()=>{
                                                                 </span>
                                                             {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
                                                         </div>
-                                                        <p className="text-muted p-0 m-0">
+                                                        <p className="text-muted p-0 m-0 text-truncate  product-items-trunc">
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
-                                                                    <small>Receipt No.</small> 
-                                                               ):(
-                                                                   <small></small>                                                                  
-                                                               )}
+                                                                    <small className="d-none d-md-inline">Receipt No.</small> 
+                                                                ):(
+                                                                    <small></small>                                                                  
+                                                                )}
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
-                                                                   
+                                                                    
                                                                     transaction.receiptNumber
                                                                 ):(
                                                                     transaction.blinkMerchant.merchantName                                                                  

@@ -464,86 +464,86 @@ const SendMoney=()=>{
                               <label for="">Transaction Breakdown</label>
                               <div className="border p-4 rounded ">
                                   <div className="row">
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted ">
                                               Recepient                                            
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black text-uppercase">
                                           {firstStudent?.firstName+" "+firstStudent?.middleName}                                          
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted mt-4">
                                               Blink Account                                           
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
                                               {StdFunctions.removeUnderscore(sendAccountName)}                                        
                                           </div>
                                       </div>
 
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted mt-4">
                                               Account No.                                           
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
                                               {StdFunctions.removeUnderscore(activeAccount)}                                        
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted mt-4">
                                               Being Debited from                                           
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
                                               MPESA                                        
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted mt-4">
                                               Amount Being sent                                           
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
                                               {StdFunctions.kenyaCurrency(sendAmount)}                                      
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6">
+                                      <div className="col-6">
                                           <div className="text-muted mt-4">
                                               Transaction Fee                                          
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
                                               KES 0.00                                        
                                           </div>
                                       </div>
                                       <div className="col-12 text-black"><hr className="mb-0 pb-0"/></div>
   
-                                      <div className="col-lg-6 text-uppercase">
+                                      <div className="col-6 text-uppercase">
                                           <div className="text-muted mt-4 font-21">
                                               Total                                          
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end text-uppercase">
+                                      <div className="col-6 align-self-end text-uppercase">
                                           <div className=" text-right text-black font-21 fw-bold">
                                           {StdFunctions.kenyaCurrency(sendAmount)}                                         
                                           </div>
