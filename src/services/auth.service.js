@@ -20,6 +20,8 @@ class AuthService {
    }
    getTransactionById(trsansactionId){
       return axiosInstance.post(baseUrl+"/api/v2/transactions/searchTransaction?transactionId/"+trsansactionId)
+      //let transactionId=30
+      //return axiosInstance.post("https://live.blink.co.ke/api/v2/transactions/searchTransaction?transactionId/"+transactionId)
    }
 }
 

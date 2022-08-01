@@ -94,7 +94,7 @@ const Transactions =()=> {
         }).catch((err)=>{
             console.log(err)
         })
-    },[studentTransactions,firstStudent])
+    },[])
 
     
     const getInstitututionName=(studentId)=>{

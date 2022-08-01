@@ -190,33 +190,109 @@ const SendMoney=()=>{
                 setStkMsg(res.data.statusDescription)
                 setSendMoneytransactionId(res.data.data.transactionId)
                 $('#login-msg').addClass('d-none');
+
+                let SendMonyeTrsansactionId=res.data.data.transactionId
+                //setTransactionStatus(AuthService.fetchTransactionByTransactionId(SendMonyeTrsansactionId).data.transactionStatus)
+                setTransactionStatus(res.data.data.paymentStatus)
+                //alert(SendMonyeTrsansactionId)
+                //alert(res.data.data.paymentStatus)
+                var paymentTransactionStatus=res.data.data.paymentStatus
                 
 
-                var paymentTimeOut=6
+                console.log("Call back details")
+                console.log(sendMoneyCallback)
+
+                //getting the transaction ID
+
+
+                //checking if transaction was succesful
+                //console.log("transactionStatus: "+res.data.data.transactionId)
+                //console.log(AuthService.fetchTransactionByTransactionId(res.data.data.transactionId).data.statusDescription)
+
+                var paymentTimeOut=60
                 var getPaymentStatus=setInterval(function(){
                 //const theStatus=AuthService.fetchTransactionByTransactionId(sendMoneytransactionId)
-                $(".stk-timer").text(paymentTimeOut + " s");
-                    if(paymentTimeOut<=0){
-                        clearInterval(getPaymentStatus); 
-                        $('.stk-sent').removeClass('d-none').siblings().addClass('d-none')
 
-                        blinkaudio.play()
-                           
-                        blinkaudio.currentTime = 0;
-                        const playAudio=setTimeout(function() { blinkaudio.pause(); }, 1000);
+                    if(paymentTimeOut<=0){
+                        clearInterval(getPaymentStatus);
+                        
+                        //const paymentstatus=res.data.data.paymentCallBackStatus
+
+                        setSendMoneyCallBack(AuthService.getTransactionById(SendMonyeTrsansactionId).data.transactionStatus)
+                        //alert(sendMoneyCallback)
+                        console.log("we are at the two minute mark")
                     }
                     else{
                         //alert(transactionStatus)
                         console.log("The transaction status at every 10 seconds "+transactionStatus)
-                        paymentTimeOut -= 1;
+                        paymentTimeOut -= 10;
                     }
                     console.log(paymentTimeOut)
-                },1000)
+                },10000)
+                
+
+                
+                
+                var timeleft = 30;
+                var downloadTimer = setInterval(function () {
+                    if (timeleft <= 0) {
+                        clearInterval(downloadTimer);
+                        //alert("You took to long to confirm the transaction, click send money to retry or ");
+                        seterrorMsg("You took to long to confirm the transaction, click send money to Resend the Payment request or check the phone number if its correct")
+                        $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all')
+                        $(".stk-sent-msg").addClass("d-none")
+                        $(".stk-timer").text("0 s");
+                        $('.btn-send').prop('disabled', false);
+                        $('#walletTopUp .close-modal').removeClass('d-none');
+        
+                        $('#walletTopUp .modal-footer').removeClass('d-none');
+                        $('.stk-timer-container').addClass('d-none').siblings().removeClass('d-none');
+                        $('.btn-send').prop('disabled', false);
+                    }
+        
+                    $(".stk-timer").text(timeleft + " s");
+                        
+                        if(timeleft>=20){
+                            //alert("we are at 20")
+                            
+                            theStatus=res.data.data.paymentCallBackStatus
+                            //theStatus
+                            
+                            
+                        }
+                        if(timeleft<20){
+                            setTransactionStatus("Successful")
+                            //theStatus="Successful"
+                        }
+
+                        if(theStatus==="Successful"){
+                           console.log("The transaction went through: ")
+                           $(".payment-panel").addClass('d-none').siblings('.sent-success').removeClass('d-none')
+                           
+                           blinkaudio.play()
+                           
+                           blinkaudio.currentTime = 0;
+                           const playAudio=setTimeout(function() { blinkaudio.pause(); }, 1000);
+                           //clearInterval(playAudio);
+                           
+
+                        }
+
+                        if(theStatus!="Successful"){
+                            timeleft -= 1;
+                            console.log("checking the transactionstatus: the status at "+timeleft+" is "+transactionStatus)
+                        }
+
+                        //setTransactionStatus(res.data.data.paymentCallBackStatus)
+                        //setTransactionStatus("True")
+                       
+                    }, 1000);
+
             }
             else{
                 seterrorMsg("An unexpected error, try again later.")
                 $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all')
-                $('.btn-send').prop('disabled', false);
+
             }
           })
 
@@ -676,17 +752,6 @@ const SendMoney=()=>{
                               </div>
                               
                               <button type="button" onClick={reloadComponent} className="btn btn-flex btn-100 btn-primary flex-grow-1 w-100 font-size-16 text-uppercase my-3 "><i className="mdi mdi-check-bold ms-3 font-16px pr-2"></i>Done!</button>
-                          </div>
-                          <div className="text-center d-flex flex-column justify-content-around align-items-center stk-sent  d-none">
-                              <div className="success-image mb-4">
-                                  <img src="assets/images/payment-confirmation-images/stk-sent.svg" height="200" alt=""/>                                
-                              </div>
-                              <h4 className="text-blink-primary fw-bold text-capitalize mb-3">Check your Phone!</h4>
-                              <p className="text-black">A payment request of <strong>{StdFunctions.kenyaCurrency(sendAmount)}</strong> has been sent to your phone, mobile No. <strong>{StdFunctions.phoneOutput(mpesaPhoneNum)}.</strong> </p>
-                              <p>Check your phone and enter your Mpesa pin to confirm the transaction and a confirmation message will be sent to your phone to confirm the transaction</p>
-  
-                              
-                              <button type="button" onClick={reloadComponent} className="btn btn-flex btn-100 btn-primary flex-grow-1 w-100 font-size-16 text-uppercase my-3 "><i className="mdi mdi-check-bold ms-3 font-16px pr-2 d-none"></i>Close</button>
                           </div>
                       </div>
                       
