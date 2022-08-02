@@ -260,11 +260,97 @@ const Home=()=>{
         </div>
         {/* <!-- end page title --> */}
         <div className="row">
+        <div className="col-lg-12 px-sm-30px ">
+            <div className="card d-sm-flex d-md-none">
+                <div className="card-body">
+                    <div className="row">
+                    <div className="dropdown d-inline-block w-100 d-flex align-items-center">
+                        <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div className="flex-shrink-0 me-3">
+                                <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
+                                <div className="avatar-sm mx-auto ">
+                                    <span className="avatar-title rounded-circle bg-random font-size-20">
+                                        {studentProfile.institution != undefined && firstStudent.firstName.charAt(0)+""+firstStudent.middleName.charAt(0)}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div className="flex-grow-1 chat-user-box me-3">
+                                <h6 className="user-title m-0 font-size-18">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
+                            </div>
+                            {StdFunctions.isBlinkersMore(students.length)?(
+                                <div className="d-flex justify-content-center align-items-center">
+                                    <span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                </div>
+                                ):(
+                                <span></span>
+                                )}
+                            
+                        </button>
+                        
+
+                        
+                        <div className={`dropdown-menu dropdown-menu-lg dropdown-menu-start p-0 w-100 ${StdFunctions.isgreaterThanOne(myBlinkersCount) ? "" : "d-none"}`}>
+                            <div className="p-3">
+                                <div className="row align-items-center">
+                                    <div className="col">
+                                        <h6 className="m-0" key="t-notifications"> My Blinkers </h6>
+                                    </div>
+                                    <div className="col-auto d-none">
+                                        <a href="notifications.html" className="small" key="t-view-all"> View All</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {students.length> 1 && students.map((item, index)=>(
+                                <div  style={{ maxheight: "230px" }}>
+                                    <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                        <div className="flex-shrink-0 me-3">
+                                            <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
+                                            <div className="avatar-sm mx-auto ">
+                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
+                                                    {item.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="flex-grow-1 chat-user-box">
+                                            <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
+                                            <p className="text-muted">{item.blinkId}</p>
+                                        </div>                                                            
+                                    </a>
+                                    </div>
+                                ))
+                                
+                            }  
+                            
+                        </div>
+
+                        <ul className="list-inline user-chat-nav text-end mb-0 d-none">                                                   
+
+                            <li className="list-inline-item pr-sm-0 pr-4">
+                                <div className="dropdown">
+                                    <button className="btn nav-btn mr-4" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i className="bx bx-dots-horizontal-rounded"></i>
+                                    </button>
+                                    <div className="dropdown-menu dropdown-menu-start">
+                                        <a className="dropdown-item" href="#"><i className="font-size-15 mdi mdi-shield-account me-3"></i>View Account</a>
+                                        <a className="dropdown-item" href="#"><i className="font-size-15 mdi mdi-clipboard-text me-3"></i>Tasks</a>
+                                        <a className="dropdown-item text-danger" href="#"><i className="font-size-15 mdi mdi-lock-remove me-3"></i>Block Account</a>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
             <div className="col-lg-12 px-sm-30px">
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-4 d-flex align-content-center p-sm-0">
+                            <div className="col-lg-4 d-sm-none d-md-flex align-content-center">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                                     <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="flex-shrink-0 me-3">
@@ -349,7 +435,7 @@ const Home=()=>{
                                 <div className="text-lg-left mt-4 mt-lg-0">
                                     <div className="row">
                                         <div className="col-sm-6  col-md-3 d-none">
-                                            <div>
+                                            <div className="px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-info font-size-24">
                                                             <i className="mdi mdi-account-child text-white"></i>
@@ -360,7 +446,7 @@ const Home=()=>{
                                             </div>
                                         </div>
                                         <div className=" col-sm-3 d-none d-sm-none col-md-3">
-                                            <div>
+                                            <div className="px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-success font-size-24">
                                                             <i className="mdi mdi-cash-multiple text-white"></i>
@@ -400,7 +486,7 @@ const Home=()=>{
                                             <hr/>
                                         </div>
                                         <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-info font-size-24">
                                                             <i className="mdi mdi-clipboard-text-multiple-outline text-white"></i>
@@ -411,7 +497,7 @@ const Home=()=>{
                                         </div>
 
                                         <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-primary-blink font-size-24">
                                                             <i className="mdi mdi-shield-account-outline text-white"></i>
@@ -422,7 +508,7 @@ const Home=()=>{
                                         </div>
 
                                         <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-danger font-size-24">
                                                             <i className="mdi mdi-lock-remove-outline text-white"></i>
@@ -483,7 +569,7 @@ const Home=()=>{
                                         </div>
                                     </div>
 
-                                    <div className="row">
+                                    <div className="row d-none">
                                         <div className="col-6">
                                             <div className="d-flex align-items-center">
                                                 <span className="badge  badge-soft-light font-size-12"> KES 50 </span> <span className="ms-2 mb-0 pb-0 text-truncate text-white">Used Today</span>
@@ -647,17 +733,17 @@ const Home=()=>{
                 <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 px-sm-30px">
                     <div className="card expenditure-card">
                         <div className="card-body">
-                            <h4 className="card-title mb-0">Expenditure</h4>
-                            <small className="mb-4 text-muted">The last 12 Months for {studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</small>
+                            <h4 className="card-title mb-0 d-none">Expenditure</h4>
+                            <small className="mb-4 text-muted d-none">The last 12 Months for {studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</small>
                             <div className="row">
                                 <div className="col-lg-12">
                                     <div id="member-salary-chart" className="apex-charts" dir="ltr"></div>
                                 </div>
 
-                                <hr/>
+                                <hr className="d-none" />
 
 
-                                <div className="col-lg-12  col-sm-12 mb-3">
+                                <div className="col-lg-12  col-sm-12 mb-3 d-none">
                                     <div className="text-muted pt-5">
                                         <div className="row">
                                             <div className="col-auto mb-4">

@@ -143,14 +143,14 @@ const Header=()=>{
             <div className="dropdown d-inline-block">
               <button
                 type="button"
-                className="btn header-item noti-icon waves-effect"
+                className="btn header-item noti-icon waves-effect d-none"
                 id="page-header-notifications-dropdown"
                 data-bs-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
                 <i className="bx bx-bell bx-tada"></i>
-                <span className="badge bg-danger rounded-pill">3</span>
+                <span className="badge bg-danger rounded-pill d-none">3</span>
               </button>
               <div
                 className="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
