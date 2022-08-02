@@ -1,12 +1,16 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import {Link,useLocation,matchRoutes} from "react-router-dom";
+import StdFunctions from "../services/standard.functions";
+
 // import $ from 'jquery';
 
 const Sidebar=()=>{
 
     const location = useLocation();
-  let currentWindow=location.pathname;
+    let currentWindow=location.pathname;
+
+
 
   //let currentWindow = location.pathname;
   let ourBaseURL = "/Login";
@@ -35,8 +39,8 @@ const Sidebar=()=>{
                           
                           
   
-                          <li>
-                              <Link to="/" className="waves-effect">
+                          <li className={`${ StdFunctions.equalTo(currentWindow,"/")? "mm-active" : ""}`}>
+                              <Link to="/" className={`waves-effect ${ StdFunctions.equalTo(currentWindow,"/")? "active" : ""}`}>
                                   <i className="bx bx-home-circle"></i><span>Home</span>
                               </Link>
                           </li>
@@ -78,10 +82,8 @@ const Sidebar=()=>{
                               </ul>
                           </li>
   
-                      
-  
-                          <li>
-                              <Link to="/Transactions" className="waves-effect">
+                          <li className={`${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "mm-active" : ""}`}>
+                              <Link to="/Transactions" className={`waves-effect ${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "active" : ""}`}>
                                   <i className="mdi-progress-clock mdi"></i>
                                   <span>Transactions</span>
                               </Link>

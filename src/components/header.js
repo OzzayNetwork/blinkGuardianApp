@@ -1,6 +1,8 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import {Link,useLocation,matchRoutes} from "react-router-dom"
+import StdFunctions from "../services/standard.functions";
+
 
 // import $ from 'jquery';
 const Header=()=>{
@@ -20,6 +22,7 @@ const Header=()=>{
   }
   const location = useLocation();
   let currentWindow=location.pathname;
+  //alert(currentWindow)
 
   //let currentWindow = location.pathname;
   let ourBaseURL = "/Login";
@@ -324,10 +327,8 @@ const Header=()=>{
         <div className="navbar-header d-flex w-100">
           <div className="d-flex justify-content-between d-flex w-100 align-items-center">
             <div className="dropdown d-inline-block ms-2">
-              <Link to="/"
-                className="btn active header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
-              >
-                <i className="bx bx-home-circle font-size-30"></i>
+            <Link to="/" className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.equalTo(currentWindow,"/")? "active" : ""}`}>
+                <i className="bx bx-home-circle font-size-24"></i>
               </Link>
               
               <div
@@ -342,10 +343,9 @@ const Header=()=>{
 
             <div className="dropdown d-inline-block ms-2">
               <Link to="/Transactions"
-                className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
-                
+                className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "active" : ""}`}                
               >
-                <i className="mdi-progress-clock mdi font-size-30"></i>
+                <i className="mdi-progress-clock font-size-24 mdi"></i>
               </Link>
               
               <div
@@ -366,7 +366,7 @@ const Header=()=>{
               <Link to="/"
                 className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
               >
-                <i className="bx bx-file font-size-30"></i>
+                <i className="bx bx-file font-size-24"></i>
               </Link>
               
               <div
@@ -384,7 +384,7 @@ const Header=()=>{
                 className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
                 
               >
-                <i className="bx bx-user font-size-30"></i>
+                <i className="bx bx-user font-size-24"></i>
               </Link>
               
               <div

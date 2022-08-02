@@ -573,7 +573,7 @@ const Transactions =()=> {
                                 <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
 
                             </div>
-                            <div className="px-4 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
+                            <div className="px-4 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100 px-sm-0">
                             
                                 <div className="d-flex flex-column boarder-grey border-1 justify-content-center align-items-center w-100  p-3">
                                    
@@ -639,7 +639,7 @@ const Transactions =()=> {
                                     </table>
                                 </div>                                        
                             </div>
-                            <div className="px-4 pt-3 mt-3">
+                            <div className="px-4 pt-3 mt-3 px-sm-0">
                                 <div className="border-1px-solid bg-light px-4 py-3 mb-3 d-flex align-items-center justify-content-between border-15px">
                                     <div className="d-flex align-items-center">
 

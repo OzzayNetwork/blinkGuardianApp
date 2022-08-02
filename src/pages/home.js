@@ -261,7 +261,7 @@ const Home=()=>{
         {/* <!-- end page title --> */}
         <div className="row">
         <div className="col-lg-12 px-sm-30px ">
-            <div className="card d-sm-flex d-md-none">
+            <div className="card d-md-flex d-lg-none">
                 <div className="card-body">
                     <div className="row">
                     <div className="dropdown d-inline-block w-100 d-flex align-items-center">
@@ -350,7 +350,7 @@ const Home=()=>{
                 <div className="card">
                     <div className="card-body">
                         <div className="row">
-                            <div className="col-lg-4 d-sm-none d-md-flex align-content-center">
+                            <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                                     <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <div className="flex-shrink-0 me-3">
@@ -492,7 +492,7 @@ const Home=()=>{
                                                             <i className="mdi mdi-clipboard-text-multiple-outline text-white"></i>
                                                         </span>
                                                 </div>
-                                                <p className="text-muted text-truncate mb-2">{firstStudent.firstName}'s Tasks</p>
+                                                <p className="text-muted text-center mb-2">{firstStudent.firstName}'s Tasks</p>
                                             </div>
                                         </div>
 
@@ -503,7 +503,7 @@ const Home=()=>{
                                                             <i className="mdi mdi-shield-account-outline text-white"></i>
                                                         </span>
                                                 </div>
-                                                <p className="text-muted text-truncate mb-2">{firstStudent.firstName}'s Profile</p>
+                                                <p className="text-muted text-center mb-2">{firstStudent.firstName}'s Profile</p>
                                             </div>
                                         </div>
 
@@ -514,7 +514,7 @@ const Home=()=>{
                                                             <i className="mdi mdi-lock-remove-outline text-white"></i>
                                                         </span>
                                                 </div>
-                                                <p className="text-muted text-truncate mb-2">Block {firstStudent.firstName}</p>
+                                                <p className="text-muted text-center mb-2">Block {firstStudent.firstName}</p>
                                             </div>
                                         </div>
                                         
@@ -780,14 +780,14 @@ const Home=()=>{
 
                                         {allBlinkAccounts.length> 0 && allBlinkAccounts.slice(0,40).map((account, index)=>(
                                             
-                                                <div>
+                                                <div className="row">
                                                     <div className="d-none">Testing to see if my if else statememnt might work</div>
                                                         {StdFunctions.isActiveAccount(account.accountStatus) ? (
                                                         <div className={`bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between text-capitalize ${StdFunctions.isPocketMoney(account.blinkersAccountType) ? "bg-warning" : "bg-danger "}`}>
                                                         {/* <div className={'bg-danger bg-soft px-3 py-2 mb-3 d-flex align-items-center justify-content-between text-capitalize ${StdFunctions.isWelfareAccount(account.blinkersAccountType)?"d-none":""}'}> */}
                                                             <div className="d-flex align-items-center">
 
-                                                                <div className="me-3">
+                                                                <div className="me-3 d-sm-none d-md-flex">
                                                                     {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
                                                                         <img className="me-2" src="assets/images/blink-accounts/welfare.svg" alt="" height="40px"/>
                                                                         
@@ -816,7 +816,10 @@ const Home=()=>{
                                                                 <small className="mb-0 pb-0">Target Amount</small>
                                                                 
                                                                     ) : (
-                                                                        <small className="mb-0 pb-0">Current Balance</small>
+                                                                       <div className="text-right">
+                                                                       <small className="mb-0 pb-0 d-sm-none d-md-block w-100">Current Balance</small><small className="mb-0 pb-0 d-sm-block d-md-none w-100">Bal.</small>
+                                                                       </div>
+                                                                        
                                                             )}
 
                                                             {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (
@@ -919,7 +922,7 @@ const Home=()=>{
                                 <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
 
                             </div>
-                            <div className="px-4 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
+                            <div className="px-4 px-sm-0 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
                             
                                 <div className="d-flex flex-column boarder-grey border-1 justify-content-center align-items-center w-100  p-3">
                                    
@@ -985,7 +988,7 @@ const Home=()=>{
                                     </table>
                                 </div>                                        
                             </div>
-                            <div className="px-4 pt-3 mt-3">
+                            <div className="px-4 pt-3 mt-3 px-sm-0">
                                 <div className="border-1px-solid bg-light px-4 py-3 mb-3 d-flex align-items-center justify-content-between border-15px">
                                     <div className="d-flex align-items-center">
 

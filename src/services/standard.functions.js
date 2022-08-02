@@ -56,6 +56,26 @@ class stdFunctions {
         }
     }
 
+    //includes function
+    strIncludes(str1,str2){
+        if(str1.includes(str2)){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
+    //includes function
+    equalTo(str1,str2){
+        if(str1===str2){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
     //checking if a number is greater than 0
     isGreaterThanZero=(str)=>{
         str=parseFloat(str)
