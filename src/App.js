@@ -82,7 +82,7 @@ function App() {
       <BrowserRouter></BrowserRouter>
 
       <HashRouter>
-        <Loader />
+       " {/* <Loader />" */}
         <Routes>
           {/* show this if the person is not logged in */}
           {!localStorage.getItem("parentId") ? (
