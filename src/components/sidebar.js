@@ -47,7 +47,7 @@ const Sidebar=()=>{
                           
   
                           <li>
-                              <a href="javascript: void(0);" className="waves-effect has-arrow">
+                              <a  className="waves-effect has-arrow">
                                   <i className="mdi mdi-account-child"></i>
                                   <span>My Blinkers</span>
                               </a>
@@ -58,7 +58,7 @@ const Sidebar=()=>{
                           </li>
   
                           <li>
-                              <a href="javascript: void(0);" className="waves-effect has-arrow">
+                              <a  className="waves-effect has-arrow">
                                   <i className="mdi dripicons-heart"></i>
                                   <span>Donation Programs</span>
                               </a>
@@ -70,7 +70,7 @@ const Sidebar=()=>{
                           </li>
   
                           <li>
-                              <a href="javascript: void(0);" className="waves-effect has-arrow">
+                              <a  className="waves-effect has-arrow">
                                   <i className="mdi mdi-clipboard-text-outline"></i>
                                   <span>Tasks</span>
                               </a>

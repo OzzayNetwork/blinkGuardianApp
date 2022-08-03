@@ -12,5 +12,6 @@ export const axiosInstance = axios.create({
   timeout: 20000,
 });
 
-export const baseUrl = "http://test.blink.co.ke";
+export const baseUrl = "https://live.blink.co.ke";
+//export const baseUrl = "http://test.blink.co.ke";
 // export const baseUrl = "http://localhost:8081";

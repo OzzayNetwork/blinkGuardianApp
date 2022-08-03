@@ -167,7 +167,12 @@ const SendMoney=()=>{
         let data = {
             
             TransactionType:"CustomerPayBillOnline",
-            PayBillNumber:"175555",
+
+            //test paybill
+            // PayBillNumber:"175555",
+
+            //live paybill
+            PayBillNumber:"7597135",
             Amount:sendAmount,
             PhoneNumber:mpesaPhoneNum,
             CheckoutPhoneNumber:mpesaPhoneNum,

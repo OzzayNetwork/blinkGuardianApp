@@ -4,6 +4,7 @@ import $ from "jquery";
 
 
 const Loader=()=>{
+  
   return (
     <>
       <div id="preloader" className="">
@@ -18,6 +19,12 @@ const Loader=()=>{
           </div>
         </div>
       </div>
+
+      <Helmet>
+            {/* <!-- App js --> */}
+            <script src="./assets/js/app.js "></script>
+            <script src="./assets/js/custom.js "></script>
+        </Helmet>
     </>
   );
 }

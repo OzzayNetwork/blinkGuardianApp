@@ -173,6 +173,9 @@ const [errorMsg, seterrorMsg]=useState("");
               </button>
             </div>
           </form>
+          <div className="mt-5 text-center text-capitalize font-weight-semibold fw-bold">
+              <p>Have an in inactive account? <a href="auth-register-2.html" class="fw-medium text-primary"> Activate your account </a> </p>
+          </div>
         </div>
       </div>
 
