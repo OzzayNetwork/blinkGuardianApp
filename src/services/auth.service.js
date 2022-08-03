@@ -15,6 +15,11 @@ class AuthService {
    sendStkPush(data){
       return axiosInstance.post(baseUrl+"/api/v2/wallet/loadByMpesa",data)
    }
+
+   logIn(data){
+      return axiosInstance.post(baseUrl+"/api/v2/admin/auth/login-with-usertype",data)
+   }
+
    fetchTransactionByTransactionId(transactionId){
       return axiosInstance.post(baseUrl+"/api/v2/transactions/fetchTransactionByTransactionId/"+transactionId)
    }

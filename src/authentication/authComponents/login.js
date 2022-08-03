@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import $ from 'jquery';
 
+import AuthService from "../../services/auth.service";
+import StdFunctions from "../../services/standard.functions";
+
 
 
 const Login = () => {
@@ -25,12 +28,7 @@ const [errorMsg, seterrorMsg]=useState("");
       userType: "Parent",
     };
     console.log(data)
-    axios
-      .post(
-        "https://live.blink.co.ke/api/v2/admin/auth/login-with-usertype",
-        data
-      )
-      .then((res) => {
+    AuthService.logIn(data).then((res) => {
         console.log(res);
         
         if(res.status===200){
