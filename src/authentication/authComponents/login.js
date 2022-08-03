@@ -27,7 +27,7 @@ const [errorMsg, seterrorMsg]=useState("");
     console.log(data)
     axios
       .post(
-        "http://test.blink.co.ke/api/v2/admin/auth/login-with-usertype",
+        "https://live.blink.co.ke/api/v2/admin/auth/login-with-usertype",
         data
       )
       .then((res) => {
