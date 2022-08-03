@@ -180,8 +180,18 @@ const SendMoney=()=>{
             TransactionDesc:"Topping up to "+StdFunctions.removeUnderscore(sendAccountName),
             userProfileId:StdFunctions.parentId,
             userId:StdFunctions.parentId,
+
+            //live service id
             transactionServiceId:6,
+
+            //live merchant Id
             merchantId:8
+
+            //Test service id
+            //transactionServiceId:1,
+
+            //Test merchant Id
+            //merchantId:1
           };
           let theStatus="Pending"
          
@@ -537,7 +547,7 @@ const SendMoney=()=>{
   
                                       <div className="col-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 0.00                                        
+                                          {StdFunctions.kenyaCurrency(sendAmount)}                                    
                                           </div>
                                       </div>
                                       <div className="col-12 text-black"><hr className="mb-0 pb-0"/></div>
@@ -659,7 +669,7 @@ const SendMoney=()=>{
   
                                       <div className="col-lg-6 align-self-end">
                                           <div className=" text-right text-black">
-                                              KES 0.00                                        
+                                          {StdFunctions.kenyaCurrency(sendAmount)}                                       
                                           </div>
                                       </div>
                                       <div className="col-12 text-black"><hr className="mb-0 pb-0"/></div>
