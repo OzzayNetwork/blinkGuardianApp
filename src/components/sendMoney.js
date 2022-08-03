@@ -180,8 +180,8 @@ const SendMoney=()=>{
             TransactionDesc:"Topping up to "+StdFunctions.removeUnderscore(sendAccountName),
             userProfileId:StdFunctions.parentId,
             userId:StdFunctions.parentId,
-            transactionServiceId:1,
-            merchantId:1
+            transactionServiceId:6,
+            merchantId:8
           };
           let theStatus="Pending"
          
