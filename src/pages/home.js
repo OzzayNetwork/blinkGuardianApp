@@ -645,7 +645,7 @@ const Home=()=>{
                                             
                                             <tbody>
 
-                                            {studentTransactions.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
+                                            {studentTransactions.length>0 && studentTransactions.slice(0,100).map((transaction,index)=>(
                                                 <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
                                                     <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">
@@ -960,6 +960,7 @@ const Home=()=>{
                                                     <th scope="col" colspan="2">Items</th>
                                                     <th scope="col" className="text-center">Qty</th>
                                                     <th scope="col" className="text-right">Price</th>
+                                                    <th scope="col" className="text-right">Total</th>
                                                 </tr>  
                                             ):(
                                                 <></>
@@ -972,6 +973,8 @@ const Home=()=>{
                                                 <th scope="row">{index+1}.</th>
                                                 <td>{productItem.productName}</td>
                                                 <td className="text-center">{productItem.units}</td>
+                                                <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice*productItem.units)}</td>
+
                                                 <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice)}</td>
                                             </tr>
                                         ))}
@@ -980,7 +983,7 @@ const Home=()=>{
                                             
                                         </tbody>
                                         {StdFunctions.isMerchantPay(transactionServiceCategory)?(
-                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
+                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="2" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
                                             
                                         ):(
                                             <></>

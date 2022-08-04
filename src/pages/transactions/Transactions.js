@@ -610,7 +610,9 @@ const Transactions =()=> {
                                                 <tr>
                                                     <th scope="col" colspan="2">Items</th>
                                                     <th scope="col" className="text-center">Qty</th>
-                                                    <th scope="col" className="text-right">Price</th>
+                                                    <th className="text-right">Price</th>
+
+                                                    <th scope="col" className="text-right">Total</th>
                                                 </tr>  
                                             ):(
                                                 <></>
@@ -624,6 +626,8 @@ const Transactions =()=> {
                                                 <td>{productItem.productName}</td>
                                                 <td className="text-center">{productItem.units}</td>
                                                 <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice)}</td>
+
+                                                <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice*productItem.units)}</td>
                                             </tr>
                                         ))}
                                             
@@ -631,7 +635,7 @@ const Transactions =()=> {
                                             
                                         </tbody>
                                         {StdFunctions.isMerchantPay(transactionServiceCategory)?(
-                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
+                                            <tfoot><tr><th colspan="2" className="pt-3 text-uppercase">Total</th><th className="text-center pt-3">{boughtItemsQty}</th><th colspan="2" className="text-right pt-3">{StdFunctions.kenyaCurrency(transactionDetails?.amount)}</th></tr></tfoot>
                                             
                                         ):(
                                             <></>
