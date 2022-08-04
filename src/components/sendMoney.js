@@ -493,7 +493,7 @@ $('body').on('click','.payment-prev', function(){
                                           <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                               <div className="accordion-body">
                                                   <div className="text-muted">
-                                                      <p><strong className="text-black">KSH 250</strong> plus <strong className="text-black">KES 50 as transaction fee</strong> will be deducted from your Guardian Blink Wallet and the amount will be credited to <strong className="text-black">Alex's Blink Wallet Account.</strong></p>
+                                                      <p><strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}</strong> will be deducted from your Guardian Blink Wallet and the amount will be credited to <strong className="text-black">Alex's Blink Wallet Account.</strong></p>
                                               
                                                   </div>
                                                   <div className="form-group">
@@ -574,13 +574,13 @@ $('body').on('click','.payment-prev', function(){
                                           </div>
                                       </div>
   
-                                      <div className="col-6">
+                                      <div className="col-6 d-none">
                                           <div className="text-muted mt-4">
                                               Transaction Fee                                          
                                           </div>
                                       </div>
   
-                                      <div className="col-6 align-self-end">
+                                      <div className="col-6 align-self-end d-none">
                                           <div className=" text-right text-black">
                                           {StdFunctions.kenyaCurrency(sendAmount)}                                    
                                           </div>
@@ -696,13 +696,13 @@ $('body').on('click','.payment-prev', function(){
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6">
+                                      <div className="col-lg-6 d-none">
                                           <div className="text-muted mt-4 text-left">
                                               Transaction Fee                                          
                                           </div>
                                       </div>
   
-                                      <div className="col-lg-6 align-self-end">
+                                      <div className="col-lg-6 align-self-end d-none">
                                           <div className=" text-right text-black">
                                           {StdFunctions.kenyaCurrency(sendAmount)}                                       
                                           </div>
