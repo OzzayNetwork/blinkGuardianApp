@@ -62,38 +62,9 @@ $(window).on('load', function() {
         }
     });
 
-    //sending payment
-    $('body').on('click','.payment-next', function(){
+    
 
-        $('.payment-prev').prop('disabled', false)       
-        var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
-        var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
-        theCurrentIndex=theCurrentIndex+2;
-        if(theCurrentIndex!=countTheSteps){
-            $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').next().removeClass('d-none').addClass('payment-active-panel')
-        }
-        if (theCurrentIndex==countTheSteps-1) {
-            $('.payment-next').addClass('d-none');
-        }
-
-        // else{
-        //     $('.payment-next').addClass('d-none'); 
-        // }
-          
-        
-
-    })
-
-    $('body').on('click','.payment-prev', function(){
-        $('.payment-next').removeClass('d-none');  
-        var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
-        var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
-        if(theCurrentIndex!=0){
-            $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').prev().removeClass('d-none').addClass('payment-active-panel')
-        }   
-        
-
-    });
+    
     $('body').on('click', '.btn-sen', function(){
         $('#walletTopUp .modal-footer').addClass('d-none');
         $('#walletTopUp .close-modal').addClass('d-none');

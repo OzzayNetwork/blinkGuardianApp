@@ -246,6 +246,41 @@ const SendMoney=()=>{
     }
 
 
+    //sending payment
+   //sending payment
+   $('body').unbind().on('click','.payment-next', function(){
+
+    $('.payment-prev').prop('disabled', false)       
+    var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
+    var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
+    theCurrentIndex=theCurrentIndex+2;
+    if(theCurrentIndex!=countTheSteps){
+        $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').next().removeClass('d-none').addClass('payment-active-panel')
+    }
+    if (theCurrentIndex==countTheSteps-1) {
+        $('.payment-next').addClass('d-none');
+    }
+
+    // else{
+    //     $('.payment-next').addClass('d-none'); 
+    // }
+      
+    
+
+})
+
+$('body').on('click','.payment-prev', function(){
+    $('.payment-next').removeClass('d-none');  
+    var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
+    var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
+    if(theCurrentIndex!=0){
+        $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').prev().removeClass('d-none').addClass('payment-active-panel')
+    }   
+    
+
+});
+
+
 
     return (
         <>
@@ -628,7 +663,7 @@ const SendMoney=()=>{
                                   
                               </div>
                           </div>
-                          <div className="text-center d-flex flex-column justify-content-around align-items-center sent-success d-none payment-panel">
+                          <div className="text-center d-flex flex-column justify-content-around align-items-center sent-success payment-panel d-none">
                               <div className="success-image mb-4">
                                   <img src="assets/images/payment-confirmation-images/sent.svg" height="200" alt=""/>                                
                               </div>
