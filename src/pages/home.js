@@ -645,7 +645,7 @@ const Home=()=>{
                                             
                                             <tbody>
 
-                                            {studentTransactions.length>0 && studentTransactions.slice(0,100).map((transaction,index)=>(
+                                            {studentTransactions.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
                                                 <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
                                                     <th scope="row" className="px-sm-0">
                                                         <div className="d-flex align-items-center">

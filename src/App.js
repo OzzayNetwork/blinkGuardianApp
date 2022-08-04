@@ -82,7 +82,7 @@ function App() {
       <BrowserRouter></BrowserRouter>
 
       <HashRouter>
-        <Loader />
+        {/* <Loader /> */}
         <Routes>
           {/* show this if the person is not logged in */}
           {!localStorage.getItem("parentId") ? (
@@ -125,8 +125,8 @@ function App() {
         {/* <!-- App js --> */}
         <script src="./assets/libs/parsleyjs/parsley.min.js"></script>
         <script src="./assets/js/pages/form-validation.init.js"></script>
-        {/* <script src="./assets/js/app.js "></script>
-        <script src="./assets/js/custom.js "></script> */}
+        <script src="./assets/js/app.js "></script>
+        <script src="./assets/js/custom.js "></script>
       </Helmet>
     </>
   );

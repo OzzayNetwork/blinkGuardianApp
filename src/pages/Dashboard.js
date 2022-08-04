@@ -22,7 +22,7 @@ const Dashboard=()=>{
    <>
     <main  className="d-non">        
           <div id="layout-wrapper" className="d-n">
-
+            
               <Header />
               <Sidebar />
               <SendMoney />
