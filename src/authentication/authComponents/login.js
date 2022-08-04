@@ -125,7 +125,7 @@ const [errorMsg, seterrorMsg]=useState("");
 
             <div className="mb-3">
               <div className="float-end">
-                <Link to="PasswordReset" className="text-muted">
+                <Link to="PasswordReset" className="fw-medium">
                   Forgot password?
                 </Link>
               </div>

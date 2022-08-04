@@ -115,6 +115,12 @@ const AuthMainContainer =()=>{
               </div>
               {/* <!-- end container-fluid --> */}
           </div>
+
+          <Helmet>
+            {/* <!-- App js --> */}
+            <script src="./assets/js/app.js "></script>
+            <script src="./assets/js/custom.js "></script>
+        </Helmet>
         </>
       )
 }

@@ -42,7 +42,7 @@ const Dashboard=()=>{
           </div>
           {/* <Home /> */}
 
-          <Helmet>
+        <Helmet>
             {/* <!-- App js --> */}
             <script src="./assets/js/app.js "></script>
             <script src="./assets/js/custom.js "></script>
