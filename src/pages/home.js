@@ -13,6 +13,7 @@ const Home=()=>{
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
+    const parentFName=localStorage.getItem("parentUserFName")
 
     // this stores all the student transactions
     const [studentTransactions, setStudentTransactions] = useState([])
@@ -258,6 +259,13 @@ const Home=()=>{
                 </div>
             </div>
         </div>
+
+        <div className="row d-sm-flex d-md-none">
+            <div className="col-12">
+                <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium m-0">Good Evening, {parentFName}</h4>
+            </div>
+        </div>
+
         {/* <!-- end page title --> */}
         <div className="row">
         <div className="col-lg-12">
@@ -347,7 +355,7 @@ const Home=()=>{
             </div>
         </div>
             <div className="col-lg-12 ">
-                <div className="card no-shadow-sm">
+                <div className="card no-shadow-sm mb-sm-0 mb-md-4 mb-xs-0 mb-0 mb-xm-0">
                     <div className="card-body">
                         <div className="row">
                             <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
@@ -580,7 +588,7 @@ const Home=()=>{
                                         </div>
                                     </div>
 
-                                    <div className="row d-none">
+                                    <div className="row d-non">
                                         <div className="col-6">
                                             <div className="d-flex align-items-center">
                                                 <span className="badge  badge-soft-light font-size-12"> KES 50 </span> <span className="ms-2 mb-0 pb-0 text-truncate text-white">Used Today</span>

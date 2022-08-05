@@ -1119,6 +1119,9 @@
             .px-2{
                 padding: .75rem !important;
             }
+            .min-h-90{
+                min-height: 60vh !important;
+            }
 
             @media (max-width: 576px) {
                 .pt-sm-24{

@@ -231,7 +231,7 @@ const Transactions =()=> {
         <div className="container-fluid">
 
         {/* <!-- start page title --> */}
-        <div className="row">
+        <div className="row d-sm-none d-md-flex">
             <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
                     <h4 className="mb-sm-0 font-size-18">Transactions For {firstStudent.firstName} </h4>
@@ -246,11 +246,17 @@ const Transactions =()=> {
                 </div>
             </div>
         </div>
+
+        <div className="row d-sm-flex d-md-none">
+            <div className="col-12">
+                <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium ">Transactions</h4>
+            </div>
+        </div>
         {/* <!-- end page title --> */}
         <div className="row">
-            <div className="col-12 px-sm-30px">
-                <div className="card">
-                    <div className="card-header bg-white w-100 d-flex justify-content-between align-items-center w-100 border-bottom">
+            <div className="col-12">
+                <div className="card no-shadow-sm">
+                    <div className="card-header pt-2 bg-white w-100 d-flex justify-content-between align-items-center w-100 border-bottom">
                         <div className="col-sm-12 w-100 col-md-6 col-lg-8 col-xl-5">
                         <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                             <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -271,7 +277,7 @@ const Transactions =()=> {
                                 
                                 {StdFunctions.isBlinkersMore(students.length)?(
                                             <div className="d-flex   justify-content-center align-items-center">
-                                                <span className="d-flex align-items-center"><small className="text-info mr-3 d-sm-none d-md-flex">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                <span className="d-flex align-items-center"><small className="text-info mr-3 pe-2 d-sm-none d-md-flex">Click to change</small> <span class="badge rounded-pill bg-primary-blink float-end">+{students?.length-1} More</span><i className="mdi mdi-chevron-down  d-xl-inline-block me-0 font-21"></i></span>
                                             </div>
                                         ):(
                                         <span></span>
@@ -320,7 +326,7 @@ const Transactions =()=> {
                         </div>
                         </div>
                     </div>
-                    <div className="card-body show-trans-cont">
+                    <div className="card-body show-trans-cont min-h-90 px-sm-0 pt-sm-0">
                         <div className="table-responsive  d-xs-none d-md-flex d-sm-none">
 
                             <table className="table align-middle table-nowrap table-hover  contacts-table table-striped " id="datatable-buttons">
@@ -431,7 +437,7 @@ const Transactions =()=> {
 
                                 {studentTransactions.length>0 && studentTransactions.map((transaction,index)=>(
                                     <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
-                                        <th scope="row" className="px-sm-0">
+                                        <th scope="row" className="px-sm-0 pl-sm-2">
                                             <div className="d-flex align-items-center">
                                                 <div className="avatar-xs me-0">
                                                     
@@ -479,7 +485,7 @@ const Transactions =()=> {
                                                 
                                             </p>
                                         </td>
-                                        <td className="text-right px-sm-0 text-capitalize">
+                                        <td className="text-right px-sm-0 text-capitalize pr-sm-2">
 
                                                     {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                 <h5 className="font-size-14 mb-1 text-success">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>
