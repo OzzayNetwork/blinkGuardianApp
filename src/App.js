@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 // importing sevices
 import AuthServices from "./services/auth.service";
 
+import ErrorBoundary from './components/ErrorBoundary'
+
 import Login from "./authentication/authComponents/login.js";
 import PasswordReset from "./authentication/authComponents/passwordReset.js";
 import OTPVerification from "./authentication/authComponents/otpVerification.js";

@@ -1101,11 +1101,51 @@
             #bottom-nav a.active{
                 border-top: 4px solid #ec5b0e !important;
             } 
+            .border-bottom-1px{
+                border-bottom: 1px solid #c1c3cc54;
+            }
 
             .bg-danger{
                 background-color: #FF0000 !important;
             }
+            .no-shadow{
+                -webkit-box-shadow:none !important;
+                box-shadow: none !important;
+            }
+            .mx-0{
+                margin-right: 0px !important;
+                margin-left: 0px !important;
+            }
+            .px-2{
+                padding: .75rem !important;
+            }
+
             @media (max-width: 576px) {
+                .pt-sm-24{
+                    padding-top: 24px !important;
+                }
+                .border-sm-bottom-1px{
+                    border-bottom: 1px solid #c1c3cc54;
+                }
+                .page-content{
+                    padding-top: 70px !important;
+                }
+                .mt-sm-0{
+                    margin-top: 0px !important;
+                }
+                .p-sm-0{
+                    padding: 0px !important;
+                }
+                .pt-sm-0{
+                    padding-top: 0px !important;
+                }
+                .no-shadow-sm{
+                    -webkit-box-shadow:none !important;
+                    box-shadow: none !important;
+                }
+                body{
+                    background:white
+                }
                 .py-sm-0{
                     padding-top:0px !important;
                     padding-bottom:0px !important
@@ -1175,6 +1215,31 @@
                 .px-sm-0{
                     padding-right: 0px !important;
                     padding-left: 0px !important;
+                }
+                .mx-sm-2{
+                    margin-left: 0.75rem !important;
+                    margin-right: 0.75rem !important;
+                }
+                .mx-sm-3{
+                    margin-left: 1rem !important;
+                    margin-right: 1rem !important;
+                }
+
+                .py-sm-3{
+                    padding-top: 1rem !important;
+                    padding-bottom: 1rem !important;
+                }
+
+                .px-sm-2{
+                    padding-left: 0.75rem !important;
+                    padding-right: 0.75rem !important;
+                }
+                .pl-sm-2{
+                    padding-left: .75rem !important;
+                }
+
+                .pr-sm-2{
+                    padding-right: .75rem !important;
                 }
             }
             
@@ -1365,4 +1430,9 @@
                   iframe{
                     z-index: -100000000000000000000000000000000000000 !important;
                   }
+
+                  #bottom-nav .noti-icon i {
+                    font-size: 22px;
+                    color: black;
+                }
                   

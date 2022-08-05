@@ -260,9 +260,9 @@ const Home=()=>{
         </div>
         {/* <!-- end page title --> */}
         <div className="row">
-        <div className="col-lg-12 px-sm-30px ">
-            <div className="card d-md-flex d-lg-none">
-                <div className="card-body">
+        <div className="col-lg-12">
+            <div className="card d-md-flex d-lg-none no-shadow border-bottom-1px mb-0">
+                <div className="card-body mt-0  ">
                     <div className="row">
                     <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                         <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -270,18 +270,18 @@ const Home=()=>{
                                 <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                 <div className="avatar-sm mx-auto ">
                                     <span className="avatar-title rounded-circle bg-random font-size-20">
-                                        {studentProfile.institution != undefined && firstStudent.firstName.charAt(0)+""+firstStudent.middleName.charAt(0)}
+                                        {studentProfile?.institution != undefined && firstStudent?.firstName.charAt(0)+""+firstStudent?.middleName.charAt(0)}
                                     </span>
                                 </div>
                             </div>
                             
                             <div className="flex-grow-1 chat-user-box me-3">
-                                <h6 className="user-title m-0 font-size-18">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                <h6 className="user-title m-0 font-size-18 text-black">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                 <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                             </div>
-                            {StdFunctions.isBlinkersMore(students.length)?(
+                            {StdFunctions.isBlinkersMore(students?.length)?(
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                    <span class="badge rounded-pill bg-primary-blink float-end">+{students?.length-1} More</span><span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                 </div>
                                 ):(
                                 <span></span>
@@ -291,7 +291,7 @@ const Home=()=>{
                         
 
                         
-                        <div className={`dropdown-menu dropdown-menu-lg dropdown-menu-start p-0 w-100 ${StdFunctions.isgreaterThanOne(myBlinkersCount) ? "" : "d-none"}`}>
+                        <div className={`dropdown-menu dropdown-menu-lg dropdown-menu-start p-0 w-100 ${StdFunctions?.isgreaterThanOne(myBlinkersCount) ? "" : "d-none"}`}>
                             <div className="p-3">
                                 <div className="row align-items-center">
                                     <div className="col">
@@ -302,20 +302,20 @@ const Home=()=>{
                                     </div>
                                 </div>
                             </div>
-                            {students.length> 1 && students.map((item, index)=>(
+                            {students?.length> 1 && students.map((item, index)=>(
                                 <div  style={{ maxheight: "230px" }}>
-                                    <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                    <a onClick={()=> blinkerClicked(item?.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
                                             <div className="avatar-sm mx-auto ">
                                                 <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
-                                                    {item.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                    {item?.firstName.charAt(0)+item.middleName.charAt(0)}
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="flex-grow-1 chat-user-box">
-                                            <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
-                                            <p className="text-muted">{item.blinkId}</p>
+                                            <p className="user-title m-0">{item?.firstName+" "+item.middleName}</p>
+                                            <p className="text-muted">{item?.blinkId}</p>
                                         </div>                                                            
                                     </a>
                                     </div>
@@ -346,8 +346,8 @@ const Home=()=>{
                 </div>
             </div>
         </div>
-            <div className="col-lg-12 px-sm-30px">
-                <div className="card">
+            <div className="col-lg-12 ">
+                <div className="card no-shadow-sm">
                     <div className="card-body">
                         <div className="row">
                             <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
@@ -363,12 +363,12 @@ const Home=()=>{
                                         </div>
                                         
                                         <div className="flex-grow-1 chat-user-box me-3">
-                                            <h6 className="user-title m-0 font-size-18">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                            <h6 className="user-title m-0 font-size-18 text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                             <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                                         </div>
                                         {StdFunctions.isBlinkersMore(students.length)?(
                                             <div className="d-flex justify-content-center align-items-center">
-                                               <span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                <span class="badge rounded-pill bg-primary-blink float-end">+{students?.length-1} More</span><span><i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                             </div>
                                             ):(
                                             <span></span>
@@ -401,7 +401,7 @@ const Home=()=>{
                                                         </div>
                                                     </div>
                                                     <div className="flex-grow-1 chat-user-box">
-                                                        <p className="user-title m-0">{item.firstName+" "+item.middleName}</p>
+                                                        <p className="user-title m-0 text-black">{item.firstName+" "+item.middleName}</p>
                                                         <p className="text-muted">{item.blinkId}</p>
                                                     </div>                                                            
                                                 </a>
@@ -432,14 +432,14 @@ const Home=()=>{
                             </div>
 
                             <div className="col-lg-8 col-sm-12 align-self-center p-sm-0">
-                                <div className="text-lg-left mt-4 mt-lg-0">
+                                <div className="text-lg-left mt-4 mt-lg-0 mt-sm-0">
                                     <div className="row">
                                         <div className="col-sm-6  col-md-3 d-none">
                                             <div className="px-2">
                                                 <div className="avatar-sm mb-3">
                                                     <span className="avatar-title rounded-circle bg-info font-size-24">
-                                                            <i className="mdi mdi-account-child text-white"></i>
-                                                        </span>
+                                                        <i className="mdi mdi-account-child text-white"></i>
+                                                    </span>
                                                 </div>
                                                 <p className="text-muted text-truncate mb-2">All Blinkers</p>
                                                 <h5 className="mb-0">{myBlinkersCount}</h5>
@@ -485,38 +485,49 @@ const Home=()=>{
                                         <div className="col-12 d-none">
                                             <hr/>
                                         </div>
-                                        <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
-                                                <div className="avatar-sm mb-3">
-                                                    <span className="avatar-title rounded-circle bg-info font-size-24">
-                                                            <i className="mdi mdi-clipboard-text-multiple-outline text-white"></i>
-                                                        </span>
+                                        <div className="col-3 d-none">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                <div className="avatar-sm mb-0">
+                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/tasks.svg" alt="" height="45px"/>
+                                                    </div>
                                                 </div>
-                                                <p className="text-muted text-center mb-2">{firstStudent.firstName}'s Tasks</p>
+                                                <p className="fw-medium text-black text-center text-center mb-0 mt-3">{firstStudent?.firstName}'s Tasks</p>
                                             </div>
                                         </div>
 
-                                        <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
-                                                <div className="avatar-sm mb-3">
-                                                    <span className="avatar-title rounded-circle bg-primary-blink font-size-24">
-                                                            <i className="mdi mdi-shield-account-outline text-white"></i>
-                                                        </span>
+                                        <a href="#" className="col-4 waves-effect py-3">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                <div className="avatar-sm mb-0">
+                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/profile.svg" alt="" height="45px"/>
+                                                    </div>
                                                 </div>
-                                                <p className="text-muted text-center mb-2">{firstStudent.firstName}'s Profile</p>
+                                                <p className="fw-medium text-black text-center text-center mb-0 mt-3">{firstStudent?.firstName}'s Profile</p>
                                             </div>
-                                        </div>
+                                        </a>
 
-                                        <div className="col-4 ">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-2">
-                                                <div className="avatar-sm mb-3">
-                                                    <span className="avatar-title rounded-circle bg-danger font-size-24">
-                                                            <i className="mdi mdi-lock-remove-outline text-white"></i>
-                                                        </span>
+                                        <a href="#" className="col-4 waves-effect py-3">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                <div className="avatar-sm mb-0">
+                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
+                                                    </div>
                                                 </div>
-                                                <p className="text-muted text-center mb-2">Block {firstStudent.firstName}</p>
+                                                <p className="text-black fw-medium text-center mb-0 mt-3">Restrictions</p>
                                             </div>
-                                        </div>
+                                        </a>
+
+                                        <a href="#" className="col-4 waves-effect py-3">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                <div className="avatar-sm mb-0">
+                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
+                                                    </div>
+                                                </div>
+                                                <p className="text-black fw-medium text-center mb-0 mt-3">Block {firstStudent?.firstName}</p>
+                                            </div>
+                                        </a>
                                         
                                     </div>
                                 </div>
@@ -533,10 +544,10 @@ const Home=()=>{
 
 
             <div className="row">
-                <div className="col-md-6 col-lg-6 col-xl-5 col-sm-12 px-sm-30px">
+                <div className="col-md-6 col-lg-6 col-xl-5 col-sm-12">
                     <div className="row">
                         <div className="col-12 d-non ">
-                            <div className="card bg-primary bg-primary-blink blink-card-bg">
+                            <div className="card bg-primary bg-primary-blink blink-card-bg mx-0 mx-sm-3">
                                 <div className="card-body blink-car">
 
                                 <div className="d-flex justify-content-between align-items-center mb-2">
@@ -544,7 +555,7 @@ const Home=()=>{
                                             <img src="assets/images/users/avatar-1.jpg" className="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
                                             <div class="avatar-md mx-auto ">
                                                 <span class="avatar-title rounded-circle bgrandom7 font-size-24 border-white">
-                                                {studentProfile.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
+                                                {studentProfile?.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
                                                 </span>
                                             </div>
                                         
@@ -558,13 +569,13 @@ const Home=()=>{
                                     
                                         <div className="flex-grow-1">
                                             <p className="m-0 p-0 text-white-50">Blink Wallet Holder</p>
-                                            <h4 className="font-size-15 mb-0 text-white text-capitalize">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h4>
+                                            <h4 className="font-size-15 mb-0 text-white text-capitalize">{studentProfile?.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h4>
                                             
                                         </div>
 
                                         <div className="flex-grow-1 text-right">
                                             <p className="m-0 p-0 text-white-50">School</p>
-                                            <h5 className="font-size-15 mb-0 text-white">{studentProfile.institution != undefined && studentProfile.institution.institutionName}</h5>
+                                            <h5 className="font-size-15 mb-0 text-white">{studentProfile?.institution != undefined && studentProfile.institution.institutionName}</h5>
                                             
                                         </div>
                                     </div>
@@ -585,7 +596,7 @@ const Home=()=>{
                                 <div className="card-footer">
                                     <div className="text-white">
                                         <p className="text-white-50 text-truncate mb-0">Wallet Balance.</p>
-                                        <h3 className="text-white kenyan-carency">{studentProfile.blinkaccounts != undefined && StdFunctions.kenyaCurrency(studentProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
+                                        <h3 className="text-white kenyan-carency">{studentProfile?.blinkaccounts != undefined && StdFunctions.kenyaCurrency(studentProfile?.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
                                        
                                     
                                     </div>
@@ -623,15 +634,15 @@ const Home=()=>{
                         </div>
                         <div className="col-12">
                             {/* <div className="card history-card"> */}
-                            <div className="card history-card">
-                                <div className="card-header bg-white">
-                                    <h4 className="card-title mb-0 text-capitalize">Recent Transactions for {firstStudent.firstName}</h4>
+                            <div className="card history-card no-shadow-sm border-sm-bottom-1px">
+                                <div className="card-header bg-white px-sm-2 py-sm-3">
+                                    <h4 className="card-title mb-0 text-capitalize text-black">Recent Transactions for {firstStudent?.firstName}</h4>
                                 </div>
-                                <div className="card-body px-2 show-trans-cont d-none">                                           
+                                <div className="card-body px-2 show-trans-cont d-none px-sm-0 pt-sm-0">                                           
 
                                     <div className="table-responsive">
                                         <table className="table table-nowrap  align-middle mb-0 table-hover ">
-                                        <thead className="table-light">
+                                        <thead className="table-light text-black">
                                             <tr>
                                                 
                                                 <th className="" colspan="2">
@@ -645,9 +656,9 @@ const Home=()=>{
                                             
                                             <tbody>
 
-                                            {studentTransactions.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
+                                            {studentTransactions?.length>0 && studentTransactions.slice(0,4).map((transaction,index)=>(
                                                 <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
-                                                    <th scope="row" className="px-sm-0">
+                                                    <th scope="row" className="px-sm-0 pl-sm-2">
                                                         <div className="d-flex align-items-center">
                                                             <div className="avatar-xs me-0">
                                                                
@@ -665,7 +676,7 @@ const Home=()=>{
                                                         </div>
                                                     </th>
                                                     <td>
-                                                        <div  className="text-truncate text-capitalize product-items-trunc" >
+                                                        <div  className="text-truncate text-black fw-medium text-capitalize product-items-trunc" >
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     StdFunctions.phoneOutput(transaction.accountFrom)
                                                                 ):(
@@ -695,7 +706,7 @@ const Home=()=>{
                                                             
                                                         </p>
                                                     </td>
-                                                    <td className="text-right px-sm-0 text-capitalize">
+                                                    <td className="text-right px-sm-0 text-capitalize pr-sm-2">
 
                                                              {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                             <h5 className="font-size-14 mb-1 text-success">{StdFunctions.kenyaCurrency(transaction.amount)}</h5>
@@ -730,8 +741,8 @@ const Home=()=>{
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 px-sm-30px">
-                    <div className="card expenditure-card">
+                <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 ">
+                    <div className="card expenditure-card no-shadow-sm">
                         <div className="card-body">
                             <h4 className="card-title mb-0 d-none">Expenditure</h4>
                             <small className="mb-4 text-muted d-none">The last 12 Months for {studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</small>
@@ -774,8 +785,12 @@ const Home=()=>{
                                     </div>
                                 </div>
                                 <div className="col-lg-12 col-sm-12">
-                                    <h4 className="card-title font-12px pt-5 mb-0 ">All Accounts summary for {firstStudent.firstName}</h4>
-                                    <p className="text-muted">Expenditure and transactions </p>
+                                    <div>
+                                        <div className="row">
+                                            <h4 className="card-title font-12px pt-5 mb-0 ">All Accounts summary for {firstStudent.firstName}</h4>
+                                            <p className="text-muted">Expenditure and transactions </p>
+                                        </div>
+                                    </div>
                                     <div>
 
                                         {allBlinkAccounts.length> 0 && allBlinkAccounts.slice(0,40).map((account, index)=>(
@@ -919,7 +934,7 @@ const Home=()=>{
                                         )}
                                    
                                 </h2>
-                                <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+                                <p className="text-uppercase mb-4">Transaction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
 
                             </div>
                             <div className="px-4 px-sm-0 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
@@ -973,9 +988,8 @@ const Home=()=>{
                                                 <th scope="row">{index+1}.</th>
                                                 <td>{productItem.productName}</td>
                                                 <td className="text-center">{productItem.units}</td>
-                                                <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice*productItem.units)}</td>
-
                                                 <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice)}</td>
+                                                <td className="text-right">{StdFunctions.kenyaCurrency(productItem.unitPrice*productItem.units)}</td>
                                             </tr>
                                         ))}
                                             

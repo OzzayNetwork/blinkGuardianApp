@@ -9,6 +9,7 @@ import Header from "../components/header.js";
 import Footer from "../components/Footer.js";
 import Sidebar from "../components/sidebar.js";
 import SendMoney from "../components/sendMoney.js";
+import ErrorBoundary from "../components/ErrorBoundary.js";
 import Transactions from "./transactions/Transactions.js";
 
 import AuthMainContainer from "../authentication/authMainContainer.js";
@@ -23,14 +24,14 @@ const Dashboard=()=>{
     <main  className="d-non">        
           <div id="layout-wrapper" className="d-n">
             
-              <Header />
-              <Sidebar />
-              <SendMoney />
+              <ErrorBoundary><Header /></ErrorBoundary>
+              <ErrorBoundary><Sidebar /></ErrorBoundary>
+              <ErrorBoundary><SendMoney /></ErrorBoundary>
             <div className="main-content">
               <div className="page-content padding-sm-94">
                 <Routes>
-                  <Route exact path={"/"} element={<Home/>}></Route>
-                  <Route exact path={"/Transactions"} element={<Transactions/>}></Route>
+                  <Route exact path={"/"} element={<ErrorBoundary><Home/></ErrorBoundary>}></Route>
+                  <Route exact path={"/Transactions"} element={<ErrorBoundary><Transactions/></ErrorBoundary>}></Route>
                 </Routes>
 
                 <div className="mx-5 px-5 d-none">

@@ -130,11 +130,11 @@ const [errorMsg, seterrorMsg]=useState("");
                 </Link>
               </div>
               <label className="form-label">Password</label>
-              <div className="input-group auth-pass-inputgroup">
+              <div className="input-group auth-pass-inputgroup text-capitalize">
                 <input
                   type="password"
                   className="form-control"
-                  placeholder="Enter password"
+                  placeholder="Enter your four Digit password"
                   aria-label="Password"
                   aria-describedby="password-addon"
                   onChange={(event)=>setPassword(event.target.value)}
