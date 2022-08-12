@@ -336,7 +336,7 @@ const Home=()=>{
 
         <div className="row d-sm-flex d-md-none">
             <div className="col-12">
-                <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium m-0">Good Evening, {parentFName}</h4>
+                <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium m-0">Hello, {parentFName}</h4>
             </div>
         </div>
 
