@@ -683,7 +683,7 @@ const Home=()=>{
                                     
                                     </div>
                                     <div>
-                                        <button class="btn btn btn-dark waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Send Money</button>
+                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Send Money</button>
                                     </div>
                                 </div>
                             </div>
