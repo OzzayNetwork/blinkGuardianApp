@@ -663,13 +663,13 @@ const Home=()=>{
                                     </div>
 
                                     <div className="row d-non">
-                                        <div className="col-6">
+                                        <div className="col-sm-12 col-md-6 ">
                                             <div className="d-flex align-items-center">
                                                 <span className="badge  badge-soft-light font-size-12"> {StdFunctions.kenyaCurrency(todaysExpenditure)} </span> <span className="ms-2 mb-0 pb-0 text-truncate text-white">Used Today</span>
 
                                             </div>
                                         </div>
-                                        <div className="col-6 d-flex align-items-end justify-content-end text-right">
+                                        <div className="col-6 d-sm-none d-md-flex align-items-end justify-content-end text-right">
                                             <span className="mt-0 mb-0 text-nowrap"><span className="badge badge-soft-light font-size-11 me-2"> {StdFunctions.kenyaCurrency(todaysExpenditure-yesterdaysExpenditure)} <i className="mdi mdi-arrow-up"></i> </span> <span className="text-white opacity-50">From Yesterday</span></span>
 
                                         </div>
