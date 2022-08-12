@@ -28,6 +28,12 @@ class AuthService {
       //let transactionId=30
       //return axiosInstance.post("https://live.blink.co.ke/api/v2/transactions/searchTransaction?transactionId/"+transactionId)
    }
+
+   getTransactionsByDate(userId,dateFrom,dateTo){
+      return axiosInstance.get(baseUrl+"/api/v2/transactions/searchTransaction?userId="+userId+"&fromDateTime="+dateFrom+"&toDateTime="+dateTo)
+      //let transactionId=30
+      //return axiosInstance.post("https://live.blink.co.ke/api/v2/transactions/searchTransaction?transactionId/"+transactionId)
+   }
 }
 
 export default new AuthService();

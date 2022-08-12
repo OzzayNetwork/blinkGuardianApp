@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
 import {Link,useLocation,matchRoutes} from "react-router-dom"
 import StdFunctions from "../services/standard.functions";
@@ -6,6 +6,8 @@ import StdFunctions from "../services/standard.functions";
 
 // import $ from 'jquery';
 const Header=()=>{
+
+  const[theLocation,setTheLocation]=useState([])
 
   // loged in parent details
   const parentId=localStorage.getItem("parentId")
@@ -26,7 +28,11 @@ const Header=()=>{
 
   //let currentWindow = location.pathname;
   let ourBaseURL = "/Login";
-  //console.log(currentWindow)
+  console.log(currentWindow)
+
+  useEffect(()=>{
+    setTheLocation(currentWindow)
+  },[theLocation])
 
   if (currentWindow.includes(ourBaseURL)) {
     console.log("We are at the authentication pages");
@@ -328,7 +334,7 @@ const Header=()=>{
           <div className="d-flex justify-content-between d-flex w-100 align-items-center">
             <div className="dropdown d-inline-block ms-2">
             <Link to="/" className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.equalTo(currentWindow,"/")? "active" : ""}`}>
-                <i className="bx bx-home-circle font-size-24"></i>
+                <i className='bx bx-home-circle font-size-24' className={`bx font-size-24 ${ StdFunctions.equalTo(currentWindow,"/")? "bxs-home-circle" : "bx-home-circle"}`}></i>
               </Link>
               
               <div
@@ -345,7 +351,7 @@ const Header=()=>{
               <Link to="/Transactions"
                 className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "active" : ""}`}                
               >
-                <i className="mdi-progress-clock font-size-24 mdi"></i>
+                <i className={`mdi font-size-24 ${ StdFunctions.equalTo(currentWindow,"/Transactions")? "mdi-clock" : "mdi-clock-time-four-outline"}`}></i>
               </Link>
               
               <div

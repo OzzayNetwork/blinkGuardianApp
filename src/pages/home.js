@@ -13,7 +13,16 @@ const Home=()=>{
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
+    const [dateToday,setDateToday]=useState("")
+    const [dateYesterday,setDateYesterday]=useState("")
+    const [selectedStudentId,setSelectedStudentId]=useState("")
     const parentFName=localStorage.getItem("parentUserFName")
+    const[todaysExpenditure,setTodaysExpenditure]=useState(0)
+    const[yesterdaysExpenditure,setYesterdaysExpenditure]=useState("")
+    const[todaysTransactions,setTodaysTransactions]=useState({})
+    let theAmounts=0
+
+    let theAmountsYesterday=0
 
     // this stores all the student transactions
     const [studentTransactions, setStudentTransactions] = useState([])
@@ -47,6 +56,7 @@ const Home=()=>{
     const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
     const [numOfAccounts,setNumOfAccounts]=useState(0)
     //account states end here
+
     
     useEffect(() => {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
@@ -110,20 +120,81 @@ const Home=()=>{
         })
     },[])
 
+    //setting todays date
+    useEffect(()=>{
+        setDateToday(Moment().format('YYYY-MM-DD 00:00:00'))
+        let dateTodayEnd=Moment().format('YYYY-MM-DD 23:59:59')
+        let dateYesterdayEnd=Moment().subtract(1, 'days').format('YYYY-MM-DD 23:59:59')
+        //alert(dateYesterday)
+        setDateYesterday(Moment().subtract(1, 'days').format('YYYY-MM-DD 00:00:00'))
+        setSelectedStudentId(firstStudent.userId)
+        console.log("The date yesterday is: "+dateYesterday)
+        console.log("selected Student ID "+selectedStudentId)
+        
+
+        AuthService.getTransactionsByDate(firstStudent.userId,dateToday,dateTodayEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    setTodaysExpenditure(theAmounts)
+                    
+                }
+                else{
+                    console.log("The transaction at "+index+" is not a merchant transaction")
+                }
+            })
+
+        //getting the transactions for yesterday
+        
+            console.log("the amounts are")
+            console.log("Total spent: "+theAmounts)
+            console.log("Total spent: "+todaysExpenditure)
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+        })
+
+        AuthService.getTransactionsByDate(firstStudent.userId,dateYesterday,dateYesterdayEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmountsYesterday+=parseFloat(transaction.amount)
+                    setYesterdaysExpenditure(theAmountsYesterday)
+                    
+                }
+                else{
+                    console.log("The transaction at "+index+" is not a merchant transaction")
+                }
+            })
+
+        //getting the transactions for yesterday
+        
+            console.log("the amounts are")
+            console.log("Total spent: "+theAmounts)
+            console.log("Total spent: "+todaysExpenditure)
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+        })
+       
+    },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent])
+    
+
     //this function helps get the details pertaining to the details of a student's account
-    const targetId=firstStudent.userId
-    // alert(targetId)
+    let targetId=firstStudent.userId
+    //alert(targetId)
 
 
     const getInstitututionName=(studentId)=>{
         var studentInstitutionName
         AuthService.getStudentDetails(studentId).then((res)=>{
-            console.log(res)
+            //console.log(res)
           //  setSchoolName(res.data.data.associates[0].institution.institutionName)
           
           studentInstitutionName=res.data.data.associates[0].cardId
             //alert(schoolName);
-            console.log("the school Name is "+studentInstitutionName)
+           // console.log("the school Name is "+studentInstitutionName)
             
         })
         return studentInstitutionName
@@ -131,16 +202,16 @@ const Home=()=>{
 
     
 
-    console.log(students);
+   // console.log(students);
     const blinkerClicked=(studentId,clickedIndex)=>{
         AuthService.getStudentDetails(studentId).then((res)=>{
            
-            console.log(res)
+            //console.log(res)
             setSchoolName(res.data.data.associates[0].institution.institutionName)
             //alert(schoolName);
-            console.log("the school Name is "+schoolName)
+            //console.log("the school Name is "+schoolName)
             setStudentProfile(res.data.data.userProfile)
-            console.log(studentProfile)
+            //console.log(studentProfile)
             //alert(clickedIndex)
 
             const allBlinkers=AuthService.getLogedInAssociates()
@@ -156,13 +227,13 @@ const Home=()=>{
             //clicke blinker wallet Id
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
 
-            console.log(studentProfile)
+            //console.log(studentProfile)
             //all other accounts
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
             //alert(numOfAccounts)
-            console.log("All accounts for first blinker are "+allBlinkAccounts)
-            console.log(allBlinkAccounts)
+            //console.log("All accounts for first blinker are "+allBlinkAccounts)
+            //console.log(allBlinkAccounts)
 
             //clicked blinker transactions
             AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
@@ -187,6 +258,9 @@ const Home=()=>{
                 $('body .show-trans-cont').addClass("d-none");
                 $('body .no-trans-cont').removeClass("d-none")
             }
+
+            setSelectedStudentId(firstStudent.userId)
+            //alert(firstStudent.userId)
 
           
 
@@ -355,7 +429,7 @@ const Home=()=>{
             </div>
         </div>
             <div className="col-lg-12 ">
-                <div className="card no-shadow-sm mb-sm-0 mb-md-4 mb-xs-0 mb-0 mb-xm-0">
+                <div className="card no-shadow-sm mb-sm-0 mb-md-4 mb-xs-0 mb-4 mb-xm-0">
                     <div className="card-body">
                         <div className="row">
                             <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
@@ -591,22 +665,25 @@ const Home=()=>{
                                     <div className="row d-non">
                                         <div className="col-6">
                                             <div className="d-flex align-items-center">
-                                                <span className="badge  badge-soft-light font-size-12"> KES 50 </span> <span className="ms-2 mb-0 pb-0 text-truncate text-white">Used Today</span>
+                                                <span className="badge  badge-soft-light font-size-12"> {StdFunctions.kenyaCurrency(todaysExpenditure)} </span> <span className="ms-2 mb-0 pb-0 text-truncate text-white">Used Today</span>
 
                                             </div>
                                         </div>
                                         <div className="col-6 d-flex align-items-end justify-content-end text-right">
-                                            <span className="mt-0 mb-0 text-nowrap"><span className="badge badge-soft-light font-size-11 me-2"> 0.6% <i className="mdi mdi-arrow-up"></i> </span> <span className="text-white opacity-50">From Yesterday</span></span>
+                                            <span className="mt-0 mb-0 text-nowrap"><span className="badge badge-soft-light font-size-11 me-2"> {StdFunctions.kenyaCurrency(todaysExpenditure-yesterdaysExpenditure)} <i className="mdi mdi-arrow-up"></i> </span> <span className="text-white opacity-50">From Yesterday</span></span>
 
                                         </div>
                                     </div>
                                 </div>
-                                <div className="card-footer">
+                                <div className="card-footer d-flex align-items-center justify-content-between">
                                     <div className="text-white">
                                         <p className="text-white-50 text-truncate mb-0">Wallet Balance.</p>
-                                        <h3 className="text-white kenyan-carency">{studentProfile?.blinkaccounts != undefined && StdFunctions.kenyaCurrency(studentProfile?.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
+                                        <h3 className="text-white kenyan-carency mb-0 pb-0">{studentProfile?.blinkaccounts != undefined && StdFunctions.kenyaCurrency(studentProfile?.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)}</h3>
                                        
                                     
+                                    </div>
+                                    <div>
+                                        <button class="btn btn btn-dark waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Send Money</button>
                                     </div>
                                 </div>
                             </div>
@@ -723,7 +800,7 @@ const Home=()=>{
                                                             )}
                                                         <div className="text-muted">
                                                         {
-                                                            Moment(transaction.dateCreated).calendar(null, {
+                                                            Moment(transaction.dateCreated).add(3, 'hours').calendar(null, {
                                                             sameElse: 'DD MMM YYYY  hh:mm A'
                                                         })}
                                                         </div>
@@ -958,12 +1035,12 @@ const Home=()=>{
                                             )}
 
                                             {StdFunctions.isDepositTransaction(transactionDetails?.transType)?(
-                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span><br className="d-sm-flex d-md-none"/> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
                                             ):(
                                                   <></>                                        
                                             )}
                                             {StdFunctions.isMoneyTransfer(transactionDetails?.transType)?(
-                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span><br className="d-sm-flex d-md-none"/> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
                                             ):(
                                                   <></>                                        
                                             )}
@@ -1039,7 +1116,7 @@ const Home=()=>{
                                                 <small> ({" "+transactionInstitution})</small></h6>
                                                 <p className="mb-0 p-0 text-capitalize">
                                                 {
-                                                    Moment(transactionDetails?.dateCreated).calendar(null, {
+                                                    Moment(transactionDetails?.dateCreated).add(3, 'hours').calendar(null, {
                                                     sameElse: 'DD MMM YYYY  hh:mm A'
                                                 })}
                                                 </p>

@@ -247,7 +247,7 @@ const Transactions =()=> {
             </div>
         </div>
 
-        <div className="row d-sm-flex d-md-none">
+        <div className="row d-sm-flex d-md-none ">
             <div className="col-12">
                 <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium ">Transactions</h4>
             </div>
@@ -392,7 +392,7 @@ const Transactions =()=> {
                                             </td>
                                             <td className="text-capitalize text-nowrap">
                                                 {
-                                                    Moment(transaction.dateCreated).calendar(null, {
+                                                    Moment(transaction.dateCreated).add(3, 'hours').calendar(null, {
                                                     sameElse: 'DD MMM YYYY  hh:mm A'
                                                 })}
                                             </td>
@@ -494,7 +494,7 @@ const Transactions =()=> {
                                                 )}
                                             <div className="text-muted transaction-date">
                                             {
-                                                Moment(transaction.dateCreated).calendar(null, {
+                                                Moment(transaction.dateCreated).add(3, 'hours').calendar(null, {
                                                 sameElse: 'DD MMM YYYY  hh:mm A'
                                             })}
                                             </div>
@@ -592,12 +592,12 @@ const Transactions =()=> {
                                             )}
 
                                             {StdFunctions.isDepositTransaction(transactionDetails?.transType)?(
-                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <br className="d-sm-flex d-md-none"/> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
                                             ):(
                                                   <></>                                        
                                             )}
                                             {StdFunctions.isMoneyTransfer(transactionDetails?.transType)?(
-                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
+                                                <h4><blockquote className="text-center"><span className="text-muted text-uppercase">Received From:</span><br className="d-sm-flex d-md-none"/> <span className="text-info">{ StdFunctions.phoneOutput(transactionDetails?.accountFrom)}</span></blockquote></h4>
                                             ):(
                                                   <></>                                        
                                             )}
@@ -675,7 +675,7 @@ const Transactions =()=> {
                                                 <small> ({" "+transactionInstitution})</small></h6>
                                                 <p className="mb-0 p-0 text-capitalize">
                                                 {
-                                                    Moment(transactionDetails?.dateCreated).calendar(null, {
+                                                    Moment(transactionDetails?.dateCreated).add(3, 'hours').calendar(null, {
                                                     sameElse: 'DD MMM YYYY  hh:mm A'
                                                 })}
                                                 </p>
