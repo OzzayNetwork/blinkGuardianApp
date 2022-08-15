@@ -430,7 +430,7 @@ const Home=()=>{
         </div>
             <div className="col-lg-12 ">
                 <div className="card no-shadow-sm mb-sm-0 mb-md-4 mb-xs-0 mb-4 mb-xm-0">
-                    <div className="card-body">
+                    <div className="card-body pt-2 pb-2">
                         <div className="row">
                             <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
