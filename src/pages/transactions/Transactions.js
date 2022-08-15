@@ -10,6 +10,10 @@ import $ from 'jquery';
 const Transactions =()=> {
     const transactionsCountTwo=0
 
+     // loader setting
+     const [loading, setLoading] = useState(false);
+     const [quote, setQuote] = useState({});
+
     const[boughtItemsQty,setBoughtItemsQty]=useState(0)
     const[transactionDetails,setTransactionDetails]=useState({})
     const[transactionProducts,setTransactionProducts]=useState([])
@@ -35,6 +39,9 @@ const Transactions =()=> {
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
 
      useEffect(() => {
+
+        setLoading(true);
+
         $('.product-items').each(function(index) {
             const products = $(this).text()
            $(this).text(StdFunctions.removeFirstCharacter(products))
@@ -49,6 +56,9 @@ const Transactions =()=> {
         //console.log(allBlinkers[0])
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+            setQuote(res);
+            setLoading(false);
+
             setStudentProfile(res.data.data.userProfile)
             
             //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
@@ -65,6 +75,9 @@ const Transactions =()=> {
         console.log("The transactions should appear down here as an object")
 
         AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+            setQuote(res);
+            setLoading(false);
+
             //setStudentProfile(res.data.data.userProfile)
             setStudentTransactions(res.data.data)
             // console.log("We are here for transactions")
@@ -117,8 +130,13 @@ const Transactions =()=> {
 
     console.log(students);
     const blinkerClicked=(studentId,clickedIndex)=>{
+        setLoading(true);
+
         AuthService.getStudentDetails(studentId).then((res)=>{
            
+            setQuote(res);
+            setLoading(false);
+
             console.log(res)
             setSchoolName(res.data.data.associates[0].institution.institutionName)
             //alert(schoolName);
@@ -135,6 +153,9 @@ const Transactions =()=> {
             //alert(studentId)
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
+            setQuote(res);
+            setLoading(false);
+
             setStudentProfile(res.data.data.userProfile)
 
             //clicke blinker wallet Id
@@ -196,6 +217,8 @@ const Transactions =()=> {
     let QuantityOfItems=0
     //getting transaction details
     const clickedTransaction=(transactionId,tuckShop,transactionFee,transactingInstitute,serviceCategory,clickedTransactionProducts)=>{
+        
+
         //alert(transactionId)
         setTransactionDetails(studentTransactions.find(x=>x.transactionId===transactionId))
         setTransactionProducts(clickedTransactionProducts)
@@ -224,6 +247,27 @@ const Transactions =()=> {
    
     return ( 
         <>
+
+        {loading ? (
+            <div className="content-loader-container bg-black bg-opacity-50">
+                <div className="bg-white p-3 ">
+                    <div className="p-3">
+                        <div className="spinner-chase">
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                        </div>
+                    </div>
+                    <h5 className="m-0 p-0 text-u">Please Wait</h5>
+                </div>
+            </div>
+            ):(
+                <h1 className="d-none">Found</h1>
+            )
+        }
 
         <Helmet>
         <title>Blink! | Transactions</title>
