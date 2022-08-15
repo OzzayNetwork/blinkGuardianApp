@@ -344,7 +344,7 @@ const Home=()=>{
         <div className="row">
         <div className="col-lg-12">
             <div className="card d-md-flex d-lg-none no-shadow  mb-0 ">
-                <div className="card-body mt-3  p-3 bg-light mx-3 mt-2 rad-sm-8px rad-0px">
+                <div className="card-body mt-3  p-3 bg-light mx-3 mt-2 rad-sm-8px rad-0px py-2">
                     <div className="row">
                     <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                         <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -633,7 +633,7 @@ const Home=()=>{
                                 <div className="card-body blink-car rad-sm-8px">
 
                                 <div className="d-flex justify-content-between align-items-center mb-2">
-                                        <div className="flex-shrink-0 align-self-center mb-3">
+                                        <div className="flex-shrink-0 align-self-center mb-2">
                                             <img src="assets/images/users/avatar-1.jpg" className="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
                                             <div class="avatar-md avatar-card mx-auto ">
                                                 <span class="avatar-title rounded-circle bgrandom7 font-size-20 border-white">

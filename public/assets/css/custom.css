@@ -1130,6 +1130,10 @@
                 .mb-sm-0{
                     margin-bottom: 0px !important;
                 }
+                .avatar-card{
+                    height: 3.5rem;
+                    width:3.5rem
+                }
                 .rad-sm-8px{
                     border-radius:8px !important;
                 }
