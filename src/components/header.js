@@ -85,7 +85,7 @@ const Header=()=>{
             </button>
 
             <span className="fw-medium text-black d-sm-flex d-md-none">
-              {currentWindow==="/transactions" &&
+              {currentWindow==="/Transactions" &&
                 <h5 className="ms-3 mb-0 pb-0 text-black">Transactions</h5>
                 
               }
@@ -369,9 +369,9 @@ const Header=()=>{
 
             <div className="dropdown d-inline-block ms-2">
               <Link to="/Transactions"
-                className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/transactions")? "active" : ""}`}                
+                className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "active" : ""}`}                
               >
-                <i className={`mdi font-size-24 ${ StdFunctions.equalTo(currentWindow,"/transactions")? "mdi-clock" : "mdi-clock-time-four-outline"}`}></i>
+                <i className={`mdi font-size-24 ${ StdFunctions.equalTo(currentWindow,"/Transactions")? "mdi-clock" : "mdi-clock-time-four-outline"}`}></i>
               </Link>
               
               <div
