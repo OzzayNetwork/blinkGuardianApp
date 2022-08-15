@@ -334,17 +334,17 @@ const Home=()=>{
             </div>
         </div>
 
-        <div className="row d-sm-flex d-md-none">
+        <div className="row d-sm-none d-md-flex">
             <div className="col-12">
-                <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium m-0">Hello, {parentFName}</h4>
+                <h4 className="text-black pt-0 pl-0 pb-3 p-3  fw-medium m-0">Hello, {parentFName}</h4>
             </div>
         </div>
 
         {/* <!-- end page title --> */}
         <div className="row">
         <div className="col-lg-12">
-            <div className="card d-md-flex d-lg-none no-shadow border-bottom-1px mb-0">
-                <div className="card-body mt-0  ">
+            <div className="card d-md-flex d-lg-none no-shadow  mb-0 ">
+                <div className="card-body mt-3  p-3 bg-light mx-3 mt-2 rad-sm-8px rad-0px">
                     <div className="row">
                     <div className="dropdown d-inline-block w-100 d-flex align-items-center">
                         <button type="button" className="btn header-item waves-effect align-items-center w-100  text-left d-flex p-0" id="blinkers-drop" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -358,7 +358,7 @@ const Home=()=>{
                             </div>
                             
                             <div className="flex-grow-1 chat-user-box me-3">
-                                <h6 className="user-title m-0 font-size-18 text-black">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                <h6 className="user-title m-0  text-black">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                 <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                             </div>
                             {StdFunctions.isBlinkersMore(students?.length)?(
@@ -445,7 +445,7 @@ const Home=()=>{
                                         </div>
                                         
                                         <div className="flex-grow-1 chat-user-box me-3">
-                                            <h6 className="user-title m-0 font-size-18 text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                            <h6 className="user-title m-0  text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                             <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                                         </div>
                                         {StdFunctions.isBlinkersMore(students.length)?(
@@ -574,7 +574,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/tasks.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="fw-medium text-black text-center text-center mb-0 mt-3">{firstStudent?.firstName}'s Tasks</p>
+                                                <p className="fw-medium text-black text-center text-center mb-0 mt-2">{firstStudent?.firstName}'s Tasks</p>
                                             </div>
                                         </div>
 
@@ -585,7 +585,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/profile.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="fw-medium text-black text-center text-center mb-0 mt-3">{firstStudent?.firstName}'s Profile</p>
+                                                <p className="fw-medium text-black text-center text-center mb-0 mt-2">{firstStudent?.firstName}'s Profile</p>
                                             </div>
                                         </a>
 
@@ -596,7 +596,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium text-center mb-0 mt-3">Restrictions</p>
+                                                <p className="text-black fw-medium text-center mb-0 mt-2">Restrictions</p>
                                             </div>
                                         </a>
 
@@ -607,7 +607,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium text-center mb-0 mt-3">Block {firstStudent?.firstName}</p>
+                                                <p className="text-black fw-medium text-center mb-0 mt-2">Block {firstStudent?.firstName}</p>
                                             </div>
                                         </a>
                                         
@@ -629,14 +629,14 @@ const Home=()=>{
                 <div className="col-md-6 col-lg-6 col-xl-5 col-sm-12">
                     <div className="row">
                         <div className="col-12 d-non ">
-                            <div className="card bg-primary bg-primary-blink blink-card-bg mx-0 mx-sm-3">
-                                <div className="card-body blink-car">
+                            <div className="card bg-primary bg-primary-blink blink-card-bg mx-0 mx-sm-3 rad-sm-8px overflow-hidden">
+                                <div className="card-body blink-car rad-sm-8px">
 
                                 <div className="d-flex justify-content-between align-items-center mb-2">
                                         <div className="flex-shrink-0 align-self-center mb-3">
                                             <img src="assets/images/users/avatar-1.jpg" className="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
-                                            <div class="avatar-md mx-auto ">
-                                                <span class="avatar-title rounded-circle bgrandom7 font-size-24 border-white">
+                                            <div class="avatar-md avatar-card mx-auto ">
+                                                <span class="avatar-title rounded-circle bgrandom7 font-size-20 border-white">
                                                 {studentProfile?.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
                                                 </span>
                                             </div>

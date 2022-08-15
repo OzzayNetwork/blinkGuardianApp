@@ -332,7 +332,7 @@ $('body').on('click','.payment-prev', function(){
                                           </div>
                                           
                                           <div className="flex-grow-1 chat-user-box me-3">
-                                              <h6 className="user-title m-0">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h6>
+                                              <h6 className="user-title m-0 text-black fw-medium">{studentProfile.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h6>
                                               <p className="text-muted m-0 p-0">{studentProfile.institution != undefined && studentProfile.institution.institutionName}</p>
                                           </div>
                                             {StdFunctions.isBlinkersMore(students.length)?(

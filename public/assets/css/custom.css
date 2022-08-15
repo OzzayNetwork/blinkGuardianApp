@@ -1,6 +1,9 @@
            .modal{
             transition:0.2s
            }
+           .rad-0px{
+            border-radius:0px !important;
+            }
            #preloader{
             display: flex;
            }
@@ -1124,6 +1127,12 @@
             }
 
             @media (max-width: 576px) {
+                .mb-sm-0{
+                    margin-bottom: 0px !important;
+                }
+                .rad-sm-8px{
+                    border-radius:8px !important;
+                }
                 .pt-sm-24{
                     padding-top: 24px !important;
                 }
@@ -1438,4 +1447,9 @@
                     font-size: 22px;
                     color: black;
                 }
+
+                .rad-8px{
+                    border-radius:6px !important;
+                }
+               
                   
