@@ -596,7 +596,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium text-center mb-0 mt-2">Card Limits</p>
+                                                <p className="text-black fw-medium font-12px text-center mb-0 mt-2">Change Limits</p>
                                             </div>
                                         </a>
 
@@ -607,7 +607,7 @@ const Home=()=>{
                                                         <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium text-center mb-0 mt-2">Block {firstStudent?.firstName}</p>
+                                                <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Block {firstStudent?.firstName}</p>
                                             </div>
                                         </a>
                                         

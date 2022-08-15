@@ -247,7 +247,7 @@ const Transactions =()=> {
             </div>
         </div>
 
-        <div className="row d-sm-flex d-md-none ">
+        <div className="row d-sm-none d-md-none ">
             <div className="col-12">
                 <h4 className="text-black pt-4 pb-3 p-3 border-bottom-1px fw-medium ">Transactions</h4>
             </div>

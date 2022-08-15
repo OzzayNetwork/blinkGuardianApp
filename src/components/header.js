@@ -84,13 +84,33 @@ const Header=()=>{
               <i className="fa fa-fw fa-bars"></i>
             </button>
 
+            <span className="fw-medium text-black d-sm-flex d-md-none">
+              {currentWindow==="/transactions" &&
+                <h5 className="ms-3 mb-0 pb-0 text-black">Transactions</h5>
+                
+              }
+
+              { StdFunctions.equalTo(currentWindow,"/") &&
+              <h5 className="ms-3 mb-0 pb-0 text-black">Hi,  {parentFName}</h5>
+                
+              }
+           
+            </span>
+           
+           
+
             <Link to="/" className="px-3 d-flex justify-content-center align-items-center d-md-none">
                 <img
                   src="assets/images/logo-files/blink-color.svg"
                   alt=""
                   height="40"
+                  className="d-sm-none d-md-flex"
                 />
               </Link>
+              
+
+
+             
 
             <form className="app-search d-none">
               <div className="position-relative">
@@ -349,9 +369,9 @@ const Header=()=>{
 
             <div className="dropdown d-inline-block ms-2">
               <Link to="/Transactions"
-                className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/Transactions")? "active" : ""}`}                
+                className={`btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center ${ StdFunctions.strIncludes(currentWindow,"/transactions")? "active" : ""}`}                
               >
-                <i className={`mdi font-size-24 ${ StdFunctions.equalTo(currentWindow,"/Transactions")? "mdi-clock" : "mdi-clock-time-four-outline"}`}></i>
+                <i className={`mdi font-size-24 ${ StdFunctions.equalTo(currentWindow,"/transactions")? "mdi-clock" : "mdi-clock-time-four-outline"}`}></i>
               </Link>
               
               <div
