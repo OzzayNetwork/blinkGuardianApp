@@ -270,7 +270,7 @@ const Transactions =()=> {
                                 </div>
                                 
                                 <div className="flex-grow-1 chat-user-box me-3">
-                                    <h6 className="user-title m-0 font-size-18 text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                    <h6 className="user-title m-0 font-size- text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                     <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
                                 </div>
 

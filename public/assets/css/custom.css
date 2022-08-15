@@ -1132,7 +1132,8 @@
                 }
                 .avatar-card{
                     height: 3.5rem;
-                    width:3.5rem
+                    width:3.5rem;
+                    display: none;
                 }
                 .rad-sm-8px{
                     border-radius:8px !important;
