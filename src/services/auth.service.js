@@ -34,6 +34,20 @@ class AuthService {
       //let transactionId=30
       //return axiosInstance.post("https://live.blink.co.ke/api/v2/transactions/searchTransaction?transactionId/"+transactionId)
    }
+
+   getOTP(data){
+      return axiosInstance.post(baseUrl+"/api/v2/otp/generateSmsOtp",data)
+   }
+
+   changePassword(data){
+      return axiosInstance.post(baseUrl+"/api/v2/accounts/changePassword",data)
+   }
+
+   getAccountByPhoneNum(phoneNum){
+      return axiosInstance.get(baseUrl+"/api/v2/accounts/searchUserAccounts?msisdn="+phoneNum)
+   }
+
+
 }
 
 export default new AuthService();

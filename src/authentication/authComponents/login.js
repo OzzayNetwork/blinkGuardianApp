@@ -116,7 +116,7 @@ const [errorMsg, seterrorMsg]=useState("");
                 type="email"
                 className="form-control"
                 id="username"
-                placeholder="Enter username"
+                placeholder="email@email.com"
                 onChange={(event)=>setUsername(event.target.value)}
                 required="true"
                 required parsley-type="email"

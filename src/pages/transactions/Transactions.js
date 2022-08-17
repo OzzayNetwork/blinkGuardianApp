@@ -57,7 +57,9 @@ const Transactions =()=> {
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             setQuote(res);
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+              }, 2000);
 
             setStudentProfile(res.data.data.userProfile)
             
@@ -134,8 +136,7 @@ const Transactions =()=> {
 
         AuthService.getStudentDetails(studentId).then((res)=>{
            
-            setQuote(res);
-            setLoading(false);
+            
 
             console.log(res)
             setSchoolName(res.data.data.associates[0].institution.institutionName)
@@ -152,9 +153,8 @@ const Transactions =()=> {
             //console.log(allBlinkers[0])
             //alert(studentId)
         
-        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
-            setQuote(res);
-            setLoading(false);
+            AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
+          
 
             setStudentProfile(res.data.data.userProfile)
 
@@ -165,7 +165,9 @@ const Transactions =()=> {
 
             //clicked blinker transactions
             AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
-            //setStudentProfile(res.data.data.userProfile)
+                setQuote(res.data);
+                setLoading(false);
+                //setStudentProfile(res.data.data.userProfile)
             setStudentTransactions(res.data.data)
             // console.log("We are here for transactions")
             // console.log(res.data.data)

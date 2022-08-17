@@ -1,34 +1,129 @@
-import React from "react";
+import React, {useState, useEffect,useRef} from 'react';
 import { Helmet } from "react-helmet";
-import { Route, Routes, HashRouter } from "react-router-dom";
+import { Route, Routes, HashRouter, useNavigate } from "react-router-dom";
+import AuthService from "../../services/auth.service";
+import StdFunctions from "../../services/standard.functions";
 import {Link} from "react-router-dom"
-// import $ from 'jquery';
+import $ from 'jquery';
 const PasswordReset=()=>{
+  const [phoneNum,setPhoneNum]=useState("")
+  const [errorMsg, seterrorMsg]=useState("");
+  const navigate=useNavigate()
+
+   // loader setting
+   const [loading, setLoading] = useState(false);
+   const [quote, setQuote] = useState({});
+
+  useEffect(()=>{
+    // sendMoneyStart()
+  },[phoneNum])
+
+  const getOtpCode=async(event)=>{
+    
+    event.preventDefault();
+    let data={
+      "msisdn":phoneNum,
+      "appSignature":"sdw3423qwd"
+    }
+    if(phoneNum!="")
+    {
+      setLoading(true);
+      $('.otp-btn').prop('disabled', true);
+      AuthService.getAccountByPhoneNum(phoneNum).then((res)=>{
+        console.log(res.data)
+        if(res.data.totalPages===1){
+          AuthService.getOTP(data).then((res)=>{
+            if(res.data.statusCode===200){
+              setQuote(res.data);       
+              seterrorMsg(res.data.statusDescription)
+
+              //setting up the local storage OTP
+              localStorage.setItem("OTPPhoneNum", phoneNum)
+              localStorage.setItem("OTPType","SMS")
+
+              $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+              setTimeout(() => {
+                setLoading(false);
+                navigate("/Login/otpVerification",{replace:true})
+              }, 2000);        
+        
+            }
+            else{
+              $('.btn-send').prop('disabled', false);
+              $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');
+        
+            }
+          })
+        }
+        else{
+          setLoading(false)
+          $('.otp-btn').prop('disabled', false);
+          seterrorMsg("An account with that phone number does not exist")
+          $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');;
+        }
+      })
+
+      
+    }
+  }
+
   return (
     <>
+
+          {loading ? (
+            <div className="content-loader-container bg-black bg-opacity-50">
+                <div className="bg-white p-3 ">
+                    <div className="p-3">
+                        <div className="spinner-chase">
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                        </div>
+                    </div>
+                    <h5 className="m-0 p-0 text-u">Sending OTP</h5>
+                </div>
+            </div>
+            ):(
+                <h1 className="d-none">Sent</h1>
+            )
+          }
       <Helmet>
         <title>Blink! | Reset your Password</title>
       </Helmet>
       <div className="my-auto">
 
         <div>
-            <h5 className="text-primary"> Reset Password</h5>
-            <p className="text-muted">Reset Your Password with <strong>Blink!</strong></p>
+            <h5 className="text-primary"> Reset Blink Password</h5>
+            <p className="text-muted">Enter your Email and instructions will be sent to you!</p>
         </div>
 
-        <div className="mt-4">
-            <div className="alert alert-success text-center mb-4" role="alert">
-                Enter your Email and instructions will be sent to you!
+        <div className="msg-holder-err ">
+            <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
+                <i class="mdi mdi-block-helper me-2"></i>
+                {errorMsg}
+                <button type="button" class="btn-close close-alert"></button>
             </div>
-            <form action="auth-email-verification.html">
+          </div>
+
+        <div className="mt-4">
+            
+            <form onSubmit={getOtpCode} id='otp-form'>
 
                 <div className=" mb-3 ">
-                    <label for="useremail " className="form-label ">Email</label>
-                    <input type="email " className="form-control " id="useremail " placeholder="Enter email "/>
+                    <label for="useremail " className="form-label ">Phone</label>
+                    <input type="text" className="form-control " id="phoneNum" name="phoneNum" placeholder="Enter your phone number" onChange={(event)=>setPhoneNum(event.target.value)} />
                 </div>
 
                 <div className="text-end ">
-                    <button className="btn btn-primary w-md waves-effect waves-light " type="submit ">Reset</button>
+                    <button className="btn btn-primary w-md waves-effect waves-light otp-btn align-items-center d-flex" type="submit ">
+
+                      <span className="pl-3 ps-5">
+                        Get OTP
+                      </span>
+                   </button>
                 </div>
 
             </form>

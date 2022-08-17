@@ -1675,6 +1675,17 @@ body[data-layout=horizontal][data-layout-size=boxed] .navbar-header {
     animation: chase-dot-before 2s infinite ease-in-out both
 }
 
+.btn .chase-dot:before{
+    background-color: white;
+    width: 20%;
+    height: 20%;
+}
+
+.btn .spinner-chase{
+    width: 10px;
+    height: 10px;
+}
+
 .chase-dot:nth-child(1) {
     -webkit-animation-delay: -1.1s;
     animation-delay: -1.1s
