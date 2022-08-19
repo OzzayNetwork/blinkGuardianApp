@@ -263,7 +263,7 @@ const Transactions =()=> {
                             <div className="chase-dot"></div>
                         </div>
                     </div>
-                    <h5 className="m-0 p-0 text-u">Please Wait</h5>
+                    <p className="m-0 p-0 text-u">Please Wait</p>
                 </div>
             </div>
             ):(
@@ -372,15 +372,15 @@ const Transactions =()=> {
                         </div>
                         </div>
                     </div>
-                    <div className="card-body show-trans-cont min-h-90 px-sm-0 pt-sm-0">
+                    <div className="card-body show-trans-cont min-h-90 px-sm-0 p-md-  pt-sm-0">
                         <div className="table-responsive  d-xs-none d-md-flex d-sm-none">
 
-                            <table className="table align-middle table-nowrap table-hover  contacts-table table-striped " id="datatable-buttons">
+                            <table className="table border-light table-bordere table-borderles align-middle table-nowrap table-hover  contacts-table table-stripe " id="datatable-buttons">
                                 <thead className="table-light text-capitalize">
                                     <tr className="table-dark">
                                         <th></th>
                                         <th>Receipt No.</th>
-                                        <th scope="col">Tack Shop Name</th>
+                                        <th scope="col">Tuckshop Name</th>
                                         <th>Deposit from</th>
                                         <th scope="col">Items Bought</th>
                                         <th scope="col">Date</th>

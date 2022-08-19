@@ -36,12 +36,34 @@ class stdFunctions {
 
     //checking if phone number is valid
     isValidPhoneNum=(str)=>{
-        if(str.length>9){
+        if(str.length>1){
             return true
         }
         else{
             return false
         }
+
+    }
+
+    isValidPhoneNum2=(str)=>{
+        
+
+        var safaricomPhone=/^(?:254|\+254|0)?(7(?:(?:[129][0–9])|(?:0[0–8])|(4[0–1]))[0–9]{6})$/
+        var airtelPhone=/^(?:254|\+254|0)?(7(?:(?:[3][0-9])|(?:5[0-6])|(8[0-9]))[0-9]{6})$/
+        var equitelPhone=/^(?:254|\+254|0)?(76[34][0-9]{6})$/
+        var orangePhone=/^(?:254|\+254|0)?(77[0-6][0-9]{6})$/
+        if(safaricomPhone.test(str)){
+            return true
+            console.log("this is a safaricom number")
+            alert("safaricom")
+        }
+        else{
+            return false
+            console.log("this is not a safaricom number")
+            alert("not safaricom")
+        }
+        return true
+       
 
     }
 

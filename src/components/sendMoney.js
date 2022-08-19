@@ -301,7 +301,7 @@ $('body').on('click','.payment-prev', function(){
                       </button>
   
                   </div>
-                  <form className="modal-body" id="payment-form" onSubmit={sendMoneyStart}>
+                  <form className="modal-body" autoComplete="off" id="payment-form" onSubmit={sendMoneyStart}>
                       <div className="d-flex justify-content-between align-items-center">
                           <span className="badge  badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Send Money</span>
                   
@@ -430,7 +430,7 @@ $('body').on('click','.payment-prev', function(){
   
                                   <label for="" className="text-capitalize">Amount to send</label>
                                   <div className="form-floating mb-3">
-                                      <input type="number" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name" required ="true" onChange={(event)=>setSendAmount(event.target.value)} name="SendAMount"/>
+                                      <input type="number" autoComplete="off" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name" required ="true" onChange={(event)=>setSendAmount(event.target.value)} name="SendAMount"/>
                                       <label for="floatingnameInput">KES</label>
                                   </div>
                                   
@@ -465,7 +465,7 @@ $('body').on('click','.payment-prev', function(){
                                                   <div className="form-group">
                                                       <label for="">Your MPESA Phone Number</label>
                                                       <div className="form-floating mb-3">
-                                                          <input type="text" className="form-control font-21 text-success form-control-lg" id="phone-input" value={mpesaPhoneNum} onChange={(event)=>setMpesaPhoneNum(event.target.value)} name="phoneNum" placeholder="Enter your phone No."/>
+                                                          <input type="text" autoComplete="off" className="form-control font-21 text-success form-control-lg" id="phone-input" value={mpesaPhoneNum} onChange={(event)=>setMpesaPhoneNum(event.target.value)} name="phoneNum" placeholder="Enter your phone No."/>
                                                           <label for="floatingnameInput">MPESA Phone No.</label>
                                                       </div>
                                                   </div>

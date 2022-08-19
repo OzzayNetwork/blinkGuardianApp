@@ -43,9 +43,20 @@ class AuthService {
       return axiosInstance.post(baseUrl+"/api/v2/accounts/changePassword",data)
    }
 
+   newCardLimit(data){
+      return axiosInstance.post(baseUrl+"/api/v2/blinkerAccountLimits/addBlinkAccountLimit",data)
+   }
+
    getAccountByPhoneNum(phoneNum){
       return axiosInstance.get(baseUrl+"/api/v2/accounts/searchUserAccounts?msisdn="+phoneNum)
    }
+
+   //getting account limits
+   getAccountLimits(accountId){
+      return axiosInstance.get(baseUrl+"/api/v2/blinkerAccountLimits/getAccountLimits/"+accountId)
+   }
+
+
 
 
 }

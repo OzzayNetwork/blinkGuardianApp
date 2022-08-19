@@ -13,6 +13,10 @@ const Home=()=>{
     // loader setting
     const [loading, setLoading] = useState(false);
     const [quote, setQuote] = useState({});
+    const [dailyCardLimit, setDailyCardLimit] = useState("");
+    const [newDailyCardLimit, setNewDailyCardLimit] = useState("");
+    const[selectedPocketMoneyId,setselectedPocketMoneyId]=useState("")
+    const [errorMsg, seterrorMsg]=useState("");
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -72,8 +76,8 @@ const Home=()=>{
         //console.log(allBlinkers[0])
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
-            setQuote(res);
-            setLoading(false);
+            
+              
             setStudentProfile(res.data.data.userProfile)
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
@@ -82,6 +86,8 @@ const Home=()=>{
             //all other accounts
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
+            setselectedPocketMoneyId(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkAccountId)
+
             //alert(numOfAccounts)
             console.log("All accounts for first blinker are "+allBlinkAccounts)
             console.log(allBlinkAccounts)
@@ -97,6 +103,10 @@ const Home=()=>{
         console.log("The transactions should appear down here as an object")
 
         AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+
+            setQuote(res);
+            setLoading(false);
+              
             //setStudentProfile(res.data.data.userProfile)
             setStudentTransactions(res.data.data)
             // console.log("We are here for transactions")
@@ -124,6 +134,7 @@ const Home=()=>{
 
         }).catch((err)=>{
             console.log(err)
+            //alert("Error occured")
         })
     },[])
 
@@ -182,8 +193,17 @@ const Home=()=>{
             console.log("Total spent: "+todaysExpenditure)
         }).catch((err)=>{
             console.log(err)
-            //alert("error")
+           // alert("error")
+            console.log('[AXIOS GET]', err)
         })
+        
+       AuthService.getAccountLimits(firstStudent.userId).then((res)=>{
+        console.log(res)
+       }).catch((err)=>{
+        if(err.response.status===404){
+            setDailyCardLimit("Can't Display Now")
+        }
+       })
        
     },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent])
     
@@ -215,9 +235,7 @@ const Home=()=>{
         setLoading(true);
         AuthService.getStudentDetails(studentId).then((res)=>{
            
-            setQuote(res);
-            setLoading(false);
-
+           
             //console.log(res)
             setSchoolName(res.data.data.associates[0].institution.institutionName)
             //alert(schoolName);
@@ -234,8 +252,7 @@ const Home=()=>{
             //alert(studentId)
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
-            setQuote(res);
-            setLoading(false);
+            
             setStudentProfile(res.data.data.userProfile)
 
             //clicke blinker wallet Id
@@ -245,12 +262,16 @@ const Home=()=>{
             //all other accounts
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
-            //alert(numOfAccounts)
+            console.log("I was Clicked")
+            setselectedPocketMoneyId(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkAccountId)
             //console.log("All accounts for first blinker are "+allBlinkAccounts)
             //console.log(allBlinkAccounts)
 
             //clicked blinker transactions
             AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
+
+                setQuote(res);
+                setLoading(false);
             //setStudentProfile(res.data.data.userProfile)
             setStudentTransactions(res.data.data)
             // console.log("We are here for transactions")
@@ -319,6 +340,92 @@ const Home=()=>{
     }
     //getting clicked transaction ends here
 
+    //setting account limit
+    
+
+    $('.limit-container').unbind().on('click', function(){
+        $(this).find('input').removeClass('d-none');
+        $(this).siblings().removeClass('d-none')
+        $(this).find('.limit-text').addClass('d-none')
+        $(this).find('.change-icon').addClass('d-none').removeClass('d-flex')
+        $('.account-limit-modal .modal-footer ').removeClass('d-none')
+       // alert("the body clicked")
+        setTimeout(() => {
+            $(this).removeClass('waves-effect')
+          }, 2000); 
+    });
+
+    $('.close-limit-box').unbind().on('click', function(){
+        $(this).addClass('d-none');
+        $(this).siblings().find('input').addClass('d-none')
+        $(this).siblings().find('input').val('')
+        $(this).siblings('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
+        $(this).siblings('.limit-container').find('.limit-text').removeClass('d-none')
+        $(this).siblings('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
+
+        
+        $('.account-limit-modal .modal-footer ').addClass('d-none')
+    })
+
+    
+
+    $('.account-limit-modal .btn-close').unbind().on('click', function () {
+        $('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
+        $('.limit-container').find('.limit-text').removeClass('d-none')
+        $('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
+        $('.close-limit-box').addClass('d-none')
+        $(this).siblings().find('input').val('')
+        $('.account-limit-modal .modal-footer ').addClass('d-none')
+      })
+
+
+    const newLimit=async(event)=>{
+
+        let data={
+            "amount":newDailyCardLimit,
+            "blinkAccountId":selectedPocketMoneyId,
+            "limitPeriod":"DAILY",
+            "limitStatus":"Active",
+            "addedBy":StdFunctions.parentId,
+            "kidUserId":firstStudent.userId,
+          }
+          console.log(firstStudent)
+          //alert(firstStudent.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+          //alert(StdFunctions.parentId)
+
+          //alert(firstStudent.blinkId)
+          //alert(firstStudent.userId)
+
+        $('.btn-set-limit').prop('disabled', true);
+        event.preventDefault(); 
+        $('.btn-set-limit').children('div').removeClass('d-none').addClass('animate__animated').siblings('span').addClass('d-none')        
+          
+        AuthService.newCardLimit(data).then((res)=>{           
+           console.log(res)
+          
+           $('#limit-msg').show().removeClass('d-none').addClass('show')
+
+           if(res.status===200){
+                seterrorMsg(res.data.statusDescription)
+                $('.btn-set-limit').prop('disabled', false);  
+                $('.btn-set-limit').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none') 
+                $('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
+                $('.limit-container').find('.limit-text').removeClass('d-none')
+                $('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
+                $('#limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                $('.close-limit-box').addClass('d-none')   
+                $('#login-msg').removeClass('d-none').removeClass('fade')
+                seterrorMsg("Daily Transaction Limit of "+StdFunctions.kenyaCurrency(newDailyCardLimit)+" has been updted to the account")
+            }
+           
+         
+        }).catch((err)=>{
+          console.log(err)
+          $('.btn-set-limit').prop('disabled', false);  
+           $('.btn-set-limit').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')        
+        })
+    }
+
     
 
    
@@ -342,7 +449,7 @@ const Home=()=>{
                             <div className="chase-dot"></div>
                         </div>
                     </div>
-                    <h5 className="m-0 p-0 text-u">Please Wait</h5>
+                    <p className="m-0 p-0 text-u">Please Wait</p>
                 </div>
             </div>
             ):(
@@ -626,7 +733,7 @@ const Home=()=>{
                                             </div>
                                         </a>
 
-                                        <a href="#" className="col-4 waves-effect py-3">
+                                        <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
                                                 <div className="avatar-sm mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
@@ -720,7 +827,7 @@ const Home=()=>{
                                     
                                     </div>
                                     <div>
-                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Send Money</button>
+                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Top up Account</button>
                                     </div>
                                 </div>
                             </div>
@@ -1173,6 +1280,111 @@ const Home=()=>{
               </div>
               </div>
           </div>
+          {/* Setting Expenditure Limits */}
+          <div className="modal fade account-limit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Change Expenditure Limits</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="changeLimit" onSubmit={newLimit} className="modal-body row text-capitalize">
+                        <div className="px-3 col-12">
+                            <div className="msg-holder-err w-100">
+                                <div class="alert alert-danger alert-dismissible fade d-none" id="limit-msg" role="alert">
+                                    <i class="mdi mdi-block-helper me-2"></i>
+                                    {errorMsg}
+                                    <button type="button" class="btn-close close-alert"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-12 mb-0 d-flex align-items-end">
+                            <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                                <div className="flex-grow-1">
+                                    <label for="formrow-firstname-input" className="form-label">Maximum Daily pocket money Expenditure</label>
+                                    <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                                    <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
+                                </div>
+                                <span  className="d-flex align-items-center change-icon">
+                                    <small className="text-primary">Change</small>
+                                    <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                </span>
+
+                            </div>
+                            <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                                <span class="avatar-title bg-transparent text-reset">
+                                    <i class="mdi mdi-close font-size-18"></i>
+                                </span>
+                            </button>
+                       </div>
+
+                       <div className="col-12 mb-0 d-fle align-items-end d-none">
+                            <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                                <div className="flex-grow-1">
+                                    <label for="formrow-firstname-input" className="form-label">Maximum Weekly pocket money Expenditure</label>
+                                    <h5 className="text-blink-primary limit-text">Not Set</h5>
+                                    <input type="text" className="form-control d-none flex-grow-1 me-3"  id="dailyLimits" Name="DailyLimits" placeholder="Enter Weekly Limit"/>
+                                        
+                                </div>
+                                <span  className="d-flex align-items-center change-icon">
+                                    <small className="text-primary">Change</small>
+                                    <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                </span>
+                                
+
+                            </div>
+                            <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                                <span class="avatar-title bg-transparent text-reset">
+                                    <i class="mdi mdi-close font-size-18"></i>
+                                </span>
+                            </button>
+                       </div>
+
+                       <div className="col-12 mb-0 d-fle align-items-end d-none">
+                            <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                                <div className="flex-grow-1">
+                                    <label for="formrow-firstname-input" className="form-label">Maximum Monthly pocket money Expenditure</label>
+                                    <h5 className="text-blink-primary limit-text">Not set</h5>
+                                    <input type="text" className="form-control d-none"   id="dailyLimits" Name="DailyLimits" placeholder="Enter Monthly Limit"/>
+                                </div>
+                                <span  className="d-flex align-items-center change-icon">
+                                    <small className="text-primary">Change</small>
+                                    <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                </span>
+
+                            </div>
+                            <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                                <span class="avatar-title bg-transparent text-reset">
+                                    <i class="mdi mdi-close font-size-18"></i>
+                                </span>
+                            </button>
+                       </div>
+
+                    </form>
+                    <div className="modal-footer d-flex d-none">
+
+                       <div className="col-12 d-flex px-4 py-3">
+                            <button className="btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center">
+                                <div class="spinner-border d-none text-secondary m-0 " role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Disable Limits</span>
+                            </button>
+
+                            <button form="changeLimit" className="btn-flex btn-set-limit  btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
+                                <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Save Changes</span>
+                            </button>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {/* expenditure limit toast */}
+        
         </>
     );
 

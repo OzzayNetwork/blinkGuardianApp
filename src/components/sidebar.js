@@ -33,7 +33,7 @@ const Sidebar=()=>{
                           <li className="side-bar-button" >
                               <a href="#" className="waves-effect btn btn-light btn-rounded text-left write-msg-btn" data-bs-toggle="modal" data-bs-target="#walletTopUp">
                                   <i className=""><img src="assets/images/plus-icon.svg" alt=""/></i>
-                                  <span className="text-capitalize">Send Money</span>
+                                  <span className="text-capitalize">Top up account</span>
                               </a>
                           </li>
                           

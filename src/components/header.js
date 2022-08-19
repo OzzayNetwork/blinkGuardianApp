@@ -7,6 +7,10 @@ import StdFunctions from "../services/standard.functions";
 // import $ from 'jquery';
 const Header=()=>{
 
+  // loader setting
+  const [loading, setLoading] = useState(false);
+  const [quote, setQuote] = useState({});
+
   const[theLocation,setTheLocation]=useState([])
 
   // loged in parent details
@@ -19,6 +23,7 @@ const Header=()=>{
 
 
   const logout=()=>{
+    setLoading(true);
     localStorage.clear();
     window.location.reload();
   }
@@ -40,6 +45,26 @@ const Header=()=>{
     //console.log(location.pathname)
   return (
     <>
+    {loading ? (
+            <div className="content-loader-container bg-black bg-opacity-50">
+                <div className="bg-white p-3 ">
+                    <div className="p-3">
+                        <div className="spinner-chase">
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                            <div className="chase-dot"></div>
+                        </div>
+                    </div>
+                    <p className="m-0 p-0 text-u">Logging Out</p>
+                </div>
+            </div>
+            ):(
+                <h1 className="d-none">Found</h1>
+            )
+        }
       <header id="page-topbar" className="">
         <div className="navbar-header">
           <div className="d-flex">

@@ -97,7 +97,7 @@ const NewPassword=()=>{
                 }, 4000);
             }
 
-            if(err.response.statu===501){                
+            if(err.response.status===501){                
                 alert("nothing")
                 $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');
 
