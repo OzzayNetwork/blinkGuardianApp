@@ -1288,9 +1288,9 @@ const Home=()=>{
                         <h5 className="modal-title">Change Expenditure Limits</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="changeLimit" onSubmit={newLimit} className="modal-body row text-capitalize">
+                    <form id="changeLimit" onSubmit={newLimit} className="modal-body row text-capitalize p-0">
                         <div className="px-3 col-12">
-                            <div className="msg-holder-err w-100">
+                            <div className="msg-holder-err w-100 pt-3 px-3">
                                 <div class="alert alert-danger alert-dismissible fade d-none" id="limit-msg" role="alert">
                                     <i class="mdi mdi-block-helper me-2"></i>
                                     {errorMsg}
@@ -1298,10 +1298,10 @@ const Home=()=>{
                                 </div>
                             </div>
                         </div>
-                        <div className="col-12 mb-0 d-flex align-items-end">
+                        <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                             <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
                                 <div className="flex-grow-1">
-                                    <label for="formrow-firstname-input" className="form-label">Maximum Daily pocket money Expenditure</label>
+                                    <label for="formrow-firstname-input" className="form-label">Max Daily pocket money Expenditure</label>
                                     <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
                                     <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                                 </div>
@@ -1311,7 +1311,7 @@ const Home=()=>{
                                 </span>
 
                             </div>
-                            <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                            <button type="button" class="mb-3 me-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
                                 <span class="avatar-title bg-transparent text-reset">
                                     <i class="mdi mdi-close font-size-18"></i>
                                 </span>
@@ -1361,9 +1361,9 @@ const Home=()=>{
                        </div>
 
                     </form>
-                    <div className="modal-footer d-flex d-none">
+                    <div className="modal-footer d-flex d-none px-3">
 
-                       <div className="col-12 d-flex px-4 py-3">
+                       <div className="col-12 d-flex ">
                             <button className="btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center">
                                 <div class="spinner-border d-none text-secondary m-0 " role="status">
                                     <span class="sr-only">Loading...</span>
