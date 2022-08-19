@@ -201,7 +201,7 @@ const Home=()=>{
         console.log(res)
        }).catch((err)=>{
         if(err.response.status===404){
-            setDailyCardLimit("Can't Display Now")
+            setDailyCardLimit("Can't Display At the moment")
         }
        })
        
