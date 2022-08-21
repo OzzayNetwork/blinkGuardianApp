@@ -17,6 +17,11 @@ const Home=()=>{
     const [newDailyCardLimit, setNewDailyCardLimit] = useState("");
     const[selectedPocketMoneyId,setselectedPocketMoneyId]=useState("")
     const [errorMsg, seterrorMsg]=useState("");
+    const [blockTitle,setBlockTitle]=useState("")
+    const [blockMsg,setBlockMsg]=useState("")
+    const [blockErrMsg,setBlockErrMsg]=useState("")
+    const [blockImg,setBlockImg]=useState("")
+    const[cardIsBlocked,setCardIsBlocked]=useState(false)
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -204,6 +209,10 @@ const Home=()=>{
             setDailyCardLimit("Can't Display At the moment")
         }
        })
+
+       setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
+       setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+       setBlockImg("assets/images/Account-options/block.svg")
        
     },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent])
     
@@ -349,6 +358,7 @@ const Home=()=>{
         $(this).find('.limit-text').addClass('d-none')
         $(this).find('.change-icon').addClass('d-none').removeClass('d-flex')
         $('.account-limit-modal .modal-footer ').removeClass('d-none')
+        $('.btn-set-limit-sm').prop('disabled', false);
        // alert("the body clicked")
         setTimeout(() => {
             $(this).removeClass('waves-effect')
@@ -362,7 +372,7 @@ const Home=()=>{
         $(this).siblings('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
         $(this).siblings('.limit-container').find('.limit-text').removeClass('d-none')
         $(this).siblings('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
-
+        $('.btn-set-limit-sm').prop('disabled', true);
         
         $('.account-limit-modal .modal-footer ').addClass('d-none')
     })
@@ -376,6 +386,7 @@ const Home=()=>{
         $('.close-limit-box').addClass('d-none')
         $(this).siblings().find('input').val('')
         $('.account-limit-modal .modal-footer ').addClass('d-none')
+        $('#limit-msg').addClass('d-none')
       })
 
 
@@ -403,7 +414,7 @@ const Home=()=>{
         AuthService.newCardLimit(data).then((res)=>{           
            console.log(res)
           
-           $('#limit-msg').show().removeClass('d-none').addClass('show')
+           $('.limit-msg').show().removeClass('d-none').addClass('show')
 
            if(res.status===200){
                 seterrorMsg(res.data.statusDescription)
@@ -412,10 +423,11 @@ const Home=()=>{
                 $('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
                 $('.limit-container').find('.limit-text').removeClass('d-none')
                 $('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
-                $('#limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                $('.limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
                 $('.close-limit-box').addClass('d-none')   
-                $('#login-msg').removeClass('d-none').removeClass('fade')
+                $('.limit-msg').removeClass('d-none').removeClass('fade')
                 seterrorMsg("Daily Transaction Limit of "+StdFunctions.kenyaCurrency(newDailyCardLimit)+" has been updted to the account")
+                $('.btn-set-limit-sm').prop('disabled', true);
             }
            
          
@@ -425,6 +437,84 @@ const Home=()=>{
            $('.btn-set-limit').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')        
         })
     }
+    const unBlockCard=async(event)=>{
+        event.preventDefault()
+        $('.btn-set-unblock').prop('disabled', true).siblings().prop('disabled', true);
+        $('.btn-set-unblock').children("div").removeClass('d-none').siblings('span').addClass('d-none')
+        let data={
+            "userId":StdFunctions.parentId,
+            "studentUserId":firstStudent.userId
+        }
+        AuthService.reactivateCard(data).then((res)=>{
+            console.log(res)
+            setBlockErrMsg(res.data.statusDescription)
+            if(res.status===200){
+                setBlockMsg(res.data.statusDescription)
+                setBlockImg("assets/images/Account-options/block.svg")
+                setCardIsBlocked(false)
+
+                setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
+                setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+
+                $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
+                $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+                $('.block-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+
+            }
+        }).catch((err)=>{
+
+        })
+    }
+    const blockCard=async(event)=>{
+        event.preventDefault()
+       // $('.account-block-modal .modal-header .btn-close').addClass('d-none')
+        $('.btn-block-card').prop('disabled', true).siblings().prop('disabled', true);
+        $('.btn-block-card').children("div").removeClass('d-none').siblings('span').addClass('d-none')
+        let data={
+            "userId":StdFunctions.parentId,
+            "studentUserId":firstStudent.userId
+        }
+        console.log("The inactivated account is "+firstStudent.userId)
+
+        AuthService.deactivateCard(data).then((res)=>{           
+            console.log(res)
+            //$('.limit-msg').show().removeClass('d-none').addClass('show')
+            setBlockErrMsg(res.data.statusDescription) 
+            if(res.status===200){
+                 
+                setBlockMsg(res.data.statusDescription)
+                 setBlockTitle(firstStudent.firstName+"'s Card Has Been Blocked")
+                 setBlockImg("assets/images/animated/credit-card.gif")
+                 setCardIsBlocked(true)
+                 //alert("blocked")
+
+
+                //$('.account-block-modal .modal-header .btn-close').removeClass('d-none')
+                $('.btn-block-card').prop('disabled', false).siblings().prop('disabled', false)
+                $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+                 //$('.unblock-card').removeClass('d-none')
+                 //$('.btn-block-card-close').removeClass('d-none')
+             }
+             else{
+                alert("Could not block Card")
+             }
+            
+          
+         }).catch((err)=>{
+           console.log(err)
+           alert("an error occured")
+            $('.account-block-modal .modal-header .btn-close').removeClass('d-none')
+            $('.btn-block-card').prop('disabled', false).siblings().prop('disabled', false);
+            $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+         })
+    }
+    // $('.btn-block-card-close').unbind().on('click', function(){
+    //     $('.unblock-card').addClass('d-none')
+    //     $('.btn-block-card-close').addClass('d-none')
+    //     $('.btn-dont-block').removeClass('d-none')
+    //     $('.btn-block-card').removeClass('d-none')
+    //     $('.limit-msg').addClass('d-none')
+    // })
 
     
 
@@ -733,7 +823,7 @@ const Home=()=>{
                                             </div>
                                         </a>
 
-                                        <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
+                                        <a href="#" className="col-4 waves-effect py-3 d-sm-none d-md-block" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
                                                 <div className="avatar-sm mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
@@ -744,7 +834,18 @@ const Home=()=>{
                                             </div>
                                         </a>
 
-                                        <a href="#" className="col-4 waves-effect py-3">
+                                        <a href="#" className="col-4 waves-effect d-sm-block d-md-none py-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-limits" aria-controls="offcanvasBottom">
+                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                <div className="avatar-sm mb-0">
+                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
+                                                    </div>
+                                                </div>
+                                                <p className="text-black fw-medium font-12px text-center mb-0 mt-2">Change Limits</p>
+                                            </div>
+                                        </a>
+
+                                        <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
                                                 <div className="avatar-sm mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
@@ -1281,7 +1382,7 @@ const Home=()=>{
               </div>
           </div>
           {/* Setting Expenditure Limits */}
-          <div className="modal fade account-limit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div className="modal fade account-limit-modal" data-toggle="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -1291,7 +1392,7 @@ const Home=()=>{
                     <form id="changeLimit" onSubmit={newLimit} className="modal-body row text-capitalize p-0">
                         <div className="px-3 col-12">
                             <div className="msg-holder-err w-100 pt-3 px-3">
-                                <div class="alert alert-danger alert-dismissible fade d-none" id="limit-msg" role="alert">
+                                <div class="alert alert-danger alert-dismissible fade d-none limit-msg" id="" role="alert">
                                     <i class="mdi mdi-block-helper me-2"></i>
                                     {errorMsg}
                                     <button type="button" class="btn-close close-alert"></button>
@@ -1383,7 +1484,186 @@ const Home=()=>{
             </div>
         </div>
 
+        {/* expenditure mobile */}
+        <div className="offcanvas offcanvas-bottom " tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+            <div className="offcanvas-header">
+                <h5 id="offcanvasBottomExpenditureLabel">Change Expenditure Limits</h5>
+                <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0">
+                
+                <div className="waves-effect col-12 mb-0 d-flex align-items-end">
+                    <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                        <div className="flex-grow-1">
+                            <label for="formrow-firstname-input" className="form-label">Max Daily pocket money Expenditure</label>
+                            <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                            <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
+                        </div>
+                        <span  className="d-flex align-items-center change-icon">
+                            <small className="text-dark d-none">Change</small>
+                            <i className="bx bx-chevron-right font-size-30 text-dark"></i>
+                        </span>
+
+                    </div>
+                    <button type="button" class="mb-3 me-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                        <span class="avatar-title bg-transparent text-reset">
+                            <i class="mdi mdi-close font-size-18"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <div className="col-12 mb-0 d-fle align-items-end d-none">
+                    <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                        <div className="flex-grow-1">
+                            <label for="formrow-firstname-input" className="form-label">Maximum Weekly pocket money Expenditure</label>
+                            <h5 className="text-blink-primary limit-text">Not Set</h5>
+                            <input type="text" className="form-control d-none flex-grow-1 me-3"  id="dailyLimits" Name="DailyLimits" placeholder="Enter Weekly Limit"/>
+                                
+                        </div>
+                        <span  className="d-flex align-items-center change-icon">
+                            <small className="text-primary">Change</small>
+                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                        </span>
+                        
+
+                    </div>
+                    <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                        <span class="avatar-title bg-transparent text-reset">
+                            <i class="mdi mdi-close font-size-18"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <div className="col-12 mb-0 d-fle align-items-end d-none">
+                    <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
+                        <div className="flex-grow-1">
+                            <label for="formrow-firstname-input" className="form-label">Maximum Monthly pocket money Expenditure</label>
+                            <h5 className="text-blink-primary limit-text">Not set</h5>
+                            <input type="text" className="form-control d-none"   id="dailyLimits" Name="DailyLimits" placeholder="Enter Monthly Limit"/>
+                        </div>
+                        <span  className="d-flex align-items-center change-icon">
+                            <small className="text-primary">Change</small>
+                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                        </span>
+
+                    </div>
+                    <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
+                        <span class="avatar-title bg-transparent text-reset">
+                            <i class="mdi mdi-close font-size-18"></i>
+                        </span>
+                    </button>
+                </div>
+
+            </form>
+            <div className="offcanvas-header d-flex flex-column">
+                    <div className="col-12">
+                        <div className="msg-holder-err w-100 pt-0 px-0">
+                            <div class="alert alert-danger alert-dismissible fade d-none limit-msg"  role="alert">
+                                <i class="mdi mdi-block-helper me-2"></i>
+                                {errorMsg}
+                                <button type="button" class="btn-close close-alert"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 d-none">
+                            <button className="btn w-100 d-non btn-outline-secondary waves-effect btn-flex btn mb-3 text-center justify-items-center align-items-center">
+                                <div class="spinner-border d-none text-secondary m-0 " role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Disable Limits</span>
+                            </button>
+                        </div>
+
+                        <div className="col-12">
+                            <button disabled form="changeLimit2" className="btn-flex btn-set-limit btn-set-limit-sm w-100 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
+                                <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Save Changes</span>
+                            </button>
+                        </div>
+
+                    </div>
+                       
+                </div>
+
+        {/* blocking card modal */}
+        <div className="modal fade account-block-modal" data-toggle="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <div className="modal-header border-0">
+                        <h5 className="modal-title"></h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="block-card-form"  onSubmit={blockCard} className="modal-body text-capitalize p-4 pt-0">
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <div className="mb-4">
+                                    <img className="m-0 p-0" src={blockImg} alt="" height="90px"/>
+                                </div>
+                                
+                                <h5 className={`text-uppercase ${cardIsBlocked ? "text-danger" : "text-black"}`}>{blockTitle}</h5>
+                                <p className="">{blockMsg}</p>
+                            </div>
+                        </div>
+
+                        <div className="col-12 text-left">
+                            <div className="msg-holder-err w-100 pt-0 px-0">
+                                <div class="alert alert-danger alert-dismissible fade d-none block-msg"  role="alert">
+                                    <i class="mdi mdi-block-helper me-2"></i>
+                                    {blockErrMsg}
+                                    <button type="button" class="btn-close close-alert"></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                    <form id="unblock-card" onSubmit={unBlockCard}></form>
+                    <div className="modal-footer px-4">
+
+                       <div className="col-12 d-flex ">
+
+                            {cardIsBlocked ? (
+                               <>
+                               <button form="unblock-card"   className=" btn-set-unblock me-3  btn btn-outline-info text-center flex-grow-1  justify-items-center align-items-center unblock-card">
+                                    <div class="spinner-border text-info m-0 d-none animate__slideInDown" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">Undo Action</span>
+                                </button>
+                                <button data-bs-dismiss="modal"  className="btn-flex btn-outline-danger waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
+                                    <div class="spinner-border d-none text-danger m-0 " role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">Close</span>
+                                </button>
+                               </>
+                            ):(
+                                <>
+                                <button data-bs-dismiss="modal"  className=" btn-dont-block me-3  btn btn-info text-center flex-grow-1  justify-items-center align-items-center">
+                                <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Don't Block</span>
+                            </button>
+                            <button  form="block-card-form" className="btn-flex btn-outline-danger waves-effect  btn text-center justify-items-center align-items-center btn-block-card">
+                                <div class="spinner-border d-none text-danger m-0 " role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Block</span>
+                            </button>
+                                </>
+                            )
+                        }
+
+                            
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {/* expenditure limit toast */}
+       
         
         </>
     );

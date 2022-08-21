@@ -47,6 +47,13 @@ class AuthService {
       return axiosInstance.post(baseUrl+"/api/v2/blinkerAccountLimits/addBlinkAccountLimit",data)
    }
 
+   deactivateCard(data){
+      return axiosInstance.post(baseUrl+"/api/v2/accounts/deactivateCard",data)
+   }
+   reactivateCard(data){
+      return axiosInstance.post(baseUrl+"/api/v2/accounts/reactivateCard",data)
+   }
+
    getAccountByPhoneNum(phoneNum){
       return axiosInstance.get(baseUrl+"/api/v2/accounts/searchUserAccounts?msisdn="+phoneNum)
    }

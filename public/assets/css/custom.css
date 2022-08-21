@@ -10,10 +10,17 @@
             left: 0;
             
            }
+           #offcanvas-limits{
+            min-height: 100vh;
+           }
            .btn .spinner-border{
             height:1rem;
             width:1rem;
             border-width:0.15rem;
+           }
+
+           .btn-block-card{
+            width: 100px;
            }
 
            .lds-ellipsis {
