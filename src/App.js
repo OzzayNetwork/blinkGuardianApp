@@ -16,6 +16,7 @@ import Dashboard from "./pages/Dashboard.js";
 import Transactions from "./pages/transactions/Transactions.js";
 import Protected from "./components/protected";
 import AllBlinkers from "./pages/myBlinkers/allBlinkers.js";
+import BlinkerDetails from "./pages/myBlinkers/blinkerDetails.js";
 
 import Loader from "./components/loader.js";
 import Home from "./pages/home.js";
@@ -115,6 +116,7 @@ function App() {
               <Route exact path={"/"} element={<Dashboard />}>
                 <Route exact path={"Transactions"} element={<Transactions />}></Route>
                 <Route exact path={"MyBlinkers"} element={<AllBlinkers />}></Route>
+                <Route exact path={"BlinkerDetails"} element={<BlinkerDetails />}></Route>
               </Route>
               <Route path="*" element={<Navigate to="/" />}></Route>
             </>

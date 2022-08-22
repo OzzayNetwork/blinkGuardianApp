@@ -13,6 +13,8 @@ import SendMoney from "../components/sendMoney.js";
 import ErrorBoundary from "../components/ErrorBoundary.js";
 import Transactions from "./transactions/Transactions.js";
 import AllBlinkers from "./myBlinkers/allBlinkers.js";
+import BlinkerDetails from "./myBlinkers/blinkerDetails.js";
+
 
 import AuthMainContainer from "../authentication/authMainContainer.js";
 import { Helmet } from "react-helmet";
@@ -52,6 +54,7 @@ const Dashboard=()=>{
                   <Route exact path={"/"} element={<ErrorBoundary><Home/></ErrorBoundary>}></Route>
                   <Route exact path={"/Transactions"} element={<ErrorBoundary><Transactions/></ErrorBoundary>}></Route>
                   <Route exact path={"/MyBlinkers"} element={<ErrorBoundary><AllBlinkers/></ErrorBoundary>}></Route>
+                  <Route exact path={"/BlinkerDetails"} element={<ErrorBoundary><BlinkerDetails/></ErrorBoundary>}></Route>
                 </Routes>
 
                 <div className="mx-5 px-5 d-none">
