@@ -74,6 +74,39 @@ const[passwordStatus,setPasswordStatus]=useState(false)
               console.log(res.data.data.passwordSet)
               setLoginClicked(false)
               //document.getElementById("password-modal").click();
+
+
+              // remove after test
+                //setting the local storage with some data
+                localStorage.setItem("parentId", res.data.data.userId)
+                localStorage.setItem("parentEmail", res.data.data.email)
+                localStorage.setItem("parentPhone", res.data.data.msisdn)
+                localStorage.setItem("parentUserName", res.data.data.userName)
+                localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
+                localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)
+                localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+                localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
+                //localStorage.setItem("parentFName",res.data.userProfile.firstName);
+  
+                //setting active blinker
+  
+                localStorage.setItem("activeBlinker", JSON.stringify(res.data.data.associates[res.data.data.associates.length-1].userId))
+                localStorage.setItem("activeBlinkerIndex", JSON.stringify(res.data.data.associates.length-1))
+  
+  
+              //alert(  localStorage.setItem("parentId", res.data.data.userId))
+                console.log(localStorage)
+                
+              // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
+  
+                $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                setUsername(data.email);
+              //alert(res.data.data.userId);
+                window.location.reload()
+                console.log(localStorage);
+                //setTheParentId(res.data.data.userId);
+                //alert(theParentId = {parentId})
+                //alert(theParentId)
             }
           
 

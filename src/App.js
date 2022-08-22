@@ -15,6 +15,7 @@ import NewPassword from "./authentication/authComponents/newPassword.js";
 import Dashboard from "./pages/Dashboard.js";
 import Transactions from "./pages/transactions/Transactions.js";
 import Protected from "./components/protected";
+import AllBlinkers from "./pages/myBlinkers/allBlinkers.js";
 
 import Loader from "./components/loader.js";
 import Home from "./pages/home.js";
@@ -110,15 +111,13 @@ function App() {
               <Route path="*" element={<Navigate to="/Login" />}></Route>
               </>
           ) : (
-           <> <Route exact path={"/"} element={<Dashboard />}>
-              <Route
-                exact
-                path={"Transactions"}
-                element={<Transactions />}
-              ></Route>
-            </Route>
+           <> 
+              <Route exact path={"/"} element={<Dashboard />}>
+                <Route exact path={"Transactions"} element={<Transactions />}></Route>
+                <Route exact path={"MyBlinkers"} element={<AllBlinkers />}></Route>
+              </Route>
               <Route path="*" element={<Navigate to="/" />}></Route>
-              </>
+            </>
           )}
           {/* go to the dasboard page */}
         </Routes>

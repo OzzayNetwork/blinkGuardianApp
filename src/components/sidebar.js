@@ -44,18 +44,14 @@ const Sidebar=()=>{
                                   <i className="bx bx-home-circle"></i><span>Home</span>
                               </Link>
                           </li>
+
+                          <li className={`${ StdFunctions.equalTo(currentWindow,"/MyBlinkers")? "mm-active" : ""}`}>
+                              <Link to="/MyBlinkers" className={`waves-effect ${ StdFunctions.equalTo(currentWindow,"/MyBlinkers")? "active" : ""}`}>
+                              <i className="mdi mdi-account-child"></i><span>My blinkers</span>
+                              </Link>
+                          </li>
                           
   
-                          <li>
-                              <a  className="waves-effect has-arrow">
-                                  <i className="mdi mdi-account-child"></i>
-                                  <span>My Blinkers</span>
-                              </a>
-                              <ul className="sub-menu" aria-expanded="false">
-                                  <li><a href="blinkers-list.html">Blinkers Register</a></li>
-                                  <li><a href="blinkers-transactions.html">Blinkers Transactions</a></li>
-                              </ul>
-                          </li>
   
                           <li>
                               <a  className="waves-effect has-arrow">
