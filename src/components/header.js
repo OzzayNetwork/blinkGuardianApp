@@ -408,7 +408,7 @@ const Header=()=>{
             </div>
 
             <div class="avatar-sm  send-money-mobile">
-              <span data-bs-toggle="modal" data-bs-target="#walletTopUp" class="avatar-title rounded-circle bg-primary-blink font-size-16 profile-abriv">
+              <span data-bs-toggle="offcanvas" data-bs-target="#offcanvas-send-money" class="avatar-title rounded-circle bg-primary-blink font-size-16 profile-abriv">
                 <img src="assets/images/plus-white.svg" alt=""/>
               </span>
             </div>

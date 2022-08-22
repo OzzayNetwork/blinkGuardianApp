@@ -1,7 +1,8 @@
 import $ from "jquery";
 import logo from "../logo.svg";
 import "../App.css";
-import {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import StdFunctions from "../services/standard.functions";
 
 import Loader from "../components/loader.js";
 import Home from "../pages/home.js";
@@ -17,10 +18,27 @@ import { Helmet } from "react-helmet";
 import { Route, Routes, HashRouter,BrowserRouter } from "react-router-dom";
 // import $ from 'jquery';
 const Dashboard=()=>{
+  // loader setting
+  const [loading, setLoading] = useState(false);
+  const [parentId,setParentId]=useState()
+  //parentId=localStorage.getItem("parentId")
+ // alert(StdFunctions.parentId)
+  useEffect(()=>{
+    setParentId(StdFunctions.parentId)
+    const checkIfEmpty=()=>{
+      if(parentId=""){
+        alert("empty")
+      }
+
+      checkIfEmpty()
+    }
+    
+  },[parentId])
   
     //console.log(location.pathname)
   return (
    <>
+  
     <main  className="d-non">        
           <div id="layout-wrapper" className="d-n">
             

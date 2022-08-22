@@ -928,7 +928,9 @@ const Home=()=>{
                                     
                                     </div>
                                     <div>
-                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Top up Account</button>
+                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm d-sm-none d-md-block" data-bs-toggle="modal" data-bs-target="#walletTopUp"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Top up Account</button>
+                                        <button class="btn btn btn-dark waves-effect waves-light btn-sm d-md-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-send-money"><i className="mdi mdi-flip-h mdi-18px mdi-reply font-size-16 align-middle me-2"></i>Top up Account</button>
+
                                     </div>
                                 </div>
                             </div>
@@ -994,11 +996,11 @@ const Home=()=>{
                                                                
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                                        <i className="mdi mdi-arrow-down-bold"></i>
+                                                                        <i className="mdi mdi-arrow-up-bold"></i>
                                                                     </span>
                                                                 ):(
                                                                     <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
-                                                                        <i className="mdi mdi-arrow-up-bold"></i>
+                                                                        <i className="mdi mdi-arrow-down-bold"></i>
                                                                      </span>
                                                                 )}
                                                             </div>
@@ -1010,11 +1012,9 @@ const Home=()=>{
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     StdFunctions.phoneOutput(transaction.accountFrom)
                                                                 ):(
-                                                                    <span></span>                                                                  
+                                                                    transaction.blinkMerchant.merchantName                                                                   
                                                                 )}
-                                                                <span className="product-items" 
-                                                                
-                                                                >                                    
+                                                                <span className="product-items">                                    
                                                                     {
                                                                         transaction.productsSold.length> 0 && transaction.productsSold.map((product,index)=>(<span>,{product.productName} </span>)) 
                                                                     }  
@@ -1022,16 +1022,23 @@ const Home=()=>{
                                                             {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
                                                         </div>
                                                         <p className="text-muted p-0 m-0 text-truncate  product-items-trunc">
-                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
-                                                                    <small className="d-none d-md-inline">Receipt No.</small> 
+                                                                {/* {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                    <small className="d-none d-md-inline">Transaction Type: </small> 
                                                                 ):(
                                                                     <small></small>                                                                  
-                                                                )}
+                                                                )} */}
                                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                                     
-                                                                    transaction.receiptNumber
+                                                                    <span className="text-muted text-capitalize">{StdFunctions.removeUnderscore(transaction.transType)}</span>
                                                                 ):(
-                                                                    transaction.blinkMerchant.merchantName                                                                  
+                                                                    <>
+                                                                    {StdFunctions.areTheyThesame(transaction.transType,"Money_transfer")?(
+                                                                        <span>Cash Withdrawal</span>
+                                                                    ):(
+                                                                        <span className="text-muted text-capitalize">{StdFunctions.removeUnderscore(transaction.transType)}</span>                                                                
+                                                                    )}
+                                                                    </>
+                                                                                                                                  
                                                                 )}
                                                             
                                                         </p>
@@ -1344,13 +1351,13 @@ const Home=()=>{
                                             {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
                                                 <div class="avatar-xs me-3">
                                                     <span class="avatar-title rounded-circle bg-danger text-white font-size-18">
-                                                        <i class="mdi mdi-arrow-up-bold"></i>
+                                                        <i class="mdi mdi-arrow-down-bold"></i>
                                                     </span>
                                                 </div>                                                
                                             ):(
                                                 <div class="avatar-xs me-3">
                                                     <span class="avatar-title rounded-circle bg-success text-white font-size-18">
-                                                        <i class="mdi mdi-arrow-down-bold"></i>
+                                                        <i class="mdi mdi-arrow-up-bold"></i>
                                                     </span>
                                                 </div>
                                             )}
@@ -1389,7 +1396,7 @@ const Home=()=>{
                         <h5 className="modal-title">Change Expenditure Limits</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="changeLimit" onSubmit={newLimit} className="modal-body row text-capitalize p-0">
+                    <form id="changeLimit" onSubmit={newLimit} className="modal-body ro text-capitalize p-0">
                         <div className="px-3 col-12">
                             <div className="msg-holder-err w-100 pt-3 px-3">
                                 <div class="alert alert-danger alert-dismissible fade d-none limit-msg" id="" role="alert">

@@ -17,60 +17,74 @@ const Login = () => {
 const [username, setUsername]=useState("");
 const [passWord,setPassword]=useState("");
 const [errorMsg, seterrorMsg]=useState("");
+const [loginClicked,setLoginClicked]=useState(false)
+const[passwordStatus,setPasswordStatus]=useState(false)
 
 
 
   const loginStart = (event) => {
+    setLoginClicked(true)
     event.preventDefault();
     let data = {
       email: username,
       password: passWord,
       userType: "Parent",
     };
+    
     console.log(data)
     AuthService.logIn(data).then((res) => {
         console.log(res);
         
         if(res.status===200){
             seterrorMsg(res.data.statusDescription)
-          // $('.msg-holder').removeClass('d-none')
+            if(res.data.statusDescription===true){
+               //setting the local storage with some data
+              localStorage.setItem("parentId", res.data.data.userId)
+              localStorage.setItem("parentEmail", res.data.data.email)
+              localStorage.setItem("parentPhone", res.data.data.msisdn)
+              localStorage.setItem("parentUserName", res.data.data.userName)
+              localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
+              localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)
+              localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+              localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
+              //localStorage.setItem("parentFName",res.data.userProfile.firstName);
 
-          //setting the local storage with some data
-            localStorage.setItem("parentId", res.data.data.userId)
-            localStorage.setItem("parentEmail", res.data.data.email)
-            localStorage.setItem("parentPhone", res.data.data.msisdn)
-            localStorage.setItem("parentUserName", res.data.data.userName)
-            localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
-            localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)
-            localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
-            localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
-            //localStorage.setItem("parentFName",res.data.userProfile.firstName);
+              //setting active blinker
 
-            //setting active blinker
-
-            localStorage.setItem("activeBlinker", JSON.stringify(res.data.data.associates[res.data.data.associates.length-1].userId))
-            localStorage.setItem("activeBlinkerIndex", JSON.stringify(res.data.data.associates.length-1))
+              localStorage.setItem("activeBlinker", JSON.stringify(res.data.data.associates[res.data.data.associates.length-1].userId))
+              localStorage.setItem("activeBlinkerIndex", JSON.stringify(res.data.data.associates.length-1))
 
 
-           //alert(  localStorage.setItem("parentId", res.data.data.userId))
-            console.log(localStorage)
-            
-           // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
+            //alert(  localStorage.setItem("parentId", res.data.data.userId))
+              console.log(localStorage)
+              
+            // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
 
-            $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
-            setUsername(data.email);
-           //alert(res.data.data.userId);
-            window.location.reload()
-            console.log(localStorage);
-            //setTheParentId(res.data.data.userId);
-            //alert(theParentId = {parentId})
-            //alert(theParentId)
+              $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+              setUsername(data.email);
+            //alert(res.data.data.userId);
+              window.location.reload()
+              console.log(localStorage);
+              //setTheParentId(res.data.data.userId);
+              //alert(theParentId = {parentId})
+              //alert(theParentId)
+            }
+            else{
+              // $('.msg-holder').removeClass('d-none')
+              console.log(res.data.data.passwordSet)
+              setLoginClicked(false)
+              //document.getElementById("password-modal").click();
+            }
+          
+
+         
            
            
         }
       }).catch((err)=>{
         console.log(err.response.data.statusDescription);
         seterrorMsg(err.response.data.statusDescription)
+        setLoginClicked(false)
         //  $('.msg-holder-err ').removeClass('d-none');
         //  $('.msg-holder-err .alert').alert('show');
         //  alert("we are not logger");
@@ -164,11 +178,33 @@ const [errorMsg, seterrorMsg]=useState("");
 
             <div className="mt-3 d-grid">
               <button
-                className="btn btn-primary waves-effect waves-light"
-                type="submit"
+                className="btn btn-primary waves-effect waves-light d-none "
+                id="password-modal"
+                type="button"
+                data-bs-toggle="modal" data-bs-target=".set-password"
               >
                 Log In
               </button>
+              {loginClicked ? (
+                <button disabled  className="btn d-flex justify-content-center align-items-center btn-primary waves-effect waves-light w-100 btn-flex btn-outline-danger waves-effect  btn text-center justify-items-center align-items-center btn-block-card">
+                    <div class="spinner-border d-flex text-white m-0 " role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span className="d-none">Login</span>
+                  </button>
+                  ):(
+                    <button  className="btn btn-primary waves-effect waves-light w-100 btn-flex btn-outline-danger waves-effect  btn text-center justify-items-center align-items-center btn-block-card">
+                      <div class="spinner-border d-none text-white m-0 " role="status">
+                          <span class="sr-only">Loading...</span>
+                      </div>
+                      <span className="">Login</span>
+                    </button>
+                  )
+              }
+             
+
+              
+              
             </div>
           </form>
           <div className="mt-5 text-center text-capitalize font-weight-semibold fw-bold d-none">
@@ -176,6 +212,40 @@ const [errorMsg, seterrorMsg]=useState("");
           </div>
         </div>
       </div>
+
+      <div className="modal fade set-password" data-toggle="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <div className="modal-header border-0">
+                        <h5 className="modal-title"></h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="block-card-form"   className="modal-body text-capitalize p-4 pt-0">
+                        <div className="row">
+                            <div className="col-12 text-center">
+                                <div className="mb-3">
+                                    <img className="m-0 p-0" src="assets/images/animated/lock.gif" alt="" height="130px"/>
+                                </div>
+                                <h5 className="text-uppercase text-black fw-semibold">Password not set</h5>
+                                <p className="text-muted">
+                                  The password to your account has not been set. Proceded to setting up your password by clicking the button below.
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                      <div className="modal-footer px-4 border-0">
+                       <div className="col-12 d-flex ">
+                            <button data-bs-dismiss="modal"  className=" btn-dont-block mb-2 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
+                                <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Set Up Your Password</span>
+                            </button>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
       {/* <!-- end container-fluid --> */}
     </>

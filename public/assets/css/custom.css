@@ -10,6 +10,10 @@
             left: 0;
             
            }
+           
+           .min-vh-90{
+            min-height: 90vh;
+           }
            #offcanvas-limits{
             min-height: 100vh;
            }
@@ -1421,17 +1425,26 @@
                   .flip-x{
                     transform: scaleX(-1) !important;
                   }
+                  .acount-type a:hover p, .acount-type a.active p{
+                    color: white !important;
+                  }
 
                   .acount-type a:hover, .acount-type a.active{
-                    background-color: #ffe5b9;
+                    background-color: #ec5b0e;
                     position: relative;
+                    background-image: linear-gradient(to right, #ee6b20c4, #f9000085);
+                    color: white;
+                  }
+                  #payment-form .acount-type a.active img,#payment-form .acount-type a:hover img{
+                    margin-left: 10px;
+                    transition: .2s;
                   }
                   .acount-type a.active:before{
                     position: absolute;
                     content: "\F0E1E";
                     right: 15px;
                     top: 15px;
-                    color: #0078d4;
+                    color: #f1bda1;
                     font: normal normal normal 24px/1 "Material Design Icons";
                   }
                   .btn-send div{

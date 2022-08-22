@@ -1,4 +1,7 @@
 $(window).on('load', function() {
+    //$('.set-password').modal('show');
+    //$('.password-modal').click()
+    
     $('body').on('click', '.upload-the-contacts', function() {
         $('.selected-contacts-message').removeClass('d-none')
 

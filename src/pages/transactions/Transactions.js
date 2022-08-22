@@ -83,7 +83,7 @@ const Transactions =()=> {
             //setStudentProfile(res.data.data.userProfile)
             setStudentTransactions(res.data.data)
             // console.log("We are here for transactions")
-            // console.log(res.data.data)
+            console.log(res.data.data)
             // console.log("The transactions start here <br/>"+res.data.length)
             //alert(studentTransactions.length)
             //getTransactionsCount(res.data.length)
@@ -380,7 +380,8 @@ const Transactions =()=> {
                                     <tr className="table-dark">
                                         <th></th>
                                         <th>Receipt No.</th>
-                                        <th scope="col">Tuckshop Name</th>
+                                        <th>Transaction Type</th>
+                                        <th scope="col">Transaction Point</th>
                                         <th>Deposit from</th>
                                         <th scope="col">Items Bought</th>
                                         <th scope="col">Date</th>
@@ -398,17 +399,25 @@ const Transactions =()=> {
                                                     <div className="avatar-xs me-0">
                                                         {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                             <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                                <i className="mdi mdi-arrow-down-bold"></i>
+                                                                <i className="mdi mdi-arrow-up-bold"></i>
                                                             </span>
                                                         ):(
                                                             <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
-                                                                <i className="mdi mdi-arrow-up-bold"></i>
+                                                                <i className="mdi mdi-arrow-down-bold"></i>
                                                                 </span>
                                                         )}
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="text-capitalize text-nowrap"><strong>{transaction.receiptNumber}</strong></td>
+                                            <td className="text-capitalize text-nowrap fw-semibold">{transaction.receiptNumber}</td>
+                                            <td className="text-capitalize">
+                                                
+                                                {StdFunctions.areTheyThesame(transaction.transType,"Money_transfer")?(
+                                                    <span>Cash Withdrawal</span>
+                                                ):(
+                                                    StdFunctions.removeUnderscore(transaction.transType)                                                                  
+                                                )}
+                                            </td>
                                             <td className="text-capitalize text-nowrap">
                                                 {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                     <strong>-</strong>  
@@ -489,11 +498,11 @@ const Transactions =()=> {
                                                     
                                                     {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                         <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
-                                                            <i className="mdi mdi-arrow-down-bold"></i>
+                                                            <i className="mdi mdi-arrow-up-bold"></i>
                                                         </span>
                                                     ):(
                                                         <span className="avatar-title rounded-circle bg-danger bg-soft text-danger font-size-18">
-                                                            <i className="mdi mdi-arrow-up-bold"></i>
+                                                            <i className="mdi mdi-arrow-down-bold"></i>
                                                             </span>
                                                     )}
                                                 </div>
@@ -505,7 +514,7 @@ const Transactions =()=> {
                                                     {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                         StdFunctions.phoneOutput(transaction.accountFrom)
                                                     ):(
-                                                        <span></span>                                                                  
+                                                        transaction.blinkMerchant.merchantName                                                              
                                                     )}
                                                     <span className="product-items" 
                                                     
@@ -517,17 +526,24 @@ const Transactions =()=> {
                                                 {/* {transaction.blinkMerchant.merchantName }<small>{" ("+transaction.service.institution.institutionName+")"}</small> */}
                                             </div>
                                             <p className="text-muted p-0 m-0 text-truncate  product-items-trunc">
-                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
-                                                        <small className="d-none d-md-block">Receipt No.</small> 
-                                                    ):(
-                                                        <small></small>                                                                  
-                                                    )}
-                                                    {StdFunctions.isDepositTransaction(transaction.transType)?(
-                                                        
-                                                        transaction.receiptNumber
-                                                    ):(
-                                                        transaction.blinkMerchant.merchantName                                                                  
-                                                    )}
+                                                   {/* {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                    <small className="d-none d-md-inline">Transaction Type: </small> 
+                                                                ):(
+                                                                    <small></small>                                                                  
+                                                                )} */}
+                                                                {StdFunctions.isDepositTransaction(transaction.transType)?(
+                                                                    
+                                                                    <span className="text-muted text-capitalize">{StdFunctions.removeUnderscore(transaction.transType)}</span>
+                                                                ):(
+                                                                    <>
+                                                                    {StdFunctions.areTheyThesame(transaction.transType,"Money_transfer")?(
+                                                                        <span>Cash Withdrawal</span>
+                                                                    ):(
+                                                                        <span className="text-muted text-capitalize">{StdFunctions.removeUnderscore(transaction.transType)}</span>                                                                
+                                                                    )}
+                                                                    </>
+                                                                                                                                  
+                                                                )}
                                                 
                                             </p>
                                         </td>
@@ -611,7 +627,11 @@ const Transactions =()=> {
                                 </h4>
                                 <p className="text-muted text-uppercase mb-2">{firstStudent?.blinkId}</p>
                                 <span className="text-uppercase badge badge-soft-info">
-                                    {StdFunctions.removeUnderscore(transactionServiceCategory)}
+                                    {StdFunctions.areTheyThesame(transactionServiceCategory,"Money_transfer")?(
+                                        <>Cash Withdrawal</>
+                                    ):(
+                                        StdFunctions.removeUnderscore(transactionServiceCategory)                                                               
+                                    )}
                                 </span>
                                 <h2 className=" text-uppercase mt-4 mb-1">
                                         {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
@@ -704,13 +724,13 @@ const Transactions =()=> {
                                             {StdFunctions.isGoodsPurchase(transactionServiceCategory)?(
                                                 <div class="avatar-xs me-3">
                                                     <span class="avatar-title rounded-circle bg-danger text-white font-size-18">
-                                                        <i class="mdi mdi-arrow-up-bold"></i>
+                                                        <i class="mdi mdi-arrow-down-bold"></i>
                                                     </span>
                                                 </div>                                                
                                             ):(
                                                 <div class="avatar-xs me-3">
                                                     <span class="avatar-title rounded-circle bg-success text-white font-size-18">
-                                                        <i class="mdi mdi-arrow-down-bold"></i>
+                                                        <i class="mdi mdi-arrow-up-bold"></i>
                                                     </span>
                                                 </div>
                                             )}

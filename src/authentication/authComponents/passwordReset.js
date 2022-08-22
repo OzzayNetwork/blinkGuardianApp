@@ -96,8 +96,8 @@ const PasswordReset=()=>{
       <div className="my-auto">
 
         <div>
-            <h5 className="text-primary"> Reset Blink Password</h5>
-            <p className="text-muted">Enter your Email and instructions will be sent to you!</p>
+            <h5 className="text-primary"> Reset Your Password</h5>
+            <p className="text-muted">Enter your Phone number and an OTP will be sent to you.</p>
         </div>
 
         <div className="msg-holder-err ">

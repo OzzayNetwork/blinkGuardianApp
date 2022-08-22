@@ -1,5 +1,6 @@
 import {baseUrl, axiosInstance} from './API';
 import React, {useState, useEffect} from 'react';
+import $ from 'jquery';
 
 
 class stdFunctions {
@@ -40,7 +41,7 @@ class stdFunctions {
             return true
         }
         else{
-            return false
+            return true
         }
 
     }
@@ -147,6 +148,11 @@ class stdFunctions {
 
         str=str.replace('_',' ')
         return str;
+    }
+
+    //disabling a button
+    dissableBtn=()=>{
+        $(this).prop('disabled', false);
     }
 
     //remove specified character
