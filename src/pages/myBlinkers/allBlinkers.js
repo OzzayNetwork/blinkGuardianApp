@@ -246,7 +246,7 @@ const AllBlinkers =()=> {
                                                 <td className="text-right"></td>
                                                 <td></td>
                                                 <td>
-                                                    <Link params={item.userProfileId} to="/BlinkerDetails" className="btn btn-primary btn-sm">View Details</Link>
+                                                    <Link params={item.userProfileId}  to={"/BlinkerDetails/" + item.userProfileId} className="btn btn-primary btn-sm">View Details</Link>
                                                 </td>
 
                                             </tr>

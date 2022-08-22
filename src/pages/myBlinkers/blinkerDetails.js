@@ -9,10 +9,12 @@ import $ from 'jquery';
 // import   JquerryAccordion   from "./customPlugins/jquerryAccordion";
 const BlinkerDetails =()=> {
     const transactionsCountTwo=0
-
+    const { id } = useParams();
+    const theNewStudentId=id
      // loader setting
      const [loading, setLoading] = useState(false);
      const [quote, setQuote] = useState({});
+     const [selectedStudentId,setSelectedStudentId]=useState(theNewStudentId)
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -26,9 +28,10 @@ const BlinkerDetails =()=> {
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
     const [hasBlinkers,setHasBlinkers]=useState(false)
 
-    const idParams=useParams()
+    const idParams=useParams();
     console.log("The params are")
     console.log(JSON.stringify(idParams))
+    //alert("we are here")
 
      useEffect(() => {
 
@@ -177,12 +180,13 @@ const BlinkerDetails =()=> {
         <div className="row d-sm-none d-md-flex">
             <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 className="mb-sm-0 font-size-18">My Assigned Blinkers</h4>
+                    <h4 className="mb-sm-0 font-size-18">Kelvin's Details</h4>
 
                     <div className="page-title-right d-sm-none d-md-flex">
                         <ol className="breadcrumb m-0">
                             <li className="breadcrumb-item"><Link to="/">Dashboards</Link></li>
-                            <li className="breadcrumb-item active">My blinkers</li>
+                            <li className="breadcrumb-item"><Link to="/MyBlinkers">All My blinkers</Link></li>
+                            <li className="breadcrumb-item active">Kelvin</li>
                         </ol>
                     </div>
 

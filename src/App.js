@@ -116,7 +116,7 @@ function App() {
               <Route exact path={"/"} element={<Dashboard />}>
                 <Route exact path={"Transactions"} element={<Transactions />}></Route>
                 <Route exact path={"MyBlinkers"} element={<AllBlinkers />}></Route>
-                <Route exact path={"BlinkerDetails"} element={<BlinkerDetails />}></Route>
+                <Route exact path={"BlinkerDetails/:id"} element={<BlinkerDetails />}></Route>
               </Route>
               <Route path="*" element={<Navigate to="/" />}></Route>
             </>

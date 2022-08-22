@@ -54,7 +54,7 @@ const Dashboard=()=>{
                   <Route exact path={"/"} element={<ErrorBoundary><Home/></ErrorBoundary>}></Route>
                   <Route exact path={"/Transactions"} element={<ErrorBoundary><Transactions/></ErrorBoundary>}></Route>
                   <Route exact path={"/MyBlinkers"} element={<ErrorBoundary><AllBlinkers/></ErrorBoundary>}></Route>
-                  <Route exact path={"/BlinkerDetails"} element={<ErrorBoundary><BlinkerDetails/></ErrorBoundary>}></Route>
+                  <Route exact path={"/BlinkerDetails/:id"} element={<ErrorBoundary><BlinkerDetails/></ErrorBoundary>}></Route>
                 </Routes>
 
                 <div className="mx-5 px-5 d-none">
