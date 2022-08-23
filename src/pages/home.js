@@ -22,6 +22,8 @@ const Home=()=>{
     const [blockErrMsg,setBlockErrMsg]=useState("")
     const [blockImg,setBlockImg]=useState("")
     const[cardIsBlocked,setCardIsBlocked]=useState(false)
+    const[alllimits,setAlllimits]=useState([])
+    const[isDailyLimitSet,setIsDailyLimitSet]=useState(false)
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -202,11 +204,25 @@ const Home=()=>{
             console.log('[AXIOS GET]', err)
         })
         
-       AuthService.getAccountLimits(firstStudent.userId).then((res)=>{
+       AuthService.getAccountLimits(selectedPocketMoneyId).then((res)=>{
+       
+        console.log("The account Limits ARe: "+res.data.data.find(x=>x.limitPeriod==="DAILY").amount)
+        setAlllimits(res.data.data)
         console.log(res)
+        if(res.status===200){
+            setDailyCardLimit(res.data.data.find(x=>x.limitPeriod==="DAILY").amount)
+            setIsDailyLimitSet(true)
+        }
+        else{
+            setIsDailyLimitSet(false) 
+        }
        }).catch((err)=>{
         if(err.response.status===404){
-            setDailyCardLimit("Can't Display At the moment")
+            setDailyCardLimit("Not Set")
+            console.log("The first student is")
+            console.log(firstStudent)
+            //alert("Limit not set")
+            setIsDailyLimitSet(false)
         }
        })
 
@@ -214,7 +230,7 @@ const Home=()=>{
        setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
        setBlockImg("assets/images/Account-options/block.svg")
        
-    },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent])
+    },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent,selectedPocketMoneyId,dailyCardLimit])
     
 
     //this function helps get the details pertaining to the details of a student's account
@@ -386,7 +402,11 @@ const Home=()=>{
         $('.close-limit-box').addClass('d-none')
         $(this).siblings().find('input').val('')
         $('.account-limit-modal .modal-footer ').addClass('d-none')
-        $('#limit-msg').addClass('d-none')
+        $('.limit-msg').addClass('d-none')
+      })
+
+      $('.offcanvas-bottom .btn-close').unbind().on('click', function(){
+        $('.limit-msg').addClass('d-none')
       })
 
 
@@ -406,6 +426,7 @@ const Home=()=>{
 
           //alert(firstStudent.blinkId)
           //alert(firstStudent.userId)
+
 
         $('.btn-set-limit').prop('disabled', true);
         event.preventDefault(); 
@@ -428,6 +449,9 @@ const Home=()=>{
                 $('.limit-msg').removeClass('d-none').removeClass('fade')
                 seterrorMsg("Daily Transaction Limit of "+StdFunctions.kenyaCurrency(newDailyCardLimit)+" has been updted to the account")
                 $('.btn-set-limit-sm').prop('disabled', true);
+                setDailyCardLimit(newDailyCardLimit)
+                setIsDailyLimitSet(true)
+                $('.account-limit-modal .modal-footer ').addClass('d-none')
             }
            
          
@@ -1398,7 +1422,7 @@ const Home=()=>{
                     </div>
                     <form id="changeLimit" onSubmit={newLimit} className="modal-body ro text-capitalize p-0">
                         <div className="px-3 col-12">
-                            <div className="msg-holder-err w-100 pt-3 px-3">
+                            <div className="msg-holder-err w-100 pt-3 px-3 p-0">
                                 <div class="alert alert-danger alert-dismissible fade d-none limit-msg" id="" role="alert">
                                     <i class="mdi mdi-block-helper me-2"></i>
                                     {errorMsg}
@@ -1410,7 +1434,15 @@ const Home=()=>{
                             <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
                                 <div className="flex-grow-1">
                                     <label for="formrow-firstname-input" className="form-label">Max Daily pocket money Expenditure</label>
-                                    <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                                    
+
+                                    {isDailyLimitSet ? (
+                                        <h5 className="text-blink-primary limit-text">{StdFunctions.kenyaCurrency(dailyCardLimit)}</h5>
+                                    ):(
+                                        <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                                        )
+                                    }
+
                                     <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                                 </div>
                                 <span  className="d-flex align-items-center change-icon">
@@ -1472,7 +1504,7 @@ const Home=()=>{
                     <div className="modal-footer d-flex d-none px-3">
 
                        <div className="col-12 d-flex ">
-                            <button className="btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center">
+                            <button className="btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center d-none">
                                 <div class="spinner-border d-none text-secondary m-0 " role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
@@ -1503,7 +1535,12 @@ const Home=()=>{
                     <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
                         <div className="flex-grow-1">
                             <label for="formrow-firstname-input" className="form-label">Max Daily pocket money Expenditure</label>
-                            <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                            {isDailyLimitSet ? (
+                                    <h5 className="text-blink-primary limit-text">{StdFunctions.kenyaCurrency(dailyCardLimit)}</h5>
+                                ):(
+                                    <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
+                                )
+                            }
                             <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                         </div>
                         <span  className="d-flex align-items-center change-icon">
