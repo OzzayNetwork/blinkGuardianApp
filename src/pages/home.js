@@ -609,7 +609,7 @@ const Home=()=>{
                             <div className="flex-shrink-0 me-3">
                                 <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                 <div className="avatar-sm mx-auto ">
-                                    <span className="avatar-title rounded-circle bg-random font-size-20">
+                                    <span className="avatar-title text-uppercase rounded-circle bg-random font-size-20">
                                         {studentProfile?.institution != undefined && firstStudent?.firstName.charAt(0)+""+firstStudent?.middleName.charAt(0)}
                                     </span>
                                 </div>
@@ -648,7 +648,7 @@ const Home=()=>{
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
                                             <div className="avatar-sm mx-auto ">
-                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv">
+                                                <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv text-uppercase">
                                                     {item?.firstName.charAt(0)+item.middleName.charAt(0)}
                                                 </span>
                                             </div>

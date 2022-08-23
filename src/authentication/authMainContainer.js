@@ -12,8 +12,13 @@ const removeMain=()=>{
     //alert("we are here")
     $('body .loginPageOnly').next('main').addClass('d-none');
     $('.loginPageOnly').next('main').addClass('d-none');
+    
 }
 $('body').find('.loginPageOnly').next('main').addClass('d-none');
+$('body').on('click','.btn-dont-block',function(){
+    alert("clicked")
+    document.getElementById("dismis-btn-dont-block").click();
+})
 window.onload = function () { 
     $('.loginPageOnly').next('main').addClass('d-none');
 }

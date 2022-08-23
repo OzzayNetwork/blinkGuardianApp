@@ -37,7 +37,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
         
         if(res.status===200){
             seterrorMsg(res.data.statusDescription)
-            if(res.data.data.passwordSet===true){
+            if(res.data.statusDescription===true){
                //setting the local storage with some data
               localStorage.setItem("parentId", res.data.data.userId)
               localStorage.setItem("parentEmail", res.data.data.email)
@@ -72,10 +72,41 @@ const[passwordStatus,setPasswordStatus]=useState(false)
             else{
               // $('.msg-holder').removeClass('d-none')
               console.log(res.data.data.passwordSet)
-              console.log(res.data.data)
               setLoginClicked(false)
-              document.getElementById("password-modal").click();
-             
+              //document.getElementById("password-modal").click();
+
+
+              // remove after test
+                //setting the local storage with some data
+                localStorage.setItem("parentId", res.data.data.userId)
+                localStorage.setItem("parentEmail", res.data.data.email)
+                localStorage.setItem("parentPhone", res.data.data.msisdn)
+                localStorage.setItem("parentUserName", res.data.data.userName)
+                localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
+                localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)
+                localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+                localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
+                //localStorage.setItem("parentFName",res.data.userProfile.firstName);
+  
+                //setting active blinker
+  
+                localStorage.setItem("activeBlinker", JSON.stringify(res.data.data.associates[res.data.data.associates.length-1].userId))
+                localStorage.setItem("activeBlinkerIndex", JSON.stringify(res.data.data.associates.length-1))
+  
+  
+              //alert(  localStorage.setItem("parentId", res.data.data.userId))
+                console.log(localStorage)
+                
+              // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
+  
+                $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                setUsername(data.email);
+              //alert(res.data.data.userId);
+                window.location.reload()
+                console.log(localStorage);
+                //setTheParentId(res.data.data.userId);
+                //alert(theParentId = {parentId})
+                //alert(theParentId)
             }
           
 
@@ -220,7 +251,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
                 <div className="modal-content">
                     <div className="modal-header border-0">
                         <h5 className="modal-title"></h5>
-                        <button type="button" className="btn-close" id="dismis-btn-dont-block" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="block-card-form"   className="modal-body text-capitalize p-4 pt-0">
                         <div className="row">
@@ -237,12 +268,12 @@ const[passwordStatus,setPasswordStatus]=useState(false)
                     </form>
                       <div className="modal-footer px-4 border-0">
                        <div className="col-12 d-flex ">
-                            <Link to="PasswordReset" className=" btn-dont-block mb-2 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
+                            <button data-bs-dismiss="modal"  className=" btn-dont-block mb-2 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
                                 <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
                                 <span className="">Set Up Your Password</span>
-                            </Link>
+                            </button>
                        </div>
                     </div>
                 </div>

@@ -163,6 +163,20 @@ class stdFunctions {
         return str;
     }
 
+    //adding 254 to mobile numbers
+    add254(str){
+        let firstWord = str.charAt(0)
+
+        if(firstWord==="0"){
+           
+            const lastDigits = str.substring(str.indexOf(0) + 1);
+            return "254"+lastDigits
+        }
+        else{
+            return str
+        }
+    }
+
     //comparing two separate strings
     areTheyThesame(str1,str2){
 

@@ -16,30 +16,44 @@ const PasswordReset=()=>{
 
   useEffect(()=>{
     // sendMoneyStart()
+    //document.getElementById(".dismis-btn-dont-block").click()
   },[phoneNum])
+
+  //document.getElementById(".dismis-btn-dont-block").click();
+
+  //remove a backdrop when oppening this page
+  $('.modal-backdrop').removeClass('show').addClass('d-none')
 
   const getOtpCode=async(event)=>{
     
     event.preventDefault();
     let data={
-      "msisdn":phoneNum,
+      "msisdn":StdFunctions.add254(phoneNum),
       "appSignature":"sdw3423qwd"
     }
+    //alert(StdFunctions.add254(phoneNum))
     if(phoneNum!="")
     {
       setLoading(true);
       $('.otp-btn').prop('disabled', true);
-      AuthService.getAccountByPhoneNum(phoneNum).then((res)=>{
+      AuthService.getAccountByPhoneNum(StdFunctions.add254(phoneNum)).then((res)=>{
         console.log(res.data)
         if(res.data.totalPages===1){
+
+          localStorage.setItem("OTPmiddleName", res.data.data[0].userProfile.middleName)
+          localStorage.setItem("OTPFirstName", res.data.data[0].userProfile.firstName)
+          localStorage.setItem("OTPgender", res.data.data[0].userProfile.gender)
+          
+
           AuthService.getOTP(data).then((res)=>{
             if(res.data.statusCode===200){
               setQuote(res.data);       
               seterrorMsg(res.data.statusDescription)
 
               //setting up the local storage OTP
-              localStorage.setItem("OTPPhoneNum", phoneNum)
+              localStorage.setItem("OTPPhoneNum", StdFunctions.add254(phoneNum))
               localStorage.setItem("OTPType","SMS")
+              
 
               $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
               setTimeout(() => {

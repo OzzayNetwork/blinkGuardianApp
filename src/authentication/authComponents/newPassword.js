@@ -16,6 +16,14 @@ const NewPassword=()=>{
     const [confirmPassword,setConfirmPassword]=useState("")
     const [thePassword,setThePassword]=useState("")
     const navigate=useNavigate()
+    const [newPasswordIsSet,setNewPasswordIsSet]=useState(false)
+
+    //account details
+    const [accountGender,setAccountGender]=useState(localStorage.getItem("OTPgender"))
+    const [accountFirstName,setFirstName]=useState(localStorage.getItem("OTPFirstName"))
+    const [accountMiddleName,setAccountMiddleName]=useState(localStorage.getItem("OTPmiddleName"))
+
+   
 
     //the json body variables
     const [thePhoneNum,setThePhoneNum]=useState(localStorage.getItem("OTPPhoneNum"))
@@ -64,9 +72,30 @@ const NewPassword=()=>{
             
 
             if(res.data.statusCode===200){
+                //alert("Password changed succesfully")
+                setNewPasswordIsSet(true)
+                $('#success-modal').click()
+                setQuote(res.data);       
+                seterrorMsg(res.data.statusDescription)  
+                console.log("The change Password response")
+                console.log(res.data)
+                
+  
+                $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+               
+                localStorage.clear();
+                setLoading(false);
+
+                        
+          
+              }
+
+              if(res.data.statusCode===2200){
                 alert("Password changed succesfully")
                 setQuote(res.data);       
                 seterrorMsg(res.data.statusDescription)  
+                console.log("The change Password response")
+                console.log(res.data)
                 
   
                 $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
@@ -98,7 +127,7 @@ const NewPassword=()=>{
             }
 
             if(err.response.status===501){                
-                alert("nothing")
+                //alert("nothing")
                 $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');
 
                 setTimeout(() => {                    
@@ -107,6 +136,12 @@ const NewPassword=()=>{
             }
         })
     }
+
+    $('body').unbind().on('click', '.close-success-password', function(){
+        setTimeout(() => {
+            navigate("/Login",{replace:true})
+        }, 2000);   
+    })
 
     return (
 
@@ -143,7 +178,7 @@ const NewPassword=()=>{
   
           <div>
               <h5 className="text-primary">New Password</h5>
-              <p className="text-muted">Create your new <strong className="text-black fw-medium">4 digit password</strong></p>
+            <p className="text-muted">Hello <span className="text-capitalize fw-semibold text-black">{accountFirstName+" "+accountMiddleName}</span>, correctly fill in the inputs below so as to set your <strong className="text-black fw-medium">4 digit password</strong></p>
           </div>
   
           <div className="mt-4">
@@ -217,9 +252,52 @@ const NewPassword=()=>{
               <div className="mt-5 text-center">
                   <p>Already have an account ? <a href="auth-login.html" className="fw-medium text-primary"> Login</a> </p>
               </div>
+                                
+             
+            <button className="btn btn-primary waves-effect waves-light d-none" id="success-modal" type="button" data-bs-toggle="modal" data-bs-target=".password-set-succeess" >
+                Log In
+            </button>
+            <div className="modal fade password-set-succeess" data-toggle="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header border-0">
+                            <h5 className="modal-title"></h5>
+                            <button type="button" className="btn-close d-none"  data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form id="block-card-form"   className="modal-body text-capitalize p-4 pt-0">
+                            <div className="row">
+                                <div className="col-12 text-center">
+                                    <div className="mb-3">
+                                        <img className="m-0 p-0" src="assets/images/animated/password.gif" alt="" height="130px"/>
+                                    </div>
+                                    <h5 className="text-uppercase text-black fw-semibold">{errorMsg}</h5>
+                                    <p className="text-muted">
+                                        Click the button below which will take you to the login page from which you can login using your newley created password
+                                    </p>
+                                </div>
+                            </div>
+                        </form>
+                        <div className="modal-footer px-4 border-0">
+                        <div className="col-12 d-flex ">
+                                <button  className="close-success-password mb-2 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center" data-bs-dismiss="modal" aria-label="Close">
+                                    <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">OK</span>
+                                </button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+              
   
           </div>
           </div>
+
+          {/* confirming password was set */}
+          
           
       {/* <!-- end container-fluid --> */}
   
