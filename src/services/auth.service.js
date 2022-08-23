@@ -53,6 +53,12 @@ class AuthService {
    reactivateCard(data){
       return axiosInstance.post(baseUrl+"/api/v2/accounts/reactivateCard",data)
    }
+   //deactivate accounts two
+   changeAccountStatus(userId,statusUpdate){
+      return axiosInstance.get(baseUrl+"/api/v2/accounts/deactivateAccount/"+userId+"/"+statusUpdate)
+
+     // return axiosInstance.get(baseUrl+"/api/v2/accounts/deactivateAccount/1300/Disabled")
+   }
 
    getAccountByPhoneNum(phoneNum){
       return axiosInstance.get(baseUrl+"/api/v2/accounts/searchUserAccounts?msisdn="+phoneNum)

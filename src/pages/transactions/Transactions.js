@@ -381,7 +381,7 @@ const Transactions =()=> {
                                         <th></th>
                                         <th>Receipt No.</th>
                                         <th>Transaction Type</th>
-                                        <th scope="col">Transaction Point</th>
+                                        <th scope="col">Debited At</th>
                                         <th>Deposit from</th>
                                         <th scope="col">Items Bought</th>
                                         <th scope="col">Date</th>

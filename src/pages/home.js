@@ -24,6 +24,10 @@ const Home=()=>{
     const[cardIsBlocked,setCardIsBlocked]=useState(false)
     const[alllimits,setAlllimits]=useState([])
     const[isDailyLimitSet,setIsDailyLimitSet]=useState(false)
+    const [fetchedStudentDetails,setFetchedStudentDetails]=useState({})
+    const[statusUpdate,setStatusUpdate]=useState("")
+
+    const [selectedStudentActiveStatus,setSelectedStudentActiveStatus]=useState(true)
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -80,8 +84,8 @@ const Home=()=>{
         setstudents(allBlinkers)
         setFirstStudent(allBlinkers[0])
         setMyBlinkersCount(allBlinkers.length)
-        //console.log(allBlinkers[0])
-        
+        console.log(allBlinkers[0])
+
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             
               
@@ -89,7 +93,7 @@ const Home=()=>{
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
             //alert(blinkWalletAccountNum)
-            console.log(studentProfile)
+            setFetchedStudentDetails(res.data.data)
             //all other accounts
             setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
             setNumOfAccounts(allBlinkAccounts.length)
@@ -226,9 +230,30 @@ const Home=()=>{
         }
        })
 
-       setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
-       setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
-       setBlockImg("assets/images/Account-options/block.svg")
+       
+       console.log("The student account details")
+       console.log(fetchedStudentDetails)
+       console.log(fetchedStudentDetails.status)
+
+       if(fetchedStudentDetails.status==="Disabled"){
+            setSelectedStudentActiveStatus(false)
+            setCardIsBlocked(true)
+
+            setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
+            setBlockTitle(firstStudent.firstName+"'s Card Has Been Blocked")
+            setBlockImg("assets/images/animated/credit-card.gif")
+        }
+        else{
+            setSelectedStudentActiveStatus(true)
+            setCardIsBlocked(false)
+
+            setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
+            setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ " From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+            setBlockImg("assets/images/Account-options/block.svg")
+            
+        }
+
+
        
     },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent,selectedPocketMoneyId,dailyCardLimit])
     
@@ -275,11 +300,16 @@ const Home=()=>{
             setMyBlinkersCount(allBlinkers.length)
             //console.log(allBlinkers[0])
             //alert(studentId)
+
+            console.log(allBlinkers[clickedIndex].status)
+            console.log(allBlinkers[clickedIndex])
+
+            
         
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
             
             setStudentProfile(res.data.data.userProfile)
-
+            setFetchedStudentDetails(res.data.data)
             //clicke blinker wallet Id
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
 
@@ -473,7 +503,7 @@ const Home=()=>{
             console.log(res)
             setBlockErrMsg(res.data.statusDescription)
             if(res.status===200){
-                setBlockMsg(res.data.statusDescription)
+                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
                 setBlockImg("assets/images/Account-options/block.svg")
                 setCardIsBlocked(false)
 
@@ -531,6 +561,67 @@ const Home=()=>{
             $('.btn-block-card').prop('disabled', false).siblings().prop('disabled', false);
             $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
          })
+    }
+
+    const blockCard2=async(event)=>{
+        setStatusUpdate("Disabled");
+        event.preventDefault()
+        $('.btn-block-card').prop('disabled', true).siblings().prop('disabled', true);
+        $('.btn-block-card').children("div").removeClass('d-none').siblings('span').addClass('d-none')
+        //alert(firstStudent.userId)
+        //alert()
+        AuthService.changeAccountStatus(firstStudent.userId,"Disabled").then((res)=>{
+           setBlockErrMsg(res.data.statusDescription) 
+            if(res.status===200){
+               
+                setSelectedStudentActiveStatus(false)
+
+                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
+
+                setBlockTitle(firstStudent.firstName+"'s Card Has Been Blocked")
+                setBlockImg("assets/images/animated/credit-card.gif")
+                setCardIsBlocked(true)
+                $('.btn-block-card').prop('disabled', false).siblings().prop('disabled', false)
+                $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+            }
+            else{
+                alert("Action cant be performed at the moment. Try again later")
+            }
+        }).catch((err)=>{
+            alert("Something went wrong, try again later")
+        })
+    }
+
+    const unBlockCard2=async(event)=>{
+        setStatusUpdate("Active");
+        event.preventDefault()
+        $('.btn-set-unblock').prop('disabled', true).siblings().prop('disabled', true);
+        $('.btn-set-unblock').children("div").removeClass('d-none').siblings('span').addClass('d-none')
+        //alert(firstStudent.userId)
+        //alert()
+        AuthService.changeAccountStatus(firstStudent.userId,"Active").then((res)=>{
+           setBlockErrMsg(res.data.statusDescription) 
+            if(res.status===200){
+               
+                setSelectedStudentActiveStatus(true)
+                setBlockErrMsg(firstStudent?.firstName+"'s Account was succesfully reactivated.") 
+                
+                setBlockImg("assets/images/Account-options/block.svg")
+                setCardIsBlocked(false)
+
+                setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
+                setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+
+                $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
+                $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+                $('.block-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+            }
+            else{
+                alert("Action cant be performed at the moment. Try again later")
+            }
+        }).catch((err)=>{
+            alert("Something went wrong, try again later")
+        })
     }
     // $('.btn-block-card-close').unbind().on('click', function(){
     //     $('.unblock-card').addClass('d-none')
@@ -609,7 +700,15 @@ const Home=()=>{
                             <div className="flex-shrink-0 me-3">
                                 <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                 <div className="avatar-sm mx-auto ">
-                                    <span className="avatar-title text-uppercase rounded-circle bg-random font-size-20">
+                               
+                                    <span className="avatar-title text-uppercase rounded-circle bg-random font-size-20 position-relative">
+
+                                        {selectedStudentActiveStatus ? (
+                                            <></>
+                                            ):(                                                
+                                                <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger blocked-account p-1"><span class="visually-hidden">Blocked Account</span></span>
+                                            )
+                                        }
                                         {studentProfile?.institution != undefined && firstStudent?.firstName.charAt(0)+""+firstStudent?.middleName.charAt(0)}
                                     </span>
                                 </div>
@@ -617,7 +716,18 @@ const Home=()=>{
                             
                             <div className="flex-grow-1 chat-user-box me-3">
                                 <h6 className="user-title m-0  text-black">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
-                                <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
+                                <p className="text-muted m-0 p-0 font-size-12 ">{firstStudent?.blinkId} 
+                                {selectedStudentActiveStatus ? (
+                                       <></>
+                                    ):(
+                                        
+                                        <span class="badge badge-soft-danger ms-2 mr-2 text-uppercase fw-semibold">
+                                            <i className="mdi mdi-lock-remove"></i> Blocked
+                                        </span>
+                                    )
+                                }
+                                    
+                                </p>
                             </div>
                             {StdFunctions.isBlinkersMore(students?.length)?(
                                 <div className="d-flex justify-content-center align-items-center">
@@ -696,7 +806,13 @@ const Home=()=>{
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                             <div className="avatar-sm mx-auto ">
-                                                <span className="avatar-title rounded-circle bg-random font-size-20">
+                                                <span className="avatar-title position-relative rounded-circle bg-random font-size-20">
+                                                    {selectedStudentActiveStatus ? (
+                                                        <></>
+                                                        ):(                                                
+                                                            <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-danger blocked-account p-1"><span class="visually-hidden">Blocked Account</span></span>
+                                                        )
+                                                    }
                                                     {studentProfile.institution != undefined && firstStudent.firstName.charAt(0)+""+firstStudent.middleName.charAt(0)}
                                                 </span>
                                             </div>
@@ -704,7 +820,17 @@ const Home=()=>{
                                         
                                         <div className="flex-grow-1 chat-user-box me-3">
                                             <h6 className="user-title m-0  text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
-                                            <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}</p>
+                                            <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}
+                                                {selectedStudentActiveStatus ? (
+                                                    <></>
+                                                    ):(
+                                                        
+                                                        <span class="badge badge-soft-danger ms-2 mr-2 text-uppercase fw-semibold">
+                                                            <i className="mdi mdi-lock-remove"></i> Blocked
+                                                        </span>
+                                                    )
+                                                }
+                                            </p>
                                         </div>
                                         {StdFunctions.isBlinkersMore(students.length)?(
                                             <div className="d-flex justify-content-center align-items-center">
@@ -869,16 +995,30 @@ const Home=()=>{
                                             </div>
                                         </a>
 
-                                        <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
-                                            <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                <div className="avatar-sm mb-0">
-                                                    <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                        <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
+                                        {selectedStudentActiveStatus ? (
+                                                <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
+                                                    <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                        <div className="avatar-sm mb-0">
+                                                            <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                                <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Block {firstStudent?.firstName}</p>
                                                     </div>
-                                                </div>
-                                                <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Block {firstStudent?.firstName}</p>
-                                            </div>
-                                        </a>
+                                                </a>
+                                            ):(
+                                                <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
+                                                    <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
+                                                        <div className="avatar-sm mb-0">
+                                                            <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
+                                                                <img className="m-0 p-0" src="assets/images/Account-options/unblock.svg" alt="" height="45px"/>
+                                                            </div>
+                                                        </div>
+                                                        <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Unblock {firstStudent?.firstName}</p>
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
                                         
                                     </div>
                                 </div>
@@ -1639,7 +1779,7 @@ const Home=()=>{
                         <h5 className="modal-title"></h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="block-card-form"  onSubmit={blockCard} className="modal-body text-capitalize p-4 pt-0">
+                    <form id="block-card-form"  onSubmit={blockCard2} className="modal-body p-4 pt-0">
                         <div className="row">
                             <div className="col-12 text-center">
                                 <div className="mb-4">
@@ -1662,18 +1802,18 @@ const Home=()=>{
                         </div>
 
                     </form>
-                    <form id="unblock-card" onSubmit={unBlockCard}></form>
+                    <form id="unblock-card" onSubmit={unBlockCard2}></form>
                     <div className="modal-footer px-4">
 
                        <div className="col-12 d-flex ">
 
                             {cardIsBlocked ? (
                                <>
-                               <button form="unblock-card"   className=" btn-set-unblock me-3  btn btn-outline-info text-center flex-grow-1  justify-items-center align-items-center unblock-card">
-                                    <div class="spinner-border text-info m-0 d-none animate__slideInDown" role="status">
+                               <button form="unblock-card"   className=" btn-set-unblock me-3  btn btn-success text-center flex-grow-1  justify-items-center align-items-center unblock-card">
+                                    <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <span className="">Undo Action</span>
+                                    <span className="">Unblock {firstStudent?.firstName}</span>
                                 </button>
                                 <button data-bs-dismiss="modal"  className="btn-flex btn-outline-danger waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
                                     <div class="spinner-border d-none text-danger m-0 " role="status">

@@ -63,7 +63,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
               $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
               setUsername(data.email);
             //alert(res.data.data.userId);
-              window.location.reload()
+             window.location.reload()
               console.log(localStorage);
               //setTheParentId(res.data.data.userId);
               //alert(theParentId = {parentId})

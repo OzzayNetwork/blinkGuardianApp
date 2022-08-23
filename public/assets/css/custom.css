@@ -10,6 +10,9 @@
             left: 0;
             
            }
+           .blocked-account{
+            top: 18px !important;
+           }
            
            .min-vh-90{
             min-height: 90vh;
