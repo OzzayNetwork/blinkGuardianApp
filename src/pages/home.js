@@ -1669,7 +1669,7 @@ const Home=()=>{
                 <h5 className="offcanvas-title">Expenditure Limits</h5>
                 <button type="button mt-4" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0 d-flex flex-column justify-content-betwee">
+            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body px-0 d-flex flex-column justify-content-between pb-3">
                 <div className="form-content w-100">
                     <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                         <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
@@ -1681,7 +1681,7 @@ const Home=()=>{
                                         <h5 className="text-blink-primary limit-text">{dailyCardLimit}</h5>
                                     )
                                 }
-                                <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
+                                <input type="number" min="20" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                             </div>
                             <span  className="d-flex align-items-center change-icon">
                                 <small className="text-dark d-none">Change</small>
@@ -1739,7 +1739,7 @@ const Home=()=>{
                     </div>
 
                 </div>
-                <div className="d-flex flex-column p-3">
+                <div className="d-flex flex-column p-3 pb-5">
                     <div className="col-12">
                         <div className="msg-holder-err w-100 pt-0 px-0">
                             <div class="alert alert-danger alert-dismissible fade d-none limit-msg"  role="alert">

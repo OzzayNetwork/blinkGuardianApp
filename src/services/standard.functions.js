@@ -177,6 +177,22 @@ class stdFunctions {
         }
     }
 
+    
+    
+      
+
+    isDeviceAnAndroiid(){
+        var res = "Device is not Android Phone";
+        var Android = /(android)/i.test(navigator.userAgent);
+        
+        if(Android) {
+            return true
+        }
+        else{
+            return false
+        }
+    }
+
     //comparing two separate strings
     areTheyThesame(str1,str2){
 
