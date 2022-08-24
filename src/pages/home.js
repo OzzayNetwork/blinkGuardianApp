@@ -1669,7 +1669,7 @@ const Home=()=>{
                 <h5 className="offcanvas-title">Expenditure Limits</h5>
                 <button type="button mt-4" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0 d-flex flex-column justify-content-between">
+            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0 d-flex flex-column justify-content-betwee">
                 <div className="form-content w-100">
                     <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                         <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">

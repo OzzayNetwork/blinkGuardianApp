@@ -40,6 +40,11 @@
             height: 100vh;
         }
 
+        .offcanvas-body {            
+            overflow-y: scroll;
+            /* height: 20%; */
+        }
+
            .blocked-account{
             top: 18px !important;
            }
