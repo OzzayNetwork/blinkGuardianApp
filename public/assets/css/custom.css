@@ -10,8 +10,23 @@
             left: 0;
             
            }
+           .border-danger {
+            border:2px solid red;
+            position: relative;
+           }
+           .border-danger:before{
+            content: "";
+            
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid white;
+           }
            .offcanvas-bottom{
-            top: 0px !important;
+            /* top: 0px !important; */
            }
            .blocked-account{
             top: 18px !important;

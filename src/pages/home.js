@@ -700,8 +700,8 @@ const Home=()=>{
                             <div className="flex-shrink-0 me-3">
                                 <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                 <div className="avatar-sm mx-auto ">
-                               
-                                    <span className="avatar-title text-uppercase rounded-circle bg-random font-size-20 position-relative">
+                                    
+                                    <span className={`avatar-title text-uppercase rounded-circle bg-random font-size-20 position-relative ${selectedStudentActiveStatus ? "" : "border-danger"}`}>
 
                                         {selectedStudentActiveStatus ? (
                                             <></>
@@ -806,7 +806,7 @@ const Home=()=>{
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/logo-files/blink-icon2.svg" alt="Generic placeholder image" height="65"/>
                                             <div className="avatar-sm mx-auto ">
-                                                <span className="avatar-title position-relative rounded-circle bg-random font-size-20">
+                                                <span className={`avatar-title text-uppercase rounded-circle bg-random font-size-20 position-relative ${selectedStudentActiveStatus ? "" : "border-danger"}`}>
                                                     {selectedStudentActiveStatus ? (
                                                         <></>
                                                         ):(                                                
@@ -1665,7 +1665,7 @@ const Home=()=>{
 
         {/* expenditure mobile */}
         <div className="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            <div className="offcanvas-header">
+            <div className="offcanvas-header pt-5">
                 <h5>Expenditure Limits</h5>
                 <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
