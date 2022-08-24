@@ -1664,13 +1664,13 @@ const Home=()=>{
         </div>
 
         {/* expenditure mobile */}
-        <div className="offcanvas offcanvas-bottom pt-5" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            
+        <div className="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+            <div className="offcanvas-header">
+                <h5>Expenditure Limits</h5>
+                <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
             <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0">
-                <div className="offcanvas-header">
-                    <h5>Expenditure Limits</h5>
-                    <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
+                
                 
                 <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                     <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
