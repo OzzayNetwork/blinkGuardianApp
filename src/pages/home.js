@@ -1664,8 +1664,9 @@ const Home=()=>{
         </div>
 
         {/* expenditure mobile */}
-        <div className="offcanvas offcanvas-bottom pt-3" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            <div className="offcanvas-header pt-5">
+                                    
+        <div className={`offcanvas offcanvas-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3" : ""}`}   tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+            <div className={`offcanvas-header ${StdFunctions.isDeviceAnAndroiid() ? "pt-5" : ""}`}>
                 <h5 className="offcanvas-title">Expenditure Limits</h5>
                 <button type="button mt-4" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
