@@ -785,8 +785,8 @@ $('.payment-prev').unbind().on('click', function(){
           </div>
 
           {/* send money offcanvas */}
-        <div className="offcanvas offcanvas-bottom min-vh-100" tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
-        <div className="offcanvas-header">
+        <div className="offcanvas offcanvas-bottom min-vh-100 pt-3" tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
+        <div className="offcanvas-header pt-5">
 
             {stkSent ? (
                                <>
