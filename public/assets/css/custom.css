@@ -28,6 +28,17 @@
            .offcanvas-bottom{
             top: 0px !important;
            }
+
+           .offcanvas-bottom {
+            right: 0;
+            left: 0;
+            min-height: 100vh;
+            max-height: none;
+            border-top: 1px solid #f6f6f6;
+            -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+        }
+
            .blocked-account{
             top: 18px !important;
            }
