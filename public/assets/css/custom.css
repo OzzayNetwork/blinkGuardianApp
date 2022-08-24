@@ -10,6 +10,9 @@
             left: 0;
             
            }
+           .offcanvas-bottom{
+            top: 0px !important;
+           }
            .blocked-account{
             top: 18px !important;
            }
