@@ -1739,7 +1739,7 @@ const Home=()=>{
                     </div>
 
                 </div>
-                <div className="offcanvas-footer d-flex flex-column p-3">
+                <div className="d-flex flex-column p-3">
                     <div className="col-12">
                         <div className="msg-holder-err w-100 pt-0 px-0">
                             <div class="alert alert-danger alert-dismissible fade d-none limit-msg"  role="alert">
