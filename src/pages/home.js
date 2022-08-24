@@ -1665,8 +1665,8 @@ const Home=()=>{
 
         {/* expenditure mobile */}
         <div className="offcanvas offcanvas-bottom " tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            <div className="offcanvas-header">
-                <h5 id="offcanvasBottomExpenditureLabel">Expenditure Limits</h5>
+            <div className="">
+                <h5>Expenditure Limits</h5>
                 <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0">
