@@ -1664,12 +1664,12 @@ const Home=()=>{
         </div>
 
         {/* expenditure mobile */}
-        <div className="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            <div className="offcanvas-header">
+        <div className="offcanvas offcanvas-bottom pt-3" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+            <div className="offcanvas-header pt-5">
                 <h5 className="offcanvas-title">Expenditure Limits</h5>
                 <button type="button mt-4" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body px-0 d-flex flex-column justify-content-between pb-3">
+            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0 d-flex flex-column justify-content-between">
                 <div className="form-content w-100">
                     <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                         <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">
@@ -1739,7 +1739,7 @@ const Home=()=>{
                     </div>
 
                 </div>
-                <div className="d-flex flex-column p-3 pb-5">
+                <div className="d-flex flex-column p-3">
                     <div className="col-12">
                         <div className="msg-holder-err w-100 pt-0 px-0">
                             <div class="alert alert-danger alert-dismissible fade d-none limit-msg"  role="alert">
