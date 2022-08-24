@@ -1664,7 +1664,7 @@ const Home=()=>{
         </div>
 
         {/* expenditure mobile */}
-        <div className="offcanvas offcanvas-bottom " tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+        <div className="offcanvas offcanvas-bottom pt-5" tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
             
             <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0">
                 <div className="offcanvas-header">
