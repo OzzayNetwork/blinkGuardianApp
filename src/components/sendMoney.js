@@ -872,7 +872,7 @@ $('.payment-prev').unbind().on('click', function(){
                                   
                                   </div>
   
-                                  <label className="text-capitalize text-muted mb-2 mt-2 px-3">Account you are sending the money to</label>
+                                  <label className="text-capitalize text-muted mb-0 pb-2 mt-0 border-bottom px-3 w-100">Account you are sending the money to</label>
                                   <div className="mb-4 acount-type">
                                      
 
@@ -883,7 +883,7 @@ $('.payment-prev').unbind().on('click', function(){
                                                 <div>
                                                     <div className="d-none">Testing to see if my if else statememnt might work</div>
                                                         {StdFunctions.isActiveAccount(account.accountStatus) ? (
-                                                            <a onClick={()=>accountClicked(account.accountNumber,account.blinkersAccountType)}  className={`d-flex px-3 mb-3 pl-0 py-2 align-items-center accountsSelector cursor-pointer text-capitalize ${StdFunctions.areTheyThesame(account.accountNumber,activeAccount) ? "active" : ""}`}>
+                                                            <a onClick={()=>accountClicked(account.accountNumber,account.blinkersAccountType)}  className={`d-flex px-3 mb-0 pl-0 py-3 align-items-center accountsSelector cursor-pointer text-capitalize border-bottom ${StdFunctions.areTheyThesame(account.accountNumber,activeAccount) ? "active" : ""}`}>
                                                                 <div className="flex-shrink-0 me-3 pl-3">
                                                                     <img className="rounded-circle avatar-sm d-none" src="assets/images/blink-accounts/savings.svg" alt="Generic placeholder image" />
                                                                     {StdFunctions.isWelfareAccount(account.blinkersAccountType) ? (

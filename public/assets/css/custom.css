@@ -1214,6 +1214,9 @@
             }
 
             @media (max-width: 576px) {
+                .acount-type a.active:before{
+                    display:none
+                }
                 .mb-sm-0{
                     margin-bottom: 0px !important;
                 }
