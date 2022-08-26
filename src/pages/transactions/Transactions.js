@@ -803,16 +803,11 @@ const Transactions =()=> {
                             }
 
                             
-
-
-
-                            
-                            
                             {/* show when there no resuts to display */}
 
                             {areTransactionsEmpty? (
                                 <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center">
-                                    <div className="p-5 py-0 pt-5">
+                                    <div className="p-5 py-0 pt-3">
                                         <img src="assets/images/filter-imgs/no-results.svg" className="img mb-4" alt="No search results" height="207px" />
                                     </div>
                                     <h4>No Results To Show</h4>
