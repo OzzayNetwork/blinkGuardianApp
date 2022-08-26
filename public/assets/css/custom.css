@@ -1593,13 +1593,17 @@
                 .profile-abriv{
                     text-transform:uppercase
                 }
-                .transactions-navigation a.active{
+                .transactions-navigation .nav-link.active{
                     border-bottom:black solid 3px
                 }
                 .transactions-navigation a{
                     padding: 16px;
                     padding-top: 10px;
                     padding-bottom: 10px;
+                }
+
+                .placeholder{
+                    min-height: 0.6rem;
                 }
 
                 .options-cont{

@@ -42,6 +42,32 @@ const Transactions =()=> {
     const[clikedBlinkerId2,setClickedBlinkerId2]=useState(AuthService.getLogedInAssociates()[0].userId)
     const[clikedBlinkerIndex2,setClickedBlinkerIndex2]=useState(0)
 
+    //transaction filtering states
+    const[viewAllTransactions,setViewAllTransactions]=useState(true)
+    const[viewSpendTransactions,setSpendTransactions]=useState(false)
+    const[viewDepositTransactions,setViewDepositTransactions]=useState(false)
+    const[areTransactionsEmpty,setAreTransactionsEmpty]=useState(true)
+    const [loadTable,setLoadTable]=useState(true)
+
+    //view transactions functions
+    const viewAllFunc=()=>{
+        setViewAllTransactions(true)
+        setSpendTransactions(false)
+        setViewDepositTransactions(false)
+    }
+
+    const viewSpendFunc=()=>{
+        setViewAllTransactions(false)
+        setSpendTransactions(true)
+        setViewDepositTransactions(false)
+    }
+
+    const viewDepositFunc=()=>{
+        setViewAllTransactions(false)
+        setSpendTransactions(false)
+        setViewDepositTransactions(true)
+    }
+
     useEffect(()=>{
         const allBlinkers=AuthService.getLogedInAssociates()
         setFirstStudent(allBlinkers[0])
@@ -106,22 +132,68 @@ const Transactions =()=> {
 
     useEffect(()=>{
         setStudentTransactions([])
+        setLoadTable(true)
+        
         AuthService.getStudentTransactions(blinkWalletAccountNum,clikedBlinkerId2).then((res)=>{
+            console.log("The transactions are")
+            console.log(res) 
             if(res.status===200){
-               // alert("we found transactions")
-                setQuote(res);
-                setLoading(false);
+                if(viewAllTransactions===true){
+                    setQuote(res);
+                    
+                    setStudentTransactions(res.data.data)
+                    getTransactionsCount(res.data.length)
+
+                    let arraySize=res.data.data.length
+
+                    if(arraySize===0){
+                        setAreTransactionsEmpty(true)
+                    }
+                    else{
+                        setAreTransactionsEmpty(false)   
+                    }
+                    setLoadTable(false)
+                }
                 
-                //setStudentProfile(res.data.data.userProfile)
-                setStudentTransactions(res.data.data)
-                // console.log("We are here for transactions")
-                // console.log(res.data.data)
-                // console.log("The transactions start here <br/>"+res.data.length)
-                //alert(studentTransactions.length)
-                getTransactionsCount(res.data.length)
+                if(viewDepositTransactions===true){
+                    console.log("The deposit transactions are")
+                    //console.log(res.data.data)
+                    console.log(res.data.data.filter(x=>x.transType==='Deposit'))
+                    setStudentTransactions(res.data.data.filter(x=>x.transType==='Deposit'))
+                    getTransactionsCount(res.data.data.filter(x=>x.transType==='Deposit').length)
+                    let arraySize=res.data.data.filter(x=>x.transType==='Deposit').length
+
+                    if(arraySize===0){
+                        setAreTransactionsEmpty(true)
+                    }
+                    else{
+                        setAreTransactionsEmpty(false)   
+                    }
+                    setLoadTable(false)
+                }
+
+                if(viewSpendTransactions===true){
+                    console.log("Expenditure")
+                    console.log(res.data.data.filter(x=>x.transType==='Merchant_Pay'))
+                    let merchantPayTransactions=res.data.data.filter(x=>x.transType==='Merchant_Pay')
+                    let Money_transfer=res.data.data.filter(x=>x.transType==='Money_transfer')
+                    let AllExpenses= merchantPayTransactions.concat(Money_transfer);
+                   
+
+                    setStudentTransactions(AllExpenses)
+                    getTransactionsCount(AllExpenses.length)
+
+                    if(AllExpenses.length===0){
+                        setAreTransactionsEmpty(true)
+                    }
+                    else{
+                        setAreTransactionsEmpty(false)   
+                    }
+                    setLoadTable(false)
+                }
+
                 
                 if(res.data.data.length!=0){
-                    //alert("not zero")
                     $('body .show-trans-cont').removeClass("d-none");
                     $('body .no-trans-cont').addClass("d-none")
                     $('.product-items').each(function(index) {
@@ -130,7 +202,6 @@ const Transactions =()=> {
                     });
                 }
                 if(res.data.data.length===0){
-                    //alert("it is a zero")
                     $('body .show-trans-cont').addClass("d-none");
                     $('body .no-trans-cont').removeClass("d-none")
                 }
@@ -138,12 +209,12 @@ const Transactions =()=> {
             else{
                 alert("what just happened")
             }
-            console.log(res) 
+            
         }).catch((err)=>{
             console.log(err)
             //alert("Error occured")
         })
-    },[clikedBlinkerId2])
+    },[clikedBlinkerId2,viewAllTransactions,viewSpendTransactions,viewDepositTransactions])
     
 
     
@@ -161,6 +232,9 @@ const Transactions =()=> {
         return studentInstitutionName
     }
 
+    $('body').unbind().on('click','.nav-item .nav-link',function(){
+       $(this).addClass('active').parent().siblings().children().removeClass('active')
+    })
     
 
     
@@ -517,19 +591,19 @@ const Transactions =()=> {
                             </table>
                         </div>
                         <div className="table-responsive d-md-none d-sm-flex flex-column">
-                        <ul className=" align-items-center nav text-center fw-medium left border-bottom w-100 text-black transactions-navigation justify-content-between">
+                            <ul className=" align-items-center nav text-center fw-medium left border-bottom w-100 text-black transactions-navigation justify-content-between">
                                 <div className="d-flex">
                                     <li className="nav-item">
-                                        <a className="nav-link text-black active" href="#">All</a>
+                                        <span href="" onClick={viewAllFunc} className="nav-link text-black active" href="">All</span>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link text-black" href="#">Money In</a>
+                                        <span href="" onClick={viewDepositFunc} className="nav-link text-black" href="">Money In</span>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link text-black" href="#">Expenses</a>
+                                        <span href="" onClick={viewSpendFunc} className="nav-link text-black" href="">Expenses</span>
                                     </li>
                                 </div>
-                                <div className="d-flex">
+                                <div className="d-fle d-none">
                                     <button type="button" class="btn  btn-white waves-effect position-relative p-0 avatar-xs rounded-circle me-1">
                                         <span class="avatar-title bg-transparent text-reset">
                                             <i class="bx bx-search-alt text-black font-16px"></i>
@@ -549,7 +623,7 @@ const Transactions =()=> {
                                 
                             </ul>
 
-                            <table className="table table-nowrap  align-middle mb-0 table-hover ">
+                            <table className="table table-nowrap  align-middle mb-0 table-hover">
                                 <thead className="table-light d-non">
                                     <tr>
                                         
@@ -641,8 +715,121 @@ const Transactions =()=> {
                                 ))}
                                 </tbody>
                             </table>
+
+                            {/* loading place holder */}
+
+                            {loadTable? (
+                                <div className="card-body">
+                                    <div className="row mb-3">
+                                        <div className="col-2 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-1"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-10 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-2 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-1"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-10 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-3 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-2 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-1"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-10 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-2 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-1"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-10 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-5 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-2 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-1"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-10 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-4 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                ):(
+                                    <>
+                                   
+                                    </>
+                                )
+                            }
+
+                            
+
+
+
+                            
+                            
+                            {/* show when there no resuts to display */}
+
+                            {areTransactionsEmpty? (
+                                <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center">
+                                    <div className="p-5 py-0 pt-5 mt-3">
+                                        <img src="assets/images/filter-imgs/no-results.svg" className="img mb-4" alt="No search results" height="207px" />
+                                    </div>
+                                    <h4>No Results To Show</h4>
+                                    <p>We couldnt find what you are looking for, try changing the filters.</p>
+                                </div>
+                                ):(
+                                    <></>
+                                )
+                            }
+
+                            
+
                         </div>
                     </div>
+
+                    {/* show when there no resuts to display */}
+                    
                     <div className="card-body no-trans-cont px-5 d-flex flex-column justify-items-center align-items-center text-center">
                         <div className="p-5 py-0">
                             <img src="assets/images/illustration-images/empty-transactions.svg" className="img mb-4"/>
