@@ -58,7 +58,7 @@ const AuthMainContainer =()=>{
                                                                       <div className="d-flex justify-content-center align-items-center flex-column">
                                                                           
                                                                           <img src="assets/images/logo-files/blink-white.svg" alt="Nouveta Logo" className="img mb-3" style={{ width: "140px" }}/>
-                                                                          <h2 className="mb-0 pb-1"><strong className="text-white fw-medium">Guardian's Web Portal</strong></h2>
+                                                                          <h2 className="mb-0 pb-1"><strong className="text-white fw-medium">Guardian's Portal</strong></h2>
                                                                           <h6 className="text-uppercase"><strong className="text-white text-capitalize fw-light">manage your Dependants' Pocket Money from anywhere easily & Efficiently</strong></h6>
                                                                       </div>
                                                                   </div>

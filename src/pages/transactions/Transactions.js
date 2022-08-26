@@ -389,6 +389,7 @@ const Transactions =()=> {
                                         <th></th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
                                     
                                     {studentTransactions.length>0 && studentTransactions.map((transaction,index)=>(
@@ -474,19 +475,52 @@ const Transactions =()=> {
                                 
                             </table>
                         </div>
-                        <div className="table-responsive d-md-none d-sm-flex">
+                        <div className="table-responsive d-md-none d-sm-flex flex-column">
+                        <ul className=" align-items-center nav text-center fw-medium left border-bottom w-100 text-black transactions-navigation justify-content-between">
+                                <div className="d-flex">
+                                    <li className="nav-item">
+                                        <a className="nav-link text-black active" href="#">All</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link text-black" href="#">Money In</a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a className="nav-link text-black" href="#">Expenses</a>
+                                    </li>
+                                </div>
+                                <div className="d-flex">
+                                    <button type="button" class="btn  btn-white waves-effect position-relative p-0 avatar-xs rounded-circle me-1">
+                                        <span class="avatar-title bg-transparent text-reset">
+                                            <i class="bx bx-search-alt text-black font-16px"></i>
+                                        </span>
+                                    </button>
+
+                                    <button type="button" class="btn btn-white waves-effect position-relative p-0 avatar-xs rounded-circle me-3">
+                                        <span class="avatar-title bg-transparent text-reset">
+                                            <i class="bx bx-slider-alt text-black font-16px"></i>
+                                        </span>
+                                    </button>
+                                    
+
+                                   
+
+                                </div>
+                                
+                            </ul>
+
                             <table className="table table-nowrap  align-middle mb-0 table-hover ">
-                                <thead className="table-light">
+                                <thead className="table-light d-non">
                                     <tr>
                                         
-                                        <th className="" colspan="2">
+                                        <th className="text-black text-capitalize" colspan="2">
                                             Transaction details
                                         </th>
-                                        <th className="text-right">
+                                        <th className="text-right text-capitalize text-black">
                                             <span>Amount & time</span>
                                         </th>
                                     </tr>
                                 </thead>
+                                
                                 
                                 <tbody>
 

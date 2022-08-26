@@ -11,19 +11,19 @@
             
            }
            .border-danger {
-            border:2px solid red;
+            /* border:2px solid red; */
             position: relative;
+            margin-left: 7%;
            }
            .border-danger:before{
             content: "";
-            
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 114%;
+            height: 114%;
             position: absolute;
             border-radius: 50%;
-            border: 1px solid white;
+            border: 2px solid red;
+            top: -7%;
+            left: -7%;
            }
            .offcanvas-bottom{
             bottom: 0px !important;
@@ -1593,5 +1593,67 @@
                 .profile-abriv{
                     text-transform:uppercase
                 }
+                .transactions-navigation a.active{
+                    border-bottom:black solid 3px
+                }
+                .transactions-navigation a{
+                    padding: 16px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                }
+
+                .options-cont{
+                    display: -ms-flexbox;
+                    display: flex;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    width: 45px;
+                    height: 45px;
+                    -webkit-transition: background-color 200ms ease;
+                    transition: background-color 200ms ease;
+                    border-radius: 6px;
+                    background: #f8f8f8;
+                }
+                .options-cont img{
+                    height: 20px;
+                }
+                .font-11px{
+                    font-size: 11px;
+                }
+
+                .options-cont-purple{
+                    background: #f8f8f8 !important;
+                }
+
+                .options-cont-purple:hover{
+                    background: #eae5ef !important;
+                }
+                .options-cont-success{
+                    background: #e0f3f2 !important;
+                }
+
+                .options-cont-success:hover{
+                    background: #b3e1dc !important;
+                }
+
+                .options-cont-warning{
+                    background: #fffbc5 !important;
+                }
+
+                .options-cont-warning:hover{
+                    background: #fcf276 !important;
+                }
+
+                .options-cont-danger{
+                    background: #ffe9ec !important;
+                }
+
+                .options-cont-danger:hover{
+                    background: #ffc8cb !important;
+                }
+
+                
                
                   

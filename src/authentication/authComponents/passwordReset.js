@@ -105,12 +105,12 @@ const PasswordReset=()=>{
             )
           }
       <Helmet>
-        <title>Blink! | Reset your Password</title>
+        <title>Blink! | Reset Your Pass Code</title>
       </Helmet>
       <div className="my-auto">
 
         <div>
-            <h5 className="text-primary"> Reset Your Password</h5>
+            <h5 className="text-primary"> Reset Your Pass Code</h5>
             <p className="text-muted">Enter your Phone number and an OTP will be sent to you.</p>
         </div>
 

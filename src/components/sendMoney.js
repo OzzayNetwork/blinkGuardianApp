@@ -17,6 +17,7 @@ const SendMoney=()=>{
     const [payStep,setPayStep]=useState(0)
     const[stkSent,setStkSent]=useState(false)
     const[transactionFee,setTransactionFee]=useState(0)
+    
 
     console.log(localStorage)
 
@@ -767,7 +768,7 @@ $('.payment-prev').unbind().on('click', function(){
                       
                   </form>
                   <div className="modal-footer d-flex">
-                      <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previouse </button>
+                      <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previous </button>
                         {StdFunctions.isGreaterThanZero(sendAmount)? (
                             <button  className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
                             
@@ -1243,7 +1244,7 @@ $('.payment-prev').unbind().on('click', function(){
                             ):(
                                 <>
                                 <div className="d-flex col-12 align-items justify-content-between">
-                                 <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previouse </button>
+                                 <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previous </button>
                                     {StdFunctions.isGreaterThanZero(sendAmount)? (
                                         <button  className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
                                         

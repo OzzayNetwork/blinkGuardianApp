@@ -27,6 +27,8 @@ const Home=()=>{
     const [fetchedStudentDetails,setFetchedStudentDetails]=useState({})
     const[statusUpdate,setStatusUpdate]=useState("")
 
+    //const[isLimitSet,setIsLimitSet]=useState(false)
+
     const [selectedStudentActiveStatus,setSelectedStudentActiveStatus]=useState(true)
 
     const [students, setstudents] = useState([])
@@ -212,10 +214,20 @@ const Home=()=>{
        
         console.log("The account Limits ARe: "+res.data.data.find(x=>x.limitPeriod==="DAILY").amount)
         setAlllimits(res.data.data)
+
+        console.log("the account limits starts here")
         console.log(res)
         if(res.status===200){
-            setDailyCardLimit(res.data.data.find(x=>x.limitPeriod==="DAILY").amount)
-            setIsDailyLimitSet(true)
+            
+            if(res.data.data.find(x=>x.limitPeriod==="DAILY").limitStatus==="Active"){
+                //alert("A limit is set")
+                setDailyCardLimit(res.data.data.find(x=>x.limitPeriod==="DAILY").amount)
+                setIsDailyLimitSet(true)
+            }
+            else{
+                setIsDailyLimitSet(false)  
+                setDailyCardLimit("Not Set")
+            }
         }
         else{
             setIsDailyLimitSet(false) 
@@ -239,7 +251,7 @@ const Home=()=>{
             setSelectedStudentActiveStatus(false)
             setCardIsBlocked(true)
 
-            setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
+            setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
             setBlockTitle(firstStudent.firstName+"'s Card Has Been Blocked")
             setBlockImg("assets/images/animated/credit-card.gif")
         }
@@ -248,7 +260,7 @@ const Home=()=>{
             setCardIsBlocked(false)
 
             setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
-            setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ " From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+            setBlockMsg("Are you sure you want to block the card?")
             setBlockImg("assets/images/Account-options/block.svg")
             
         }
@@ -477,19 +489,78 @@ const Home=()=>{
                 $('.limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
                 $('.close-limit-box').addClass('d-none')   
                 $('.limit-msg').removeClass('d-none').removeClass('fade')
-                seterrorMsg("Daily Transaction Limit of "+StdFunctions.kenyaCurrency(newDailyCardLimit)+" has been updted to the account")
+                seterrorMsg("Daily transaction limit for "+firstStudent?.firstName +" "+firstStudent?.middleName+" has been updated to "+StdFunctions.kenyaCurrency(newDailyCardLimit))
                 $('.btn-set-limit-sm').prop('disabled', true);
                 setDailyCardLimit(newDailyCardLimit)
                 setIsDailyLimitSet(true)
                 $('.account-limit-modal .modal-footer ').addClass('d-none')
+                setIsDailyLimitSet(true)
+
+                if(res.data.data.limitStatus==="Inactive"){
+                    AuthService.inactivateLimit(data).then((res)=>{
+                        if(res.status===200){
+                            setIsDailyLimitSet(true)
+                        }
+                    })
+                 }
+                
             }
            
          
         }).catch((err)=>{
           console.log(err)
           $('.btn-set-limit').prop('disabled', false);  
-           $('.btn-set-limit').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')        
+           $('.btn-set-limit').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')   
+                
         })
+    }
+
+    //disable limit
+    const disableLimit=async(event)=>{
+        $('.disable-limits').prop('disabled', true);
+        event.preventDefault(); 
+        $('.disable-limits').children('div').removeClass('d-none').addClass('animate__animated').siblings('span').addClass('d-none') 
+
+        let data={
+            "amount":newDailyCardLimit,
+            "blinkAccountId":selectedPocketMoneyId,
+            "limitPeriod":"DAILY",
+            "limitStatus":"Inactive",
+            "addedBy":StdFunctions.parentId,
+            "kidUserId":firstStudent.userId
+          }
+
+          AuthService.inactivateLimit(data).then((res)=>{           
+            console.log(res)
+           
+            $('.limit-msg').show().removeClass('d-none').addClass('show')
+ 
+            if(res.status===200){
+                 seterrorMsg(res.data.statusDescription)
+                 $('.disable-limits').prop('disabled', false);  
+                 $('.disable-limits').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none') 
+                 $('.limit-container').addClass('waves-effect').find('input').addClass('d-none');
+                 $('.limit-container').find('.limit-text').removeClass('d-none')
+                 $('.limit-container').find('.change-icon').removeClass('d-none').addClass('d-flex')
+                 $('.limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                 $('.close-limit-box').addClass('d-none')   
+                 $('.limit-msg').removeClass('d-none').removeClass('fade')
+                 seterrorMsg("Daily transaction limit for "+firstStudent?.firstName +" "+firstStudent?.middleName+" has disabled")
+                 $('.btn-set-limit-sm').prop('disabled', true);
+                 $('.account-limit-modal .modal-footer ').addClass('d-none')
+                 setIsDailyLimitSet(false)
+                 setDailyCardLimit("Not Set")
+                 console.log(res.data)
+                
+             }
+            
+          
+         }).catch((err)=>{
+           console.log(err)
+           $('.disable-limits').prop('disabled', false);  
+            $('.disable-limits').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')   
+                 
+         })
     }
     const unBlockCard=async(event)=>{
         event.preventDefault()
@@ -503,12 +574,12 @@ const Home=()=>{
             console.log(res)
             setBlockErrMsg(res.data.statusDescription)
             if(res.status===200){
-                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
+                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
                 setBlockImg("assets/images/Account-options/block.svg")
                 setCardIsBlocked(false)
 
                 setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
-                setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+                setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+" From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
 
                 $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
                 $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
@@ -576,7 +647,7 @@ const Home=()=>{
                
                 setSelectedStudentActiveStatus(false)
 
-                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. You can undo your action or opt to do so on a later date from this platform.")
+                setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
 
                 setBlockTitle(firstStudent.firstName+"'s Card Has Been Blocked")
                 setBlockImg("assets/images/animated/credit-card.gif")
@@ -610,7 +681,7 @@ const Home=()=>{
                 setCardIsBlocked(false)
 
                 setBlockTitle("Block " +firstStudent?.firstName+"'s Card")
-                setBlockMsg("Are You Sure You Want To Block " +firstStudent?.firstName+ "From Using His Card, If You Do So The Card Will Not Be In Use Up Until You Unblock It.")
+                setBlockMsg("Are you sure you want to block the card?")
 
                 $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
                 $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
@@ -685,7 +756,7 @@ const Home=()=>{
 
         <div className="row d-sm-none d-md-flex">
             <div className="col-12">
-                <h4 className="text-black pt-0 pl-0 pb-3 p-3  fw-medium m-0">Hello, {parentFName}</h4>
+                <h4 className="text-black pt-0 pl-0 pb-3 p-3  fw-medium m-0 text-capitalize">Hello, {parentFName}</h4>
             </div>
         </div>
 
@@ -715,7 +786,7 @@ const Home=()=>{
                             </div>
                             
                             <div className="flex-grow-1 chat-user-box me-3">
-                                <h6 className="user-title m-0  text-black">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                <h6 className="user-title m-0  text-black text-capitalize">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                 <p className="text-muted m-0 p-0 font-size-12 ">{firstStudent?.blinkId} 
                                 {selectedStudentActiveStatus ? (
                                        <></>
@@ -798,7 +869,7 @@ const Home=()=>{
         </div>
             <div className="col-lg-12 ">
                 <div className="card no-shadow-sm mb-sm-0 mb-md-4 mb-xs-0 mb-4 mb-xm-0">
-                    <div className="card-body pt-2 pb-2">
+                    <div className="card-body pt-2 pb-0 mb-3 border-sm-bottom-1px">
                         <div className="row">
                             <div className="col-lg-4 d-md-none d-sm-none d-lg-flex align-content-center">
                                 <div className="dropdown d-inline-block w-100 d-flex align-items-center">
@@ -819,7 +890,7 @@ const Home=()=>{
                                         </div>
                                         
                                         <div className="flex-grow-1 chat-user-box me-3">
-                                            <h6 className="user-title m-0  text-black fw-medium">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
+                                            <h6 className="user-title m-0  text-black fw-medium text-capitalize">{firstStudent?.firstName+" "+firstStudent?.middleName}</h6>
                                             <p className="text-muted m-0 p-0 font-size-12">{firstStudent?.blinkId}
                                                 {selectedStudentActiveStatus ? (
                                                     <></>
@@ -962,59 +1033,72 @@ const Home=()=>{
                                             </div>
                                         </div>
 
+                                       
+
+                                        {/* my profile two */}
                                         <a href="#" className="col-4 waves-effect py-3">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                <div className="avatar-sm mb-0">
+                                                <div className="options-cont options-cont-purple mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                        <img className="m-0 p-0" src="assets/images/Account-options/profile.svg" alt="" height="45px"/>
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/account-1.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="fw-medium text-black text-center text-center mb-0 mt-2">{firstStudent?.firstName}'s Profile</p>
+                                                <p className="fw-medium text-black text-center text-center font-11px mb-0 mt-2">{firstStudent?.firstName}'s Profile</p>
                                             </div>
                                         </a>
 
                                         <a href="#" className="col-4 waves-effect py-3 d-sm-none d-md-block" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                <div className="avatar-sm mb-0">
+                                                <div className="options-cont options-cont-warning mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                        <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/limit-2.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium font-12px text-center mb-0 mt-2">Change Limits</p>
+                                                {isDailyLimitSet ? (
+                                                    <p className="text-black fw-medium font-11px text-center mb-0 mt-2">Change Limit</p>
+                                                    ):(
+                                                        <p className="text-black fw-medium font-11px text-center mb-0 mt-2">Set Limit</p>
+                                                    )
+                                                }
                                             </div>
                                         </a>
 
                                         <a href="#" className="col-4 waves-effect d-sm-block d-md-none py-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-limits" aria-controls="offcanvasBottom">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                <div className="avatar-sm mb-0">
+                                                <div className="options-cont options-cont-warning mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                        <img className="m-0 p-0" src="assets/images/Account-options/settings.svg" alt="" height="45px"/>
+                                                        <img className="m-0 p-0" src="assets/images/Account-options/limit-2.svg" alt="" height="45px"/>
                                                     </div>
                                                 </div>
-                                                <p className="text-black fw-medium font-12px text-center mb-0 mt-2">Change Limits</p>
+                                                {isDailyLimitSet ? (
+                                                    <p className="text-black fw-medium font-11px text-center mb-0 mt-2">Change Limit</p>
+                                                    ):(
+                                                        <p className="text-black fw-medium font-11px text-center mb-0 mt-2">Set Limit</p>
+                                                    )
+                                                }
                                             </div>
                                         </a>
 
                                         {selectedStudentActiveStatus ? (
                                                 <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
                                                     <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                        <div className="avatar-sm mb-0">
+                                                        <div className="options-cont options-cont-danger mb-0">
                                                             <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                                <img className="m-0 p-0" src="assets/images/Account-options/block.svg" alt="" height="45px"/>
+                                                                <img className="m-0 p-0" src="assets/images/Account-options/block-2.svg" alt="" height="45px"/>
                                                             </div>
                                                         </div>
-                                                        <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Block {firstStudent?.firstName}</p>
+                                                        <p className="text-black fw-medium font-11px text-center font-11px mb-0 mt-2">Block {firstStudent?.firstName}</p>
                                                     </div>
                                                 </a>
                                             ):(
                                                 <a href="#" className="col-4 waves-effect py-3" data-bs-toggle="modal" data-bs-target=".account-block-modal">
                                                     <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
-                                                        <div className="avatar-sm mb-0">
+                                                        <div className="options-cont options-cont-success mb-0">
                                                             <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
-                                                                <img className="m-0 p-0" src="assets/images/Account-options/unblock.svg" alt="" height="45px"/>
+                                                                <img className="m-0 p-0" src="assets/images/Account-options/unblock-2.svg" alt="" height="45px"/>
                                                             </div>
                                                         </div>
-                                                        <p className="text-black fw-medium text-center font-12px mb-0 mt-2">Unblock {firstStudent?.firstName}</p>
+                                                        <p className="text-black fw-medium text-center font-11px mb-0 mt-2">Unblock {firstStudent?.firstName}</p>
                                                     </div>
                                                 </a>
                                             )
@@ -1045,7 +1129,7 @@ const Home=()=>{
                                         <div className="flex-shrink-0 align-self-center mb-2">
                                             <img src="assets/images/users/avatar-1.jpg" className="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
                                             <div class="avatar-md avatar-card mx-auto ">
-                                                <span class="avatar-title rounded-circle bgrandom7 font-size-20 border-white">
+                                                <span class="avatar-title rounded-circle bgrandom7 font-size-20 border-white text-uppercase">
                                                 {studentProfile?.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
                                                 </span>
                                             </div>
@@ -1562,7 +1646,7 @@ const Home=()=>{
                     </div>
                     <form id="changeLimit" onSubmit={newLimit} className="modal-body ro text-capitalize p-0">
                         <div className="px-3 col-12">
-                            <div className="msg-holder-err w-100 pt-3 px-3 p-0">
+                            <div className="msg-holder-err w-100 pt-3 px-3 p-0 text-none">
                                 <div class="alert alert-danger alert-dismissible fade d-none limit-msg" id="" role="alert">
                                     <i class="mdi mdi-block-helper me-2"></i>
                                     {errorMsg}
@@ -1641,15 +1725,22 @@ const Home=()=>{
                        </div>
 
                     </form>
+                    <form onSubmit={disableLimit} id="limit-disable"></form>
                     <div className="modal-footer d-flex d-none px-3">
 
                        <div className="col-12 d-flex ">
-                            <button className="btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center d-none">
-                                <div class="spinner-border d-none text-secondary m-0 " role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                                <span className="">Disable Limits</span>
-                            </button>
+                            
+                            {isDailyLimitSet ? (
+                                <button form="limit-disable" className="disable-limits btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center">
+                                    <div class="spinner-border d-none text-secondary m-0 " role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">Disable Limits</span>
+                                </button>
+                                ):(
+                                    <></>
+                                )
+                            }
 
                             <button form="changeLimit" className="btn-flex btn-set-limit  btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">
                                 <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
@@ -1750,14 +1841,21 @@ const Home=()=>{
                             </div>
                         </div>
                     </div>
-                    <div className="col-12 d-none">
-                        <button className="btn w-100 d-non btn-outline-secondary waves-effect btn-flex btn mb-3 text-center justify-items-center align-items-center">
-                            <div class="spinner-border d-none text-secondary m-0 " role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                            <span className="">Disable Limits</span>
-                        </button>
+                    <div className="col-12 d-non">
+                        {isDailyLimitSet ? (
+                            <button form="limit-disable" className="disable-limits mb-3 w-100 btn btn-outline-secondary waves-effect btn-flex btn me-3  text-center justify-items-center align-items-center">
+                                <div class="spinner-border d-none text-secondary m-0 " role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Disable Limits</span>
+                            </button>
+                            ):(
+                                <></>
+                            )
+                        }
                     </div>
+
+                   
 
                     <div className="col-12">
                         <button disabled form="changeLimit2" className="btn-flex btn-set-limit btn-set-limit-sm w-100 btn btn-primary text-center flex-grow-1  justify-items-center align-items-center">

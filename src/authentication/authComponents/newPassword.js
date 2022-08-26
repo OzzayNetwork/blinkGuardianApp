@@ -39,7 +39,7 @@ const NewPassword=()=>{
                 setCanClick(true)
             }
             else{
-                setPassErr("Password Mismatch!")
+                setPassErr("Pass Code Mismatch!")
                 $('.pass-feedback').addClass("text-danger").removeClass("text-success")
                 $('.msg-icon').removeClass('bx-check-double').addClass('bx-block')
                 setCanClick(false)
@@ -77,6 +77,7 @@ const NewPassword=()=>{
                 $('#success-modal').click()
                 setQuote(res.data);       
                 seterrorMsg(res.data.statusDescription)  
+                seterrorMsg("Pass Code Successfully Updated")
                 console.log("The change Password response")
                 console.log(res.data)
                 
@@ -169,7 +170,7 @@ const NewPassword=()=>{
           }
 
           <Helmet>
-            <title>Blink! | Set your new password</title>
+            <title>Blink! | Set Your New Pass Code</title>
 
             <script src="assets/libs/parsleyjs/parsley.min.js"></script>
               
@@ -177,8 +178,8 @@ const NewPassword=()=>{
           <div className="my-auto">
   
           <div>
-              <h5 className="text-primary">New Password</h5>
-            <p className="text-muted">Hello <span className="text-capitalize fw-semibold text-black">{accountFirstName+" "+accountMiddleName}</span>, correctly fill in the inputs below so as to set your <strong className="text-black fw-medium">4 digit password</strong></p>
+              <h5 className="text-primary">New Pass Code</h5>
+            <p className="text-muted">Hello <span className="text-capitalize fw-semibold text-black">{accountFirstName+" "+accountMiddleName}</span>, correctly fill in the inputs below to reset your <strong className="text-black fw-medium text-capitalize">4 digit Pass Code</strong></p>
           </div>
   
           <div className="mt-4">
@@ -193,18 +194,18 @@ const NewPassword=()=>{
                     </div>
 
                   <div className="mb-3">
-                      <label for="userpassword" className="form-label">New Password</label>
-                      <input  onChange={(event)=>setNewPassword(event.target.value)} maxLength="4" required type="password" className="form-control" id="userpassword" placeholder="4 Digit Password" required/>
-                      <div className="invalid-feedback">
-                          Enter your new password
+                      <label for="userpassword" className="form-label">New Pass Code</label>
+                      <input  onChange={(event)=>setNewPassword(event.target.value)} maxLength="4" required type="password" className="form-control" id="userpassword" placeholder="4 Digit Pass Code" required/>
+                      <div className="invalid-feedback text-capitalize">
+                          Enter your New Pass Code
                       </div>
                   </div>
   
                   <div className="mb-3">
-                      <label for="userpassword" className="form-label">Confirm Password</label>
-                      <input  onChange={(event)=>setConfirmPassword(event.target.value)}  maxLength="4" required type="password" className="form-control" id="confirmpassword" placeholder="Confirm Password" required/>
-                      <div className="invalid-feedback">
-                          Password mismatch
+                      <label for="userpassword" className="form-label">Confirm Pass Code</label>
+                      <input  onChange={(event)=>setConfirmPassword(event.target.value)}  maxLength="4" required type="password" className="form-control" id="confirmpassword" placeholder="Confirm Pass Code" required/>
+                      <div className="invalid-feedback text-capitalize">
+                          Pass code mismatch
                       </div>
                   </div>
   
@@ -213,7 +214,7 @@ const NewPassword=()=>{
                   </div>
   
                   <div className="mt-4 d-grid d-flex">
-                        <Link to="/Login/otpVerification" className="btn btn-outline-secondary waves-effect" type="submit">Previouse</Link>
+                        <Link to="/Login/otpVerification" className="btn btn-outline-secondary waves-effect text-capitalize" type="submit">Previous</Link>
                         <span className="opacity-0">nt</span>
 
                         {canClick? (
@@ -264,7 +265,7 @@ const NewPassword=()=>{
                             <h5 className="modal-title"></h5>
                             <button type="button" className="btn-close d-none"  data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form id="block-card-form"   className="modal-body text-capitalize p-4 pt-0">
+                        <form id="block-card-form"   className="modal-body p-4 pt-0">
                             <div className="row">
                                 <div className="col-12 text-center">
                                     <div className="mb-3">
@@ -272,7 +273,7 @@ const NewPassword=()=>{
                                     </div>
                                     <h5 className="text-uppercase text-black fw-semibold">{errorMsg}</h5>
                                     <p className="text-muted">
-                                        Click the button below which will take you to the login page from which you can login using your newley created password
+                                        Your Pass Code has been updated, use your new Pass Code to login.
                                     </p>
                                 </div>
                             </div>
@@ -283,7 +284,7 @@ const NewPassword=()=>{
                                     <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
-                                    <span className="">OK</span>
+                                    <span className="">Continue</span>
                                 </button>
                         </div>
                         </div>

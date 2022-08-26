@@ -19,6 +19,8 @@ const [passWord,setPassword]=useState("");
 const [errorMsg, seterrorMsg]=useState("");
 const [loginClicked,setLoginClicked]=useState(false)
 const[passwordStatus,setPasswordStatus]=useState(false)
+const[fname,setFname]=useState("")
+const[midName,setMidName]=useState("")
 
 
 
@@ -75,6 +77,8 @@ const[passwordStatus,setPasswordStatus]=useState(false)
               console.log(res.data.data)
               setLoginClicked(false)
               document.getElementById("password-modal").click();
+              setFname(res.data.data.userProfile.firstName)
+              setMidName(res.data.data.userProfile.lastName)
              
             }
           
@@ -102,7 +106,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
       </Helmet>
       <div className="my-auto">
         <div>
-          <h5 className="text-primary">Welcome Back !</h5>
+          <h5 className="text-primary">Welcome Back!</h5>
           <div className="msg-holder-err ">
             <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
                 <i class="mdi mdi-block-helper me-2"></i>
@@ -142,10 +146,10 @@ const[passwordStatus,setPasswordStatus]=useState(false)
             <div className="mb-3">
               <div className="float-end">
                 <Link to="PasswordReset" className="fw-medium">
-                  Forgot password?
+                  Forgot Pass Code?
                 </Link>
               </div>
-              <label className="form-label">Password</label>
+              <label className="form-label">Pass Code</label>
               <div className="input-group auth-pass-inputgroup text-capitalize">
                 <input
                   type="password"
@@ -180,7 +184,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
 
             <div className="mt-3 d-grid">
               <button
-                className="btn btn-primary waves-effect waves-light d-none "
+                className="btn btn-primary waves-effect waves-light d-none"
                 id="password-modal"
                 type="button"
                 data-bs-toggle="modal" data-bs-target=".set-password"
@@ -222,15 +226,15 @@ const[passwordStatus,setPasswordStatus]=useState(false)
                         <h5 className="modal-title"></h5>
                         <button type="button" className="btn-close" id="dismis-btn-dont-block" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="block-card-form"   className="modal-body text-capitalize p-4 pt-0">
+                    <form id="block-card-form"   className="modal-body p-4 pt-0">
                         <div className="row">
                             <div className="col-12 text-center">
                                 <div className="mb-3">
                                     <img className="m-0 p-0" src="assets/images/animated/lock.gif" alt="" height="130px"/>
                                 </div>
-                                <h5 className="text-uppercase text-black fw-semibold">Password not set</h5>
+                                <h5 className="text-uppercase text-black fw-semibold">Pass Code not set</h5>
                                 <p className="text-muted">
-                                  The password to your account has not been set. Proceded to setting up your password by clicking the button below.
+                                  Welcome {fname+" "+midName} to your guardian portal account. Proceed to set your Pass Code.
                                 </p>
                             </div>
                         </div>
@@ -241,7 +245,7 @@ const[passwordStatus,setPasswordStatus]=useState(false)
                                 <div class="spinner-border text-white m-0 d-none animate__slideInDown" role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
-                                <span className="">Set Up Your Password</span>
+                                <span className="">Continue</span>
                             </Link>
                        </div>
                     </div>

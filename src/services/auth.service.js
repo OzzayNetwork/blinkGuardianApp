@@ -47,6 +47,10 @@ class AuthService {
       return axiosInstance.post(baseUrl+"/api/v2/blinkerAccountLimits/addBlinkAccountLimit",data)
    }
 
+   inactivateLimit(data){
+      return axiosInstance.post(baseUrl+"/api/v2/blinkerAccountLimits/updateBlinkAccountLimit",data)
+   }
+
    deactivateCard(data){
       return axiosInstance.post(baseUrl+"/api/v2/accounts/deactivateCard",data)
    }
