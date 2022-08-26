@@ -38,9 +38,23 @@ const Transactions =()=> {
     const [schoolName,setSchoolName]=useState("")
     const [myBlinkersCount,setMyBlinkersCount]=useState(0);
 
-     useEffect(() => {
+    //blinker index and blinker id
+    const[clikedBlinkerId2,setClickedBlinkerId2]=useState(AuthService.getLogedInAssociates()[0].userId)
+    const[clikedBlinkerIndex2,setClickedBlinkerIndex2]=useState(0)
 
+    useEffect(()=>{
+        const allBlinkers=AuthService.getLogedInAssociates()
+        setFirstStudent(allBlinkers[0])
+        setClickedBlinkerIndex2(0)
+        setClickedBlinkerId2(AuthService.getLogedInAssociates()[0].userId)
+    },[])
+
+     useEffect(() => {
+        console.log(clikedBlinkerIndex2)
+        console.log("The clicked ID is "+clikedBlinkerId2)
+        console.log(firstStudent)
         setLoading(true);
+
 
         $('.product-items').each(function(index) {
             const products = $(this).text()
@@ -51,65 +65,86 @@ const Transactions =()=> {
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
-        setFirstStudent(allBlinkers[0])
+        setFirstStudent(allBlinkers[clikedBlinkerIndex2])
         setMyBlinkersCount(allBlinkers.length)
         //console.log(allBlinkers[0])
         
-        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
-            setQuote(res);
-            setTimeout(() => {
-                setLoading(false);
-              }, 2000);
+        AuthService.getStudentDetails(clikedBlinkerId2).then((res)=>{
+            if(res.status===200){
+                console.log(res)
+                setQuote(res);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 2000);
 
-            setStudentProfile(res.data.data.userProfile)
+                setStudentProfile(res.data.data.userProfile)
+                
+                //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+                setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+                console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
+                //alert(blinkWalletAccountNum)
+                console.log(studentProfile)
+            }
+            else{
+               // alert("some error")
+            }
+           // alert("No error ocured")
             
-            //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
-            setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
-            console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
-            //alert(blinkWalletAccountNum)
-            console.log(studentProfile)
         }).catch((err)=>{
-
+            //alert("err when getting students")
+            //setStudentProfile({})
+            setClickedBlinkerId2("1300")
+            setClickedBlinkerIndex2(0)
         })
 
         
 
         console.log("The transactions should appear down here as an object")
 
-        AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
-            setQuote(res);
-            setLoading(false);
+       
+    },[clikedBlinkerId2])
 
-            //setStudentProfile(res.data.data.userProfile)
-            setStudentTransactions(res.data.data)
-            // console.log("We are here for transactions")
-            console.log(res.data.data)
-            // console.log("The transactions start here <br/>"+res.data.length)
-            //alert(studentTransactions.length)
-            //getTransactionsCount(res.data.length)
-            //transactionsCountTwo=res.data.len
-            
-            if(res.data.data.length!=0){
-                //alert("not zero")
-                $('body .show-trans-cont').removeClass("d-none");
-                $('body .no-trans-cont').addClass("d-none")
-                $('.product-items').each(function(index) {
-                    const products = $(this).text()
-                   $(this).text(StdFunctions.removeFirstCharacter(products))
-                });
+    useEffect(()=>{
+        setStudentTransactions([])
+        AuthService.getStudentTransactions(blinkWalletAccountNum,clikedBlinkerId2).then((res)=>{
+            if(res.status===200){
+               // alert("we found transactions")
+                setQuote(res);
+                setLoading(false);
+                
+                //setStudentProfile(res.data.data.userProfile)
+                setStudentTransactions(res.data.data)
+                // console.log("We are here for transactions")
+                // console.log(res.data.data)
+                // console.log("The transactions start here <br/>"+res.data.length)
+                //alert(studentTransactions.length)
+                getTransactionsCount(res.data.length)
+                
+                if(res.data.data.length!=0){
+                    //alert("not zero")
+                    $('body .show-trans-cont').removeClass("d-none");
+                    $('body .no-trans-cont').addClass("d-none")
+                    $('.product-items').each(function(index) {
+                        const products = $(this).text()
+                    $(this).text(StdFunctions.removeFirstCharacter(products))
+                    });
+                }
+                if(res.data.data.length===0){
+                    //alert("it is a zero")
+                    $('body .show-trans-cont').addClass("d-none");
+                    $('body .no-trans-cont').removeClass("d-none")
+                }
             }
-            if(res.data.data.length===0){
-                //alert("it is a zero")
-                $('body .show-trans-cont').addClass("d-none");
-                $('body .no-trans-cont').removeClass("d-none")
+            else{
+                alert("what just happened")
             }
-
-          
-
+            console.log(res) 
         }).catch((err)=>{
             console.log(err)
+            //alert("Error occured")
         })
-    },[])
+    },[clikedBlinkerId2])
+    
 
     
     const getInstitututionName=(studentId)=>{
@@ -133,6 +168,7 @@ const Transactions =()=> {
     console.log(students);
     const blinkerClicked=(studentId,clickedIndex)=>{
         setLoading(true);
+        setClickedBlinkerId2(studentId)
 
         AuthService.getStudentDetails(studentId).then((res)=>{
            
@@ -242,6 +278,11 @@ const Transactions =()=> {
 
     }
 
+    const blinkerClicked2=(studentId,clickedIndex)=>{
+        setClickedBlinkerId2(studentId)
+        setClickedBlinkerIndex2(clickedIndex)
+    }
+
     //clicked transactions products
     
     
@@ -323,7 +364,7 @@ const Transactions =()=> {
                                 
                                 {StdFunctions.isBlinkersMore(students.length)?(
                                             <div className="d-flex   justify-content-center align-items-center">
-                                                <span className="d-flex align-items-center"><small className="text-info mr-3 pe-2 d-sm-none d-md-flex">Click to change</small> <span class="badge rounded-pill bg-primary-blink float-end">+{students?.length-1} More</span><i className="mdi mdi-chevron-down  d-xl-inline-block me-0 font-21"></i></span>
+                                                <span className="d-flex align-items-center"><small className="text-info mr-3 pe-2 d-sm-none d-md-flex">Select Blinker</small> <span class="badge rounded-pill bg-primary-blink float-end">+{students?.length-1} More</span><i className="mdi mdi-chevron-down  d-xl-inline-block me-0 font-21"></i></span>
                                             </div>
                                         ):(
                                         <span></span>
@@ -346,7 +387,7 @@ const Transactions =()=> {
                             
                                     {students.length> 1 && students.map((item, index)=>(
                                         <div  style={{ maxheight: "230px" }}>
-                                            <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                            <a onClick={()=> blinkerClicked2(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
                                                 <div className="flex-shrink-0 me-3">
                                                     <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
                                                     <div className="avatar-sm mx-auto ">
@@ -392,7 +433,7 @@ const Transactions =()=> {
                                 
                                 <tbody>
                                     
-                                    {studentTransactions.length>0 && studentTransactions.map((transaction,index)=>(
+                                    {studentTransactions?.length>0 && studentTransactions?.map((transaction,index)=>(
                                                         
                                         <tr>
                                             <td>
@@ -524,7 +565,7 @@ const Transactions =()=> {
                                 
                                 <tbody>
 
-                                {studentTransactions.length>0 && studentTransactions.map((transaction,index)=>(
+                                {studentTransactions?.length>0 && studentTransactions?.map((transaction,index)=>(
                                     <tr onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details" className="mouse-pointer">
                                         <th scope="row" className="px-sm-0 pl-sm-2">
                                             <div className="d-flex align-items-center">

@@ -70,25 +70,36 @@ const Home=()=>{
 
     //transaction states end here
 
+    //blinker index and blinker id
+    const[clikedBlinkerId2,setClickedBlinkerId2]=useState(AuthService.getLogedInAssociates()[0].userId)
+    const[clikedBlinkerIndex2,setClickedBlinkerIndex2]=useState(0)
+
    
 
     //Accounts states start here
     const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
     const [numOfAccounts,setNumOfAccounts]=useState(0)
     //account states end here
-
+   
+    useEffect(()=>{
+        const allBlinkers=AuthService.getLogedInAssociates()
+        setFirstStudent(allBlinkers[0])
+        //setClickedBlinkerIndex2(0)
+        setClickedBlinkerId2(AuthService.getLogedInAssociates()[0].userId)
+    },[])
     
     useEffect(() => {
+        console.log(clikedBlinkerId2)
         //load before showiing data
         setLoading(true);
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
-        setFirstStudent(allBlinkers[0])
+        setFirstStudent(allBlinkers[clikedBlinkerIndex2])
         setMyBlinkersCount(allBlinkers.length)
-        console.log(allBlinkers[0])
+        console.log(allBlinkers[clikedBlinkerIndex2])
 
-        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
+        AuthService.getStudentDetails(clikedBlinkerId2).then((res)=>{
             
               
             setStudentProfile(res.data.data.userProfile)
@@ -109,50 +120,56 @@ const Home=()=>{
         }).catch((err)=>{
 
         })
-
-
         
+    },[clikedBlinkerId2])
 
-        console.log("The transactions should appear down here as an object")
-
-        AuthService.getStudentTransactions(blinkWalletAccountNum,AuthService.getLogedInAssociates()[0].userId).then((res)=>{
-
-            setQuote(res);
-            setLoading(false);
-              
-            //setStudentProfile(res.data.data.userProfile)
-            setStudentTransactions(res.data.data)
-            // console.log("We are here for transactions")
-            // console.log(res.data.data)
-            // console.log("The transactions start here <br/>"+res.data.length)
-            //alert(studentTransactions.length)
-            getTransactionsCount(res.data.length)
-            
-            if(res.data.data.length!=0){
-                //alert("not zero")
-                $('body .show-trans-cont').removeClass("d-none");
-                $('body .no-trans-cont').addClass("d-none")
-                $('.product-items').each(function(index) {
-                    const products = $(this).text()
-                   $(this).text(StdFunctions.removeFirstCharacter(products))
-                });
+    //transactions section
+    useEffect(()=>{
+        setStudentTransactions([])
+        AuthService.getStudentTransactions(blinkWalletAccountNum,clikedBlinkerId2).then((res)=>{
+            if(res.status===200){
+                //alert("we found transactions")
+                setQuote(res);
+                setLoading(false);
+                
+                //setStudentProfile(res.data.data.userProfile)
+                setStudentTransactions(res.data.data)
+                // console.log("We are here for transactions")
+                // console.log(res.data.data)
+                // console.log("The transactions start here <br/>"+res.data.length)
+                //alert(studentTransactions.length)
+                getTransactionsCount(res.data.length)
+                
+                if(res.data.data.length!=0){
+                    //alert("not zero")
+                    $('body .show-trans-cont').removeClass("d-none");
+                    $('body .no-trans-cont').addClass("d-none")
+                    $('.product-items').each(function(index) {
+                        const products = $(this).text()
+                    $(this).text(StdFunctions.removeFirstCharacter(products))
+                    });
+                }
+                if(res.data.data.length===0){
+                    //alert("it is a zero")
+                    $('body .show-trans-cont').addClass("d-none");
+                    $('body .no-trans-cont').removeClass("d-none")
+                }
             }
-            if(res.data.data.length===0){
-                //alert("it is a zero")
-                $('body .show-trans-cont').addClass("d-none");
-                $('body .no-trans-cont').removeClass("d-none")
+            else{
+                //alert("what just happened")
             }
-
-          
-
+            console.log(res) 
         }).catch((err)=>{
             console.log(err)
             //alert("Error occured")
         })
-    },[])
+    },[clikedBlinkerId2])
 
     //setting todays date
     useEffect(()=>{
+        setTodaysExpenditure(0)
+        
+
         setDateToday(Moment().format('YYYY-MM-DD 00:00:00'))
         let dateTodayEnd=Moment().format('YYYY-MM-DD 23:59:59')
         let dateYesterdayEnd=Moment().subtract(1, 'days').format('YYYY-MM-DD 23:59:59')
@@ -176,7 +193,7 @@ const Home=()=>{
                 }
             })
 
-        //getting the transactions for yesterday
+            //getting the transactions for yesterday
         
             console.log("the amounts are")
             console.log("Total spent: "+theAmounts)
@@ -184,6 +201,7 @@ const Home=()=>{
         }).catch((err)=>{
             console.log(err)
             //alert("error")
+            setTodaysExpenditure(0)
         })
 
         AuthService.getTransactionsByDate(firstStudent.userId,dateYesterday,dateYesterdayEnd).then((res)=>{
@@ -199,7 +217,7 @@ const Home=()=>{
                 }
             })
 
-        //getting the transactions for yesterday
+            //getting the transactions for yesterday
         
             console.log("the amounts are")
             console.log("Total spent: "+theAmounts)
@@ -381,6 +399,11 @@ const Home=()=>{
 
     }
 
+    const blinkerClicked2=(studentId,clickedIndex)=>{
+        setClickedBlinkerId2(studentId)
+        setClickedBlinkerIndex2(clickedIndex)
+    }
+
     //getting clcicked transaction details
     let QuantityOfItems=0
     //getting transaction details
@@ -545,7 +568,7 @@ const Home=()=>{
                  $('.limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
                  $('.close-limit-box').addClass('d-none')   
                  $('.limit-msg').removeClass('d-none').removeClass('fade')
-                 seterrorMsg("Daily transaction limit for "+firstStudent?.firstName +" "+firstStudent?.middleName+" has disabled")
+                 seterrorMsg("Daily transaction limit for "+firstStudent?.firstName +" "+firstStudent?.middleName+" has been disabled")
                  $('.btn-set-limit-sm').prop('disabled', true);
                  $('.account-limit-modal .modal-footer ').addClass('d-none')
                  setIsDailyLimitSet(false)
@@ -825,18 +848,18 @@ const Home=()=>{
                             </div>
                             {students?.length> 1 && students.map((item, index)=>(
                                 <div  style={{ maxheight: "230px" }}>
-                                    <a onClick={()=> blinkerClicked(item?.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                    <a onClick={()=> blinkerClicked2(item?.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
                                         <div className="flex-shrink-0 me-3">
                                             <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
                                             <div className="avatar-sm mx-auto ">
                                                 <span className="avatar-title rounded-circle bg-random font-size-16 profile-abriv text-uppercase">
-                                                    {item?.firstName.charAt(0)+item.middleName.charAt(0)}
+                                                    {item?.firstName.charAt(0)+item.middleName.charAt(0)} 
                                                 </span>
                                             </div>
                                         </div>
                                         <div className="flex-grow-1 chat-user-box">
-                                            <p className="user-title m-0">{item?.firstName+" "+item.middleName}</p>
-                                            <p className="text-muted">{item?.blinkId}</p>
+                                            <p className="user-title m-0">{item?.firstName+" "+item.middleName} </p>
+                                            <p className="text-muted">{item?.blinkId} cfr</p>
                                         </div>                                                            
                                     </a>
                                     </div>
@@ -928,7 +951,7 @@ const Home=()=>{
                                         </div>
                                         {students.length> 1 && students.map((item, index)=>(
                                             <div  style={{ maxheight: "230px" }}>
-                                                <a onClick={()=> blinkerClicked(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
+                                                <a onClick={()=> blinkerClicked2(item.userId,index)}   className="d-flex px-3 pb-2 waves-effect dropdown-item">
                                                     <div className="flex-shrink-0 me-3">
                                                         <img className="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
                                                         <div className="avatar-sm mx-auto ">
@@ -1644,7 +1667,7 @@ const Home=()=>{
                         <h5 className="modal-title">Change Expenditure Limits</h5>
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="changeLimit" onSubmit={newLimit} className="modal-body ro text-capitalize p-0">
+                    <form id="changeLimit" onSubmit={newLimit} className="modal-body ro  p-0">
                         <div className="px-3 col-12">
                             <div className="msg-holder-err w-100 pt-3 px-3 p-0 text-none">
                                 <div class="alert alert-danger alert-dismissible fade d-none limit-msg" id="" role="alert">
@@ -1669,10 +1692,18 @@ const Home=()=>{
 
                                     <input type="number" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                                 </div>
-                                <span  className="d-flex align-items-center change-icon">
-                                    <small className="text-primary">Change</small>
-                                    <i className="bx bx-chevron-right font-size-30 text-primary"></i>
-                                </span>
+                                {isDailyLimitSet ? (
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Change Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    ):(
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Set  Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    )
+                                }
 
                             </div>
                             <button type="button" class="mb-3 me-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
@@ -1690,11 +1721,19 @@ const Home=()=>{
                                     <input type="text" className="form-control d-none flex-grow-1 me-3"  id="dailyLimits" Name="DailyLimits" placeholder="Enter Weekly Limit"/>
                                         
                                 </div>
-                                <span  className="d-flex align-items-center change-icon">
-                                    <small className="text-primary">Change</small>
-                                    <i className="bx bx-chevron-right font-size-30 text-primary"></i>
-                                </span>
                                 
+                                {isDailyLimitSet ? (
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Change Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    ):(
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Set  Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    )
+                                }
 
                             </div>
                             <button type="button" class="mb-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
@@ -1775,10 +1814,18 @@ const Home=()=>{
                                 }
                                 <input type="number" min="20" required className="form-control d-none" onChange={(event)=>setNewDailyCardLimit(event.target.value)}  id="dailyLimits" Name="DailyLimits" placeholder="Enter Daily Limit"/>
                             </div>
-                            <span  className="d-flex align-items-center change-icon">
-                                <small className="text-dark d-none">Change</small>
-                                <i className="bx bx-chevron-right font-size-30 text-dark"></i>
-                            </span>
+                                {isDailyLimitSet ? (
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Change Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    ):(
+                                        <span  className="d-flex align-items-center change-icon">
+                                            <small className="text-primary">Set  Limit</small>
+                                            <i className="bx bx-chevron-right font-size-30 text-primary"></i>
+                                        </span>
+                                    )
+                                }
 
                         </div>
                         <button type="button" class="mb-3 me-3 d-none btn btn-light position-relative p-0 avatar-xs rounded-circle close-limit-box ">
@@ -1847,7 +1894,7 @@ const Home=()=>{
                                 <div class="spinner-border d-none text-secondary m-0 " role="status">
                                     <span class="sr-only">Loading...</span>
                                 </div>
-                                <span className="">Disable Limits</span>
+                                <span className="">Disable Limit</span>
                             </button>
                             ):(
                                 <></>

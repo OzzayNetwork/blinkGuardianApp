@@ -311,13 +311,13 @@ $('.payment-prev').unbind().on('click', function(){
     return (
         <>
           <Helmet>
-            <title>Blink! | Send Money</title>
+            <title>Blink! | Top up student account</title>
           </Helmet>
           <div className="modal fade" id="walletTopUp" tabindex="-1" role="dialog" aria-bs-labelledby="exampleModalCenterTitle" aria-bs-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
               <div className="modal-dialog modal-dialog-centered" role="document">
               <div className="modal-content">
                   <div className="modal-header d-none">
-                      <span className="badge badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Send Money</span>
+                      <span className="badge badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Top Up Student's Account</span>
                   
                           
                       <button type="button" className="btn btn-light position-relative p-0 avatar-xs rounded-circle close-modal" data-bs-dismiss="modal" aria-label="Close">
@@ -329,7 +329,7 @@ $('.payment-prev').unbind().on('click', function(){
                   </div>
                   <form className="modal-body" autoComplete="off" id="payment-form" onSubmit={sendMoneyStart}>
                       <div className="d-flex justify-content-between align-items-center">
-                          <span className="badge  badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Send Money</span>
+                          <span className="badge  badge-soft-success text-uppercase badge font-12px bg-primary-blink text-white">Top Up Student's Account</span>
                   
                           
                       <button type="button" className="btn btn-light position-relative p-0 avatar-xs rounded-circle pull-right close-modal" data-bs-dismiss="modal" aria-label="Close">
@@ -363,7 +363,7 @@ $('.payment-prev').unbind().on('click', function(){
                                           </div>
                                             {StdFunctions.isBlinkersMore(students.length)?(
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Select Blinker</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                                 </div>
                                             ):(
                                             <span></span>
@@ -476,8 +476,8 @@ $('.payment-prev').unbind().on('click', function(){
                                                       <img className="rounded-circle" src="assets/images/payment-options/mobile.svg" alt="Mobile Money" height="45"/>
                                                   </div>
                                                   <div className="d-flex flex-column">
-                                                      <p className="m-0 p-0 text-uppercase">Mobile Money</p>                                                
-                                                      <p className="mb-0 p-0"> <small>Eg Mpesa, Airtel Money, MTN ...</small></p>
+                                                      <p className="m-0 p-0 text-uppercase">Mpesa</p>                                                
+                                                      <p className="mb-0 p-0"> <small>Send money from your MPESA</small></p>
                                                   </div>
                                               </button>
                                           </h2>
@@ -627,10 +627,10 @@ $('.payment-prev').unbind().on('click', function(){
                                   </div>
   
                                   <div className="mpesa-confirmation ">
-                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> will be sent to your <strong className="text-black">phone number ({StdFunctions.phoneOutput(mpesaPhoneNum)})</strong> soon after you click the <strong className="text-black text-capitalize">Send Money</strong> button below. 
+                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> will be sent to your <strong className="text-black">phone number ({StdFunctions.phoneOutput(mpesaPhoneNum)})</strong> after you click the <strong className="text-black text-capitalize">Finish</strong> button below. 
                                           <br/>
                                           <br/>
-                                          Remember to <strong className="text-black">Check your phone</strong> to confirm payment by entering your Mpesa pin.</p>
+                                          Remember to <strong className="text-black">Check your phone</strong> to confirm payment by entering your MPESA PIN.</p>
                                           <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
                                                 <i class="mdi mdi-block-helper me-2"></i>
                                                 {errorMsg}
@@ -657,7 +657,7 @@ $('.payment-prev').unbind().on('click', function(){
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                         <span className="justify-content-center align-items-center d-flex">
-                                                            <span className="px-2">Send Money</span> 
+                                                            <span className="px-2">Finish</span> 
                                                             <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
                                                         </span>
                                                     </button>
@@ -758,8 +758,8 @@ $('.payment-prev').unbind().on('click', function(){
                                   <img src="assets/images/payment-confirmation-images/stk-sent.svg" height="200" alt=""/>                                
                               </div>
                               <h4 className="text-blink-primary fw-bold text-capitalize mb-3">Check your Phone!</h4>
-                              <p className="text-black">A payment request of <strong>{StdFunctions.kenyaCurrency(sendAmount)}</strong> has been sent to your phone, mobile No. <strong>{StdFunctions.phoneOutput(mpesaPhoneNum)}.</strong> </p>
-                              <p>Check your phone and enter your Mpesa pin to confirm the transaction and a confirmation message will be sent to your phone to confirm the transaction</p>
+                              <p className="text-black">A payment request of <strong>{StdFunctions.kenyaCurrency(sendAmount)}</strong> has been sent to your phone No. <strong>{StdFunctions.phoneOutput(mpesaPhoneNum)}.</strong> </p>
+                              <p>Check your phone and enter your MPESA PIN to confirm the transaction. A confirmation message will be sent to your phone to confirm the transaction.</p>
   
                               
                               <button type="button" onClick={reloadComponent} className="btn btn-flex btn-100 btn-primary flex-grow-1 w-100 font-size-16 text-uppercase my-3 "><i className="mdi mdi-check-bold ms-3 font-16px pr-2 d-none"></i>Close</button>
@@ -827,7 +827,7 @@ $('.payment-prev').unbind().on('click', function(){
                                           </div>
                                             {StdFunctions.isBlinkersMore(students.length)?(
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Click to change</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Select Student</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                                 </div>
                                             ):(
                                             <span></span>
@@ -942,8 +942,8 @@ $('.payment-prev').unbind().on('click', function(){
                                                       <img className="rounded-circle" src="assets/images/payment-options/mobile.svg" alt="Mobile Money" height="45"/>
                                                   </div>
                                                   <div className="d-flex flex-column">
-                                                      <p className="m-0 p-0 text-uppercase">Mobile Money</p>                                                
-                                                      <p className="mb-0 p-0"> <small>Eg Mpesa, Airtel Money, MTN ...</small></p>
+                                                      <p className="m-0 p-0 text-uppercase">MPESA</p>                                                
+                                                      <p className="mb-0 p-0"> <small>Send money from your MPESA</small></p>
                                                   </div>
                                               </button>
                                           </h2>
@@ -1093,10 +1093,10 @@ $('.payment-prev').unbind().on('click', function(){
                                   </div>
   
                                   <div className="mpesa-confirmation ">
-                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> will be sent to your <strong className="text-black">phone number ({mpesaPhoneNum})</strong> soon after you click the <strong className="text-black text-capitalize">Send Money</strong> button below. 
+                                      <p className="text-muted mt-4">A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}  </strong> will be sent to your <strong className="text-black">phone number ({mpesaPhoneNum})</strong> after you click the <strong className="text-black text-capitalize">Finish</strong> button below. 
                                           <br/>
                                           <br/>
-                                          Remember to <strong className="text-black">Check your phone</strong> to confirm payment by entering your Mpesa pin.</p>
+                                          Remember to <strong className="text-black">Check your phone</strong> to confirm payment by entering your MPESA PIN.</p>
                                           <div class="alert alert-danger alert-dismissible fade d-none" id="login-msg" role="alert">
                                                 <i class="mdi mdi-block-helper me-2"></i>
                                                 {errorMsg}
@@ -1112,7 +1112,7 @@ $('.payment-prev').unbind().on('click', function(){
                                                         <span class="sr-only text-center">Loading...</span>
                                                     </div>
                                                     <span className="justify-content-center align-items-center d-none">
-                                                        <span className="px-2">Send Money</span> 
+                                                        <span className="px-2">Finish</span> 
                                                         <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
                                                     </span>
                                                 </button>
@@ -1125,7 +1125,7 @@ $('.payment-prev').unbind().on('click', function(){
                                                             <span class="sr-only">Loading...</span>
                                                         </div>
                                                         <span className="justify-content-center align-items-center d-flex">
-                                                            <span className="px-2">Send Money</span> 
+                                                            <span className="px-2">Finish</span> 
                                                             <div className="flip-x"><i className="mdi mdi-reply ms-3 font-16px"></i></div>
                                                         </span>
                                                     </button>
@@ -1226,8 +1226,8 @@ $('.payment-prev').unbind().on('click', function(){
                                   <img src="assets/images/payment-confirmation-images/stk-sent.svg" height="200" alt=""/>                                
                               </div>
                               <h4 className="text-blink-primary fw-bold text-capitalize mb-3">Check your Phone!</h4>
-                              <p className="text-black">A payment request of <strong>{StdFunctions.kenyaCurrency(sendAmount)}</strong> has been sent to your phone, mobile No. <strong>{StdFunctions.phoneOutput(mpesaPhoneNum)}.</strong> </p>
-                              <p>Check your phone and enter your Mpesa pin to confirm the transaction and a confirmation message will be sent to your phone to confirm the transaction</p>
+                              <p className="text-black">A payment request of <strong>{StdFunctions.kenyaCurrency(sendAmount)}</strong> has been sent to your phone No. <strong>{StdFunctions.phoneOutput(mpesaPhoneNum)}.</strong> </p>
+                              <p>Check your phone and enter your MPESA PIN to confirm the transaction. A confirmation message will be sent to your phone to confirm the transaction.</p>
   
                               
                               <button type="button" onClick={reloadComponent} className="btn btn-flex btn-100 btn-primary  w-100 font-size-16 text-uppercase my-3 "><i className="mdi mdi-check-bold ms-3 font-16px pr-2 d-none"></i>Close</button>

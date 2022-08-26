@@ -1609,15 +1609,15 @@
                     align-items: center;
                     -ms-flex-pack: center;
                     justify-content: center;
-                    width: 45px;
-                    height: 45px;
+                    width: 48px;
+                    height: 48px;
                     -webkit-transition: background-color 200ms ease;
                     transition: background-color 200ms ease;
                     border-radius: 6px;
                     background: #f8f8f8;
                 }
                 .options-cont img{
-                    height: 20px;
+                    height: 23px;
                 }
                 .font-11px{
                     font-size: 11px;
