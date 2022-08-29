@@ -235,6 +235,9 @@ const Transactions =()=> {
     $('body').unbind().on('click','.nav-item .nav-link',function(){
        $(this).addClass('active').parent().siblings().children().removeClass('active')
     })
+    $('body').unbind().on('click','.select-tbl-filter .btn',function(){
+        $(this).addClass('active').siblings().removeClass('active')
+    })
     
 
     
@@ -487,6 +490,33 @@ const Transactions =()=> {
                         </div>
                         </div>
                     </div>
+                    <div className="card-header bg-white pt-0 pr-0 p-0 d-flex justify-content-between align-items-center w-100 border-bottom">
+
+                    <div className="btn-toolbar p-3 d-flex justify-content-between align-items-center w-100" role="toolbar">
+                        <div className="d-md-flex d-none align-items-center">
+                            
+                            <div class="btn-group select-tbl-filter" role="group" aria-label="Basic example">
+                                <button onClick={viewAllFunc} type="button" class="btn active btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center">View All</button>
+                                <button onClick={viewDepositFunc} type="button" class="btn btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-down-bold font-size-16"></i><span className="pl-1 d-none d-lg-inline d-md-inline">Money In</span></button>
+                                <button onClick={viewSpendFunc} type="button" class="btn btn-outline-dark btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-up-bold font-size-16"></i> <span className="pl-1 d-none d-lg-inline d-md-inline">Expenses</span></button>
+                            </div>
+
+                        </div>
+                        <div className="dataTables_filter d-none  px-3 flex-grow-1">
+                            <label>
+                                <input type="search" className="form-control form-control-sm emailSearch w-100" placeholder="Search through Records ..." aria-controls="datatable-buttons"/>
+                            </label>
+                        </div>
+                        <div className="d-none">
+                            <a href="property-new.html" type="button" className="btn btn-dark dropdown-toggle option-selector d-flex align-items-center justify-content-center">
+                                <i className="bx bx-slider-alt  font-size-16"></i> <span className="pl-1 d-md-inline">Filter Table</span>
+                            </a>
+                        </div>
+
+
+                    </div>
+                    
+                    </div>
                     <div className="card-body show-trans-cont min-h-90 px-sm-0 p-md-  pt-sm-0">
                         <div className="table-responsive  d-xs-none d-md-flex d-sm-none">
 
@@ -589,7 +619,110 @@ const Transactions =()=> {
                                 </tbody>
                                 
                             </table>
+
+                           
                         </div>
+
+                        {loadTable? (
+                                <div className="card-body d-sm-none d-md-block">
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mb-3">
+                                        <div className="col-1 p-0 pe-2 pr-3">
+                                            <p class="card-text placeholder-glow">
+                                                <span class="placeholder avatar-title rounded-circle p-4 me-2 circle-place-holder"></span>
+                                            </p>
+                                        </div>
+                                        <div className="col-11 p-0">
+                                            <p class="card-text placeholder-glow d-flex flex-wrap h-100 align-items-center">
+                                                <span class="placeholder col-7 me-2"></span>
+                                                <span class="placeholder col-4"></span>
+                                                <span class="placeholder col-2 me-2"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                                ):(
+                                    <>
+                                   
+                                    </>
+                                )
+                            }
                         <div className="table-responsive d-md-none d-sm-flex flex-column">
                             <ul className=" align-items-center nav text-center fw-medium left border-bottom w-100 text-black transactions-navigation justify-content-between">
                                 <div className="d-flex">

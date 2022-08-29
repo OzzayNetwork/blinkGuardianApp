@@ -1687,6 +1687,10 @@
                 .nav-item .nav-link{
                     cursor: pointer;
                 }
+                .circle-place-holder{
+                    height: 48px !important;
+                    width: 48px !important;
+                }
 
                 
                
