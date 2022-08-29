@@ -20,7 +20,31 @@ const Header=()=>{
   const parentFName=localStorage.getItem("parentUserFName")
   const parentLName=localStorage.getItem("parentUserLName")
   // console.log(localStorage)
+  const[onlineWeb,setOnlineWeb]=useState("")
+  const[offlineWeb,setOfflineWeb]=useState("")
+  const[areWeOffline,setAreWeOffline]=useState(false)
 
+  useEffect(()=>{
+   
+  },[onlineWeb,offlineWeb])
+
+
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  
+  function updateOnlineStatus(event) {
+    let condition = navigator.onLine ? "online" : "offline";
+    if(condition==="offline"){
+      //alert("We are offline")
+      setAreWeOffline(true)
+    }
+    else{
+      window.location.reload();
+      setAreWeOffline(false)
+    }
+  }
+
+  console.log("fghfh")
 
   const logout=()=>{
     setLoading(true);
@@ -459,6 +483,20 @@ const Header=()=>{
         </div>
       </header>
     {/* mobile navigation end */}
+
+    <div className={`h-100 offline-page p-5 ${areWeOffline? "top-0 scale-1" : ""}`} className="h-100 offline-page p-5">
+      <div className="card-body d-flex flex-column justify-items-center align-items-center text-center">
+          <div className="p-5 py-0 pt-3">
+              <img src="assets/images/illustration-images/no-internet.svg" className="img mb-4" alt="No search results" height="207px" />
+          </div>
+          <h4 className="text-black">No Internet !</h4>
+          <p>Please check your internet connection.  We will try to connect once the internet is back.</p>
+          
+      </div>
+    </div>
+
+   
+    
     </>
   );
   }
