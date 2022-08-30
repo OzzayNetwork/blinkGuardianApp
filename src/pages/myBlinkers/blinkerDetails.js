@@ -19,9 +19,42 @@ const BlinkerDetails =()=> {
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
 
+    const [fetchedStudentDetails,setFetchedStudentDetails]=useState({})
+    //Accounts states start here
+    const [allBlinkAccounts,setAllBlinkAccounts]=useState([])
+    const [numOfAccounts,setNumOfAccounts]=useState(0)
+    const[selectedPocketMoneyId,setselectedPocketMoneyId]=useState("")
+    
+    const[theMonth,setTheMonth]=useState(Moment().startOf('month').format('MMMM, YYYY'))
+    const[theWeek,setTheWeek]=useState(Moment().startOf('week').format('DD MMM YYYY')+"-"+Moment().endOf('week').format('DD MMM YYYY'))
+    const[theDate,setTheDate]=useState(Moment().format('DD MMM YYYY'))
+    
+    const[weekStart,setWeeekStart]=useState(Moment().startOf('week').format('YYYY-MM-DD 00:00:00'))
+    const[weekEnd,setWeeekEnd]=useState(Moment().endOf('week').format('YYYY-MM-DD 23:59:59'))
+    
+    const[monthStart,setMonthStart]=useState(Moment().startOf('month').format('YYYY-MM-DD 00:00:00'))
+    const[monthEnd,setMonthEnd]=useState(Moment().endOf('month').format('YYYY-MM-DD 23:59:59'))
+
+    const[dateStart,setDateStart]=useState(Moment().format('YYYY-MM-DD 00:00:00'))
+    const[dateEnd,setDateEnd]=useState(Moment().format('YYYY-MM-DD 23:59:59'))
+
+    const[dailyUsage,setDailyUsage]=useState("0")
+    const[weeklyUsage,setWeeklyUsage]=useState("0")
+    const[monthlyUsage,setMonthlyUsage]=useState("0")
+
+    const[dailyDep,setDailyDep]=useState("0")
+    const[weeklyDep,setWeeklyDep]=useState("0")
+    const[monthlyDep,setMonthlyDep]=useState("0")
+    
+
+
+
+
+
 
     //getting selected account pocket money id
     const[blinkWalletAccountNum,setBlinkWalletAccountNum]=useState("")
+    const[cardBal,setCardBal]=useState("")
 
     const [firstStudent,setFirstStudent]=useState({})
     const [schoolName,setSchoolName]=useState("")
@@ -33,53 +66,158 @@ const BlinkerDetails =()=> {
     console.log(JSON.stringify(idParams))
     //alert("we are here")
 
-     useEffect(() => {
+   
 
+    useEffect(() => {
+        console.log(selectedStudentId)
+        //load before showiing data
         setLoading(true);
-
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-        //function that removed the first character
-       
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
-        console.log("All My blinkers are")
-        console.log(allBlinkers)
-        setFirstStudent(allBlinkers[0])
+        setFirstStudent(allBlinkers[selectedStudentId])
         setMyBlinkersCount(allBlinkers.length)
-        if(allBlinkers.length===0){
-            setHasBlinkers(false)
-        }
-        else{
-            setHasBlinkers(true)
-        }
-        //console.log(allBlinkers[0])
-        
-        AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
-            setQuote(res);
-            setTimeout(() => {
-                setLoading(false);
-              }, 2000);
+        console.log(allBlinkers[selectedStudentId])
 
-            setStudentProfile(res.data.data.userProfile)
+        AuthService.getStudentDetails(selectedStudentId).then((res)=>{
             
-            //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+              
+            setStudentProfile(res.data.data.userProfile)
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
+            setCardBal(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
             //alert(blinkWalletAccountNum)
+            setFetchedStudentDetails(res.data.data)
+            console.log(res.data.data)
+            setSchoolName(res.data.data.userProfile.institution.institutionName)
+            //all other accounts
+            setAllBlinkAccounts(res.data.data.userProfile.blinkaccounts)
+            setNumOfAccounts(allBlinkAccounts.length)
+            setselectedPocketMoneyId(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').blinkAccountId)
+
+            //alert(numOfAccounts)
+            console.log("All accounts for first blinker are "+allBlinkAccounts)
+            console.log(allBlinkAccounts)
             console.log(studentProfile)
+            setLoading(false);
+
+
         }).catch((err)=>{
 
         })
+        
+    },[selectedStudentId])
+
+    // Daily transactions
+    useEffect(()=>{
+        setDailyUsage("0")
+        
+        let theAmounts=0 
+        let deposit=0
+
+        AuthService.getTransactionsByDate(selectedStudentId,dateStart,dateEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    
+                }
+
+                if(transaction.transType==="Money_transfer"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                }
+                setDailyUsage(theAmounts)
+                
+            })
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setDailyUsage(0)
+        })
+
+    },[selectedStudentId,theDate])
+
+    //weekly transactions
+    useEffect(()=>{
+        setWeeklyUsage("0")
+        let theAmounts=0 
+        let depAmount=0
+        AuthService.getTransactionsByDate(selectedStudentId,weekStart,weekEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    
+                }
+                if(transaction.transType==="Money_transfer"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                }
+
+                if(transaction.transType==="Deposit"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    depAmount+=parseFloat(transaction.amount)
+                }
+
+                setWeeklyUsage(theAmounts)
+                setWeeklyDep(depAmount)
+            })
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setWeeklyUsage(0)
+        })
+
+
+    },[theWeek,selectedStudentId])
+
+    // monthly usage
+    useEffect(()=>{
+        setMonthlyUsage("0")
+        let theAmounts=0 
+        let depAmount=0
+
+        AuthService.getTransactionsByDate(selectedStudentId,monthStart,monthEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    
+                    
+                }
+                if(transaction.transType==="Money_transfer"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                }
+
+                if(transaction.transType==="Deposit"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    depAmount+=parseFloat(transaction.amount)
+                }
+
+                setMonthlyUsage(theAmounts)
+                setMonthlyDep(depAmount)
+            })
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setMonthlyUsage(0)
+        })
+
 
         
 
-        console.log("The transactions should appear down here as an object")
+    },[theMonth,selectedStudentId])
 
-    },[])
+    //console.log(fetchedStudentDetails.userProfile.institution.institutionName)
+   
 
     
     const getInstitututionName=(studentId)=>{
@@ -96,54 +234,6 @@ const BlinkerDetails =()=> {
         return studentInstitutionName
     }
 
-    
-
-    
-
-    console.log(students);
-    const blinkerClicked=(studentId,clickedIndex)=>{
-        setLoading(true);
-        AuthService.getStudentDetails(studentId).then((res)=>{
-            console.log(res)
-            setSchoolName(res.data.data.associates[0].institution.institutionName)
-            //alert(schoolName);
-            console.log("the school Name is "+schoolName)
-            setStudentProfile(res.data.data.userProfile)
-            console.log(studentProfile)
-            //alert(clickedIndex)
-            const allBlinkers=AuthService.getLogedInAssociates()
-
-            setFirstStudent(allBlinkers[clickedIndex])
-            setMyBlinkersCount(allBlinkers.length)
-            //console.log(allBlinkers[0])
-            //alert(studentId)
-            AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
-            setStudentProfile(res.data.data.userProfile)
-            //clicke blinker wallet Id
-            setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
-            console.log(studentProfile)
-            //clicked blinker transactions
-            
-        }).catch((err)=>{
-
-        })
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-        })
-        // const returnedData= AuthService.getStudentDetails(studentId)
-        // const GetSchoolName=returnedData.data.cardStatus
-        
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-       
-
-    }
-
-    
     
     
    
@@ -172,7 +262,7 @@ const BlinkerDetails =()=> {
         }
 
         <Helmet>
-        <title>Blink! | My Blinkers</title>
+        <title>Blink! | {studentProfile.firstName+" "}Account Details</title>
         </Helmet>    {/* the modals container */}
         <div className="container-fluid">
 
@@ -180,13 +270,13 @@ const BlinkerDetails =()=> {
         <div className="row d-sm-none d-md-flex">
             <div className="col-12">
                 <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 className="mb-sm-0 font-size-18">Kelvin's Details</h4>
+                    <h4 className="mb-sm-0 font-size-18">{studentProfile.firstName} Details</h4>
 
                     <div className="page-title-right d-sm-none d-md-flex">
                         <ol className="breadcrumb m-0">
                             <li className="breadcrumb-item"><Link to="/">Dashboards</Link></li>
-                            <li className="breadcrumb-item"><Link to="/MyBlinkers">All My blinkers</Link></li>
-                            <li className="breadcrumb-item active">Kelvin</li>
+                            <li className="breadcrumb-item"><Link to="/MyBlinkers">My blinkers</Link></li>
+                            <li className="breadcrumb-item active">{studentProfile.firstName}</li>
                         </ol>
                     </div>
 
@@ -201,86 +291,213 @@ const BlinkerDetails =()=> {
         </div>
         {/* <!-- end page title --> */}
         <div className="row">
-            <div className="col-12">
-                <div className="card no-shadow-sm">
-                    {hasBlinkers ? (
-                        <div className="card-body show-trans-cont min-h-90">
-                            <div className="table-responsive ">
+            <div className="col-sm-12 col-md-6 col-lg-4">
+                <div className="card">
+                    <div className="card-body text-center align-items-center justify-content-center">
 
-                                <table className="table border-light table-striped table-bordere table-borderles align-middle table-nowrap table-hover  contacts-table table-stripe " id="datatable-buttons">
-                                    <thead className="table-light text-capitalize">
-                                        <tr className="table-light">
-                                            <th>Blinker</th>
-                                            <th>Institution</th>
-                                            <th>Guardians</th>
-                                            <th>Last Activity</th>
-                                            <th>Profile Status</th>
-                                            <th>Card Status</th>
-                                            <th className="text-right">Wallet Balance</th>
-                                            <th>Other Accounts</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>                                 
+                        {/* profile picture */}
+                            <div class=" mb-2 position-relative">
+                                <button class="avatar-title change-pic rounded-circle btn btn-info font-size-16">
+                                    <i class="mdi-camera-outline mdi font-size-20 text-white"></i>
+                                </button>
+                                <img src="assets/images/users/avatar-1.jpg" class="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
+                                <div class="avatar-xl avatar-card mx-auto ">
+                                    <span class="avatar-title rounded-circle bgrandom7 font-size-30 border-white text-uppercase">                                                
+                                        {studentProfile?.institution != undefined && studentProfile.firstName.charAt(0)+""+studentProfile.middleName.charAt(0)}
+                                    </span>
+                                </div>
+                            </div>
+                        {/* end of profile picture */}
 
-                                    {students.length> 1 && students.map((item, index)=>(
-                                            <tr>                                           
-                                                <td>
-                                                    <a class="d-flex p-0 m-0 waves-effect dropdown-item d-flex align-items-center">
-                                                        <div class="flex-shrink-0 me-3">
-                                                            <img class="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
-                                                            <div class="avatar-sm mx-auto ">
-                                                                <span class="avatar-title rounded-circle bg-random font-size-16 profile-abriv">{item.firstName.charAt(0)+item.middleName.charAt(0)}</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="flex-grow-1 chat-user-box">
-                                                            <p class="user-title m-0">{item.firstName+" "+item.middleName+" "+item.lastName}</p>
-                                                            <p class="text-muted m-0 p-0">{item.blinkId}</p>
-                                                            </div>
-                                                    </a>
-                                                </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td className="text-uppercase fw-semibold">
-                                                    {StdFunctions.areTheyThesame(item.cardStatus,"Active") ? (
-                                                        <span class="badge badge-pill badge-soft-success font-size-11">{item.cardStatus}</span>
-                                                        ):(
-                                                        <span class="badge badge-pill badge-soft-warning font-size-11">{item.cardStatus}</span>
-                                                        )
-                                                    }
-                                                </td>
-                                                <td className="text-right"></td>
-                                                <td></td>
-                                                <td>
-                                                    <Link to="/BlinkerDetails" className="btn btn-primary btn-sm">View Details</Link>
-                                                </td>
+                        <div className="flex-grow-1">
+                            <h5 className="font-size-14 mt-3 mb-0 text-capitalize">{studentProfile?.firstName+" "+studentProfile?.middleName+" "+studentProfile.lastName}</h5>
+                            <small className="text-muted text-capitalize">{schoolName}</small>
+                        </div>
+                        <div>
+                            <button className="btn btn-info waves-effect waves-light mt-3">Edit Details</button>
+                        </div>
 
-                                            </tr>
-                                            ))
-                                            
-                                        }  
 
-                                    </tbody>
-                                    
-                                </table>
+                        <div className="mt-4">
+                            <h1 className="mb-0 pb-0 text-black">{StdFunctions.kenyaCurrency(cardBal)}</h1>
+                            <small className="text-muted text-capitalize text-black fw-semibold">Wallet balance.</small>
+                            <h5 className="font-size-14 mt-3 mb-0 text-capitalize">Blink ID: <span className="text-black fw-semibold">{StdFunctions.creditCard2(blinkWalletAccountNum)}</span></h5>
+                        </div>
+                        
+
+                        
+                    </div>
+                    <div className="col-12 bg-success bg-soft">
+                        <div className="row text-left p-4">
+                            <div className="col-6 border-right">
+                                <div class="avatar-xs me-0 d-none">
+                                    <span class="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
+                                        <i class="mdi mdi-arrow-up-bold"></i>
+                                    </span>
+                                </div>
+                                <p className="fw-semibold text-black mb-0">KES 200.00</p>
+                                <small>Avg. Monthly Deposits</small>
+                            </div>
+
+                            <div className="col-6">
+                                <p className="fw-semibold text-black mb-0">KES 200.00</p>
+                                <small>Avg. Monthly Usage</small>
                             </div>
                         </div>
-                        ):(
-                            <div className="card-body no-trans-cont px-5 mb-5 d-flex flex-column justify-items-center align-items-center text-center">
-                                <div className="p-5 mt-5 mx-5 py-0">
-                                    <img src="assets/images/illustration-images/box-color.png" height="160px" className="img mb-4"/>
-                                </div>
-                                <h4 className="fw-bold">You Have No Associations</h4>
-                                <p>No Blinkers have been assigned to you as of yet, you can start by sending requests.</p>                                
-                            </div>
-                        )
-                    }
-                   
+                    </div>
+                    <div className="p-3">
+                        <p className="mb-0">Was registered on  
+                            { " "+Moment(fetchedStudentDetails.dateCreated).add(3, 'hours').calendar(null, {sameElse: 'DD MMM YYYY  hh:mm A' })}
+                        </p>
+                    </div>
+                    
+                    <div className="card-header bg-white border-top">
+                        <h6 className="text-uppercase mb-3">Account Options</h6>
+
+                        <a className="d-flex align-items-center py-2">
+                            <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
+                            <span className="flex-grow-1"> Change Expenditure Limit</span>
+                            <span class="d-flex align-items-center change-icon">
+                                <i class="bx bx-chevron-right font-size-30 text-primary"></i>
+                            </span>
+                        </a>
+
+                        <a className="d-flex align-items-center py-2">
+                            <span className="mdi-comment-alert-outline mdi me-2 font-24px "></span>
+                            <span className="flex-grow-1"> Notification Level</span>
+                            <span class="d-flex align-items-center change-icon">
+                                <i class="bx bx-chevron-right font-size-30 text-primary"></i>
+                            </span>
+                        </a>
+
+                        <a className="d-flex align-items-center py-2 text-danger">
+                            <span className="mdi mdi-cancel me-2 font-24px "></span>
+                            <span className="flex-grow-1"> Block Tom</span>
+                            <span class="d-flex align-items-center change-icon">
+                                <i class="bx bx-chevron-right font-size-30 text-danger"></i>
+                            </span>
+                        </a>
+
+                    </div>
                 </div>
             </div>
             {/* <!-- end col --> */}
+            <div className="col-sm-12 col-md-6 col-lg-8">
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card">
+                        <div className="card-header bg-white d-flex justify-content-between align-items-center w-100 border-bottom p-3">
+                            <div class="d-flex w-100">
+                                <div class="d-flex align-items-center justify-content-between w-100 ">
+                                    <h4 class="card-title mb-0 me-3">This Month's Summary</h4>
+                                    <div>
+                                        <div class="input-group input-group-sm">
+                                            <select class="form-select form-select-sm">
+                                                <option value="JA" selected="">Jan</option>
+                                                <option value="DE">Dec</option>
+                                                <option value="NO">Nov</option>
+                                                <option value="OC">Oct</option>
+                                            </select>
+                                                <label class="input-group-text">Month</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div className="card-header bg-white border-bottom p-3">
+                                <div className="row">
+                                    <div className="col-sm-12 col-lg-4 py-2">
+                                        <div className="border border-grey p-3 rounded ">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="avatar-xs me-3">
+                                                    <span className="avatar-title rounded-circle bg-warning bg-soft text-warning font-size-18">
+                                                        <i className="mdi mdi-calendar-today"></i>
+                                                    </span>
+                                                </div>
+                                                <h5 className="font-size-14 mb-0">Today's Expenditure</h5>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <div className="text-muted mt-3">
+                                                        <p>{theDate}</p>
+                                                        <h4>{StdFunctions.kenyaCurrency(dailyUsage)}</h4>
+                                                        <p className="mb-0 text-uppercase">
+                                                            <span className="badge rounded-pill bg-success">
+                                                                <i className="mdi mdi-arrow-up-bold pe-1"></i>{StdFunctions.kenyaCurrency(dailyDep)} DEPOSIT
+                                                            </span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-lg-4 py-2">
+                                        <div className="border border-grey p-3 rounded ">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="avatar-xs me-3">
+                                                    <span className="avatar-title rounded-circle bg-info bg-soft text-info font-size-18">
+                                                        <i className="mdi mdi-calendar-range"></i>
+                                                    </span>
+                                                </div>
+                                                <h5 className="font-size-14 mb-0">Weekly Expenditure</h5>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <div className="text-muted mt-3">
+                                                        <p>{theWeek}</p>
+                                                        <h4>{StdFunctions.kenyaCurrency(weeklyUsage)}</h4>
+                                                        <p className="mb-0 text-uppercase">
+                                                            <span className="badge rounded-pill bg-success">
+                                                                <i className="mdi mdi-arrow-up-bold pe-1"></i>{StdFunctions.kenyaCurrency(weeklyDep)} DEPOSIT
+                                                            </span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12 col-lg-4 py-2">
+                                        <div className="border border-grey p-3 rounded ">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="avatar-xs me-3">
+                                                    <span className="avatar-title rounded-circle bg-success bg-soft text-success font-size-18">
+                                                        <i className="mdi mdi-calendar-month"></i>
+                                                    </span>
+                                                </div>
+                                                <h5 className="font-size-14 mb-0 text-capitalize">This month</h5>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <div className="text-muted mt-3">
+                                                        <p>{theMonth}</p>
+                                                        <h4>{StdFunctions.kenyaCurrency(monthlyUsage)}</h4>
+                                                        <p className="mb-0 text-uppercase">
+                                                            <span className="badge rounded-pill bg-success">
+                                                                <i className="mdi mdi-arrow-up-bold pe-1"></i>{StdFunctions.kenyaCurrency(monthlyDep)} DEPOSIT
+                                                            </span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+
+                            <div className="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         {/* <!-- end row --> */}

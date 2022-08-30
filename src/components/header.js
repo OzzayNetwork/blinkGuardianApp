@@ -441,7 +441,7 @@ const Header=()=>{
               <Link to="/"
                 className="btn header-item noti-icon waves-effect d-flex align-content-center justify-items-center align-items-center d-flex justify-content-center "
               >
-                <i className="bx bx-file font-size-24"></i>
+                <i className="bx bx-heart font-size-24"></i>
               </Link>
               
               <div

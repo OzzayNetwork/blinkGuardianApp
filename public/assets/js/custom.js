@@ -136,6 +136,14 @@ $(window).on('load', function() {
 
 });
 
+
+$('body').on('click','.nav-item .nav-link',function(){
+    $(this).addClass('active').parent().siblings().children().removeClass('active')
+ })
+ $('body').on('click','.select-tbl-filter .btn',function(){
+     $(this).addClass('active').siblings().removeClass('active')
+ })
+
 const currentYear = new Date().getFullYear();
 $('.this-year').text(currentYear);
 // $('.loginPageOnly').next('main').addClass('d-none');

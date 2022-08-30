@@ -33,8 +33,8 @@ const Home=()=>{
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
-    const [dateToday,setDateToday]=useState("")
-    const [dateYesterday,setDateYesterday]=useState("")
+    const [dateToday,setDateToday]=useState(Moment().format('YYYY-MM-DD 00:00:00'))
+    const [dateYesterday,setDateYesterday]=useState(Moment().subtract(1, 'days').format('YYYY-MM-DD 00:00:00'))
     const [selectedStudentId,setSelectedStudentId]=useState("")
     const parentFName=localStorage.getItem("parentUserFName")
     const[todaysExpenditure,setTodaysExpenditure]=useState(0)
@@ -63,7 +63,7 @@ const Home=()=>{
     const[boughtItemsQty,setBoughtItemsQty]=useState(0)
     const[transactionDetails,setTransactionDetails]=useState({})
     const[transactionProducts,setTransactionProducts]=useState([])
-    const [transactionTackShop,settransactiontackShop]=useState("")
+    const[transactionTackShop,settransactiontackShop]=useState("")
     const[transactionInstitution,setTransactionInstitution]=useState("")
     const[transactionFee,setTransactionFee]=useState("")
     const[transactionServiceCategory,setTransactionServiceCategory]=useState("")
@@ -243,7 +243,8 @@ const Home=()=>{
 
     //setting todays date
     useEffect(()=>{
-        setTodaysExpenditure(0)
+        
+        let theAmounts1=0
         
 
         setDateToday(Moment().format('YYYY-MM-DD 00:00:00'))
@@ -255,54 +256,6 @@ const Home=()=>{
         console.log("The date yesterday is: "+dateYesterday)
         console.log("selected Student ID "+selectedStudentId)
         
-
-        AuthService.getTransactionsByDate(firstStudent.userId,dateToday,dateTodayEnd).then((res)=>{
-            res.data.data.map((transaction,index)=>{
-                if(transaction.transType==="Merchant_Pay"){
-                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
-                    theAmounts+=parseFloat(transaction.amount)
-                    setTodaysExpenditure(theAmounts)
-                    
-                }
-                else{
-                    console.log("The transaction at "+index+" is not a merchant transaction")
-                }
-            })
-
-            //getting the transactions for yesterday
-        
-            console.log("the amounts are")
-            console.log("Total spent: "+theAmounts)
-            console.log("Total spent: "+todaysExpenditure)
-        }).catch((err)=>{
-            console.log(err)
-            //alert("error")
-            setTodaysExpenditure(0)
-        })
-
-        AuthService.getTransactionsByDate(firstStudent.userId,dateYesterday,dateYesterdayEnd).then((res)=>{
-            res.data.data.map((transaction,index)=>{
-                if(transaction.transType==="Merchant_Pay"){
-                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
-                    theAmountsYesterday+=parseFloat(transaction.amount)
-                    setYesterdaysExpenditure(theAmountsYesterday)
-                    
-                }
-                else{
-                    console.log("The transaction at "+index+" is not a merchant transaction")
-                }
-            })
-
-            //getting the transactions for yesterday
-        
-            console.log("the amounts are")
-            console.log("Total spent: "+theAmounts)
-            console.log("Total spent: "+todaysExpenditure)
-        }).catch((err)=>{
-            console.log(err)
-           // alert("error")
-            console.log('[AXIOS GET]', err)
-        })
         
        AuthService.getAccountLimits(selectedPocketMoneyId).then((res)=>{
        
@@ -361,8 +314,69 @@ const Home=()=>{
 
 
        
-    },[dateYesterday,selectedStudentId,todaysExpenditure,firstStudent,selectedPocketMoneyId,dailyCardLimit])
+    },[selectedStudentId,firstStudent,selectedPocketMoneyId,dailyCardLimit])
     
+
+    //getting todays and yesterdays expenditure
+    useEffect(()=>{
+        setTodaysExpenditure(0)
+        setYesterdaysExpenditure(0)
+              
+        let theAmounts1=0 
+        let theAmounts2=0 
+        let dateTodayEnd=Moment().format('YYYY-MM-DD 23:59:59')
+        let dateYesterdayEnd=Moment().subtract(1, 'days').format('YYYY-MM-DD 23:59:59')
+
+        AuthService.getTransactionsByDate(clikedBlinkerId2,dateToday,dateTodayEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts1+=parseFloat(transaction.amount)
+                    setTodaysExpenditure(theAmounts1)
+                    
+                    
+                }
+                else{
+                    console.log("The transaction at "+index+" is not a merchant transaction")
+                }
+            })
+            //alert(theAmounts1)
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setTodaysExpenditure(0)
+        })
+
+        
+        AuthService.getTransactionsByDate(firstStudent.userId,dateYesterday,dateYesterdayEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmountsYesterday+=parseFloat(transaction.amount)
+                    setYesterdaysExpenditure(theAmountsYesterday)
+                    
+                }
+                else{
+                    console.log("The transaction at "+index+" is not a merchant transaction")
+                }
+            })
+
+            //getting the transactions for yesterday
+        
+            console.log("the amounts are")
+            console.log("Total spent: "+theAmounts)
+            console.log("Total spent: "+todaysExpenditure)
+        }).catch((err)=>{
+            console.log(err)
+           // alert("error")
+            console.log('[AXIOS GET]', err)
+            setYesterdaysExpenditure(0)
+        })
+
+
+    },[dateYesterday,dateToday,clikedBlinkerId2])
 
     //this function helps get the details pertaining to the details of a student's account
     let targetId=firstStudent.userId
@@ -935,7 +949,7 @@ const Home=()=>{
                                         </div>
                                         <div className="flex-grow-1 chat-user-box">
                                             <p className="user-title m-0">{item?.firstName+" "+item.middleName} </p>
-                                            <p className="text-muted">{item?.blinkId} cfr</p>
+                                            <p className="text-muted">{item?.blinkId}</p>
                                         </div>                                                            
                                     </a>
                                     </div>
@@ -1135,7 +1149,7 @@ const Home=()=>{
                                        
 
                                         {/* my profile two */}
-                                        <a href="#" className="col-4 waves-effect py-3">
+                                        <Link params={clikedBlinkerId2}  to={"/BlinkerDetails/" + clikedBlinkerId2} href="#" className="col-4 waves-effect py-3">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
                                                 <div className="options-cont options-cont-purple mb-0">
                                                     <div className="flex-shrink-0 m-0 d-flex justify-content-center align-items-center">
@@ -1144,7 +1158,7 @@ const Home=()=>{
                                                 </div>
                                                 <p className="fw-medium text-black text-center text-center font-11px mb-0 mt-2">{firstStudent?.firstName}'s Profile</p>
                                             </div>
-                                        </a>
+                                        </Link>
 
                                         <a href="#" className="col-4 waves-effect py-3 d-sm-none d-md-block" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                                             <div className="text-ceter align-items-center d-flex justify-content-center flex-column px-0">
@@ -1313,7 +1327,7 @@ const Home=()=>{
                         </div>
                         <div className="col-12">
                             {/* <div className="card history-card"> */}
-                            <div className="card history-card no-shadow-sm border-sm-bottom-1px">
+                            <div className="card history-card no-shadow-sm border-sm-bottom-1p">
                                 <div className="card-header bg-white px-sm-2 pt-sm-3 pb-2">
                                     <div class="d-flex justify-content-between">
                                         <div className="d-flex">
@@ -1539,7 +1553,7 @@ const Home=()=>{
                                             )
                                         }
                                     </div>
-                                    <div className="text-center mt-4"><Link to="/Transactions" className="btn d-none btn-primary waves-effect waves-light btn-sm">View More <i className="mdi mdi-arrow-right ms-1"></i></Link></div>
+                                    <div className="text-center mt-4 d-none"><Link to="/Transactions" className="btn d-none btn-primary waves-effect waves-light btn-sm">View More <i className="mdi mdi-arrow-right ms-1"></i></Link></div>
                                 </div>
                                 <div className="card-body px-5 d-flex flex-column justify-items-center align-items-center text-center no-trans-cont">
                                     <div className="p-5 py-0">
@@ -1554,7 +1568,7 @@ const Home=()=>{
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 ">
+                <div className="col-md-6 col-lg-6 col-xl-7 col-sm-12 d-md-block d-sm-none">
                     <div className="card expenditure-card no-shadow-sm">
                         <div className="card-body">
                             <h4 className="card-title mb-0 d-none">Expenditure</h4>
@@ -1597,7 +1611,7 @@ const Home=()=>{
                                         </div>                                                
                                     </div>
                                 </div>
-                                <div className="col-lg-12 col-sm-12">
+                                <div className="col-lg-12 col-sm-12 d-sm-none d-md-block">
                                     <div>
                                         <div className="row">
                                             <h4 className="card-title font-12px pt-5 mb-0 ">All Accounts summary for {firstStudent.firstName}</h4>

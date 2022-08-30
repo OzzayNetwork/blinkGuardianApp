@@ -46,7 +46,7 @@ const Transactions =()=> {
     const[viewAllTransactions,setViewAllTransactions]=useState(true)
     const[viewSpendTransactions,setSpendTransactions]=useState(false)
     const[viewDepositTransactions,setViewDepositTransactions]=useState(false)
-    const[areTransactionsEmpty,setAreTransactionsEmpty]=useState(true)
+    const[areTransactionsEmpty,setAreTransactionsEmpty]=useState(false)
     const [loadTable,setLoadTable]=useState(true)
 
     //view transactions functions
@@ -132,6 +132,7 @@ const Transactions =()=> {
 
     useEffect(()=>{
         setStudentTransactions([])
+        setAreTransactionsEmpty(false)  
         setLoadTable(true)
         
         AuthService.getStudentTransactions(blinkWalletAccountNum,clikedBlinkerId2).then((res)=>{
@@ -232,12 +233,10 @@ const Transactions =()=> {
         return studentInstitutionName
     }
 
+
     $('body').unbind().on('click','.nav-item .nav-link',function(){
-       $(this).addClass('active').parent().siblings().children().removeClass('active')
-    })
-    $('body').unbind().on('click','.select-tbl-filter .btn',function(){
-        $(this).addClass('active').siblings().removeClass('active')
-    })
+        $(this).addClass('active').parent().siblings().children().removeClass('active')
+     })
     
 
     
@@ -496,9 +495,9 @@ const Transactions =()=> {
                         <div className="d-md-flex d-none align-items-center">
                             
                             <div class="btn-group select-tbl-filter" role="group" aria-label="Basic example">
-                                <button onClick={viewAllFunc} type="button" class="btn active btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center">View All</button>
-                                <button onClick={viewDepositFunc} type="button" class="btn btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-down-bold font-size-16"></i><span className="pl-1 d-none d-lg-inline d-md-inline">Money In</span></button>
-                                <button onClick={viewSpendFunc} type="button" class="btn btn-outline-dark btn-outline-dark waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-up-bold font-size-16"></i> <span className="pl-1 d-none d-lg-inline d-md-inline">Expenses</span></button>
+                                <button onClick={viewAllFunc} type="button" class="btn active btn-outline-primary waves-light waves-effect d-flex align-items-center justify-content-center">View All</button>
+                                <button onClick={viewDepositFunc} type="button" class="btn btn-outline-primary waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-down-bold font-size-16"></i><span className="pl-1 d-none d-lg-inline d-md-inline">Money In</span></button>
+                                <button onClick={viewSpendFunc} type="button" class="btn btn-outline-primary  waves-light waves-effect d-flex align-items-center justify-content-center"><i className="mdi mdi-arrow-up-bold font-size-16"></i> <span className="pl-1 d-none d-lg-inline d-md-inline">Expenses</span></button>
                             </div>
 
                         </div>
@@ -614,6 +613,8 @@ const Transactions =()=> {
                                             </td>
                                         </tr>              
                                     ))}
+
+                                    
                                 
                                     
                                 </tbody>
@@ -622,6 +623,22 @@ const Transactions =()=> {
 
                            
                         </div>
+
+                        
+                        {areTransactionsEmpty? (
+                            <div className="card-body d-sm-none d-md-block px-5 d-flex flex-column justify-items-center align-items-center text-center">
+                                <div className="p-5 py-0 pt-3">
+                                    <img src="assets/images/filter-imgs/no-results.svg" className="img mb-4" alt="No search results" height="207px" />
+                                </div>
+                                <h4>No Results To Show</h4>
+                                <p>We couldnt find what you are looking for, try changing the filters.</p>
+                            </div>
+                            ):(
+                                <></>
+                            )
+                        }
+
+                        
 
                         {loadTable? (
                                 <div className="card-body d-sm-none d-md-block">

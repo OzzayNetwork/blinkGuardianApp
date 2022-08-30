@@ -233,6 +233,29 @@ class stdFunctions {
          return str
     }
 
+    //credit card out put
+    creditCrad1=(cc)=> {
+        // If less than 6 characters return full number
+        if (cc.length < 6)
+        return cc;
+        
+        // Take out first character
+        let firstChar = cc.charAt(0);
+        cc = cc.slice(1);
+        
+        // Replace characters except last 4
+        cc = cc.replace(/\d(?=.{4,}$)/g, '#');
+
+        // Add first character back
+        cc = firstChar + cc;
+
+        return cc;
+    }
+
+    creditCard2=(str)=>{
+        return str.replace(/[^\dA-Z]/g, '').replace(/(.{3})/g, '$1 ').trim();
+    }
+
     //check if array is empty
     isArrayEmpty=(num)=>{
         if(num===0){

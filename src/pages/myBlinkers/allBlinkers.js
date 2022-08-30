@@ -203,13 +203,9 @@ const AllBlinkers =()=> {
                                     <thead className="table-light text-capitalize">
                                         <tr className="table-light">
                                             <th>Blinker</th>
-                                            <th>Institution</th>
-                                            <th>Guardians</th>
-                                            <th>Last Activity</th>
-                                            <th>Profile Status</th>
+                                            <th>Blink ID</th>
+                                            <th>Gender</th>
                                             <th>Card Status</th>
-                                            <th className="text-right">Wallet Balance</th>
-                                            <th>Other Accounts</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -221,20 +217,18 @@ const AllBlinkers =()=> {
                                                     <a class="d-flex p-0 m-0 waves-effect dropdown-item d-flex align-items-center">
                                                         <div class="flex-shrink-0 me-3">
                                                             <img class="rounded-circle d-none" src="assets/images/users/avatar-4.jpg" alt="Generic placeholder image" height="36"/>
-                                                            <div class="avatar-sm mx-auto ">
-                                                                <span class="avatar-title rounded-circle bg-random font-size-16 profile-abriv">{item.firstName.charAt(0)+item.middleName.charAt(0)}</span>
+                                                            <div class="avatar-xs mx-auto ">
+                                                                <span class="avatar-title rounded-circle bg-random font-size-14 profile-abriv">{item.firstName.charAt(0)+item.middleName.charAt(0)}</span>
                                                             </div>
                                                         </div>
                                                         <div class="flex-grow-1 chat-user-box">
                                                             <p class="user-title m-0">{item.firstName+" "+item.middleName+" "+item.lastName}</p>
-                                                            <p class="text-muted m-0 p-0">{item.blinkId}</p>
                                                             </div>
                                                     </a>
                                                 </td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>{item.blinkId}</td>
+                                                <td>{item.gender}</td>
+                                                
                                                 <td className="text-uppercase fw-semibold">
                                                     {StdFunctions.areTheyThesame(item.cardStatus,"Active") ? (
                                                         <span class="badge badge-pill badge-soft-success font-size-11">{item.cardStatus}</span>
@@ -243,8 +237,7 @@ const AllBlinkers =()=> {
                                                         )
                                                     }
                                                 </td>
-                                                <td className="text-right"></td>
-                                                <td></td>
+                                                
                                                 <td>
                                                     <Link params={item.userProfileId}  to={"/BlinkerDetails/" + item.userProfileId} className="btn btn-primary btn-sm">View Details</Link>
                                                 </td>
