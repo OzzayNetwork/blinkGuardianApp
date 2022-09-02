@@ -57,6 +57,12 @@ class AuthService {
    reactivateCard(data){
       return axiosInstance.post(baseUrl+"/api/v2/accounts/reactivateCard",data)
    }
+
+   //edit account
+   editBlinkAccount(data){
+      return axiosInstance.post(baseUrl+"/api/v2/accounts/editAccount",data)
+   }
+
    //deactivate accounts two
    changeAccountStatus(userId,statusUpdate){
       return axiosInstance.get(baseUrl+"/api/v2/accounts/deactivateAccount/"+userId+"/"+statusUpdate)

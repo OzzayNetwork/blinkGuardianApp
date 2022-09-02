@@ -143,6 +143,13 @@ const Header=()=>{
               <h5 className="ms-3 mb-0 pb-0 text-black">Hi,  {parentFName}</h5>
                 
               }
+
+              {currentWindow==="/BlinkerDetails/" &&
+              <h5 className="ms-3 mb-0 pb-0 text-black">Account Details for</h5>
+                
+              }
+
+             
            
             </span>
            

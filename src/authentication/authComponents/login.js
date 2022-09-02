@@ -154,7 +154,7 @@ const[midName,setMidName]=useState("")
                 <input
                   type="password"
                   className="form-control"
-                  placeholder="Enter your four Digit password"
+                  placeholder="Enter your Pass Code"
                   aria-label="Password"
                   aria-describedby="password-addon"
                   onChange={(event)=>setPassword(event.target.value)}

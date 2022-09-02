@@ -29,13 +29,6 @@ const AllBlinkers =()=> {
      useEffect(() => {
 
         setLoading(true);
-
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-        //function that removed the first character
-       
         //const allBlinkers=JSON.parse(localStorage.getItem("guardianBlinkers"));
         const allBlinkers=AuthService.getLogedInAssociates()
         setstudents(allBlinkers)
@@ -50,96 +43,20 @@ const AllBlinkers =()=> {
             setHasBlinkers(true)
         }
         //console.log(allBlinkers[0])
-        
         AuthService.getStudentDetails(AuthService.getLogedInAssociates()[0].userId).then((res)=>{
             setQuote(res);
             setTimeout(() => {
                 setLoading(false);
-              }, 2000);
+              }, 1000);
 
             setStudentProfile(res.data.data.userProfile)
-            
-            //setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
-            //alert(blinkWalletAccountNum)
-            console.log(studentProfile)
+           
         }).catch((err)=>{
 
         })
-
-        
-
-        console.log("The transactions should appear down here as an object")
-
     },[])
-
-    
-    const getInstitututionName=(studentId)=>{
-        var studentInstitutionName
-        AuthService.getStudentDetails(studentId).then((res)=>{
-            console.log(res)
-          //  setSchoolName(res.data.data.associates[0].institution.institutionName)
-          
-          studentInstitutionName=res.data.data.associates[0].cardId
-            //alert(schoolName);
-            console.log("the school Name is "+studentInstitutionName)
-            
-        })
-        return studentInstitutionName
-    }
-
-    
-
-    
-
-    console.log(students);
-    const blinkerClicked=(studentId,clickedIndex)=>{
-        setLoading(true);
-        AuthService.getStudentDetails(studentId).then((res)=>{
-            console.log(res)
-            setSchoolName(res.data.data.associates[0].institution.institutionName)
-            //alert(schoolName);
-            console.log("the school Name is "+schoolName)
-            setStudentProfile(res.data.data.userProfile)
-            console.log(studentProfile)
-            //alert(clickedIndex)
-            const allBlinkers=AuthService.getLogedInAssociates()
-
-            setFirstStudent(allBlinkers[clickedIndex])
-            setMyBlinkersCount(allBlinkers.length)
-            //console.log(allBlinkers[0])
-            //alert(studentId)
-            AuthService.getStudentDetails(AuthService.getLogedInAssociates()[clickedIndex].userId).then((res)=>{
-            setStudentProfile(res.data.data.userProfile)
-            //clicke blinker wallet Id
-            setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
-            console.log(studentProfile)
-            //clicked blinker transactions
-            
-        }).catch((err)=>{
-
-        })
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-        })
-        // const returnedData= AuthService.getStudentDetails(studentId)
-        // const GetSchoolName=returnedData.data.cardStatus
-        
-        $('.product-items').each(function(index) {
-            const products = $(this).text()
-           $(this).text(StdFunctions.removeFirstCharacter(products))
-        });
-       
-
-    }
-
-    
-    
-    
-   
     return ( 
         <>
 

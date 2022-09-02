@@ -795,7 +795,7 @@ $('.payment-prev').unbind().on('click', function(){
                                </>
                             ):(
                                 <>
-                                    <h5 id="offcanvasBottomExpenditureLabel">Top Up Account</h5>
+                                    <h5 id="offcanvasBottomExpenditureLabel">Top Up Student's Account</h5>
                                     <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </>
                             )
@@ -827,7 +827,7 @@ $('.payment-prev').unbind().on('click', function(){
                                           </div>
                                             {StdFunctions.isBlinkersMore(students.length)?(
                                                 <div className="d-flex justify-content-center align-items-center">
-                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Select Student</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
+                                                    <span className="d-flex align-items-center"><small className="text-info mr-3">Select Blinker</small> <i className="mdi mdi-chevron-down  d-xl-inline-block me-3 font-21"></i></span>
                                                 </div>
                                             ):(
                                             <span></span>

@@ -142,7 +142,7 @@ const PasswordReset=()=>{
 
             </form>
             <div className="mt-5 text-center ">
-                <p>Remember It ? <Link to="/Login" className="fw-medium text-primary "> Sign In here</Link> </p>
+                <p>Remember It ? <Link to="/Login" className="fw-medium text-primary "> Login</Link> </p>
             </div>
         </div>
     </div>

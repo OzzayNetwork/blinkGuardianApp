@@ -1562,7 +1562,7 @@ const Home=()=>{
                                     <h4 className="fw-bold">No Transactions Yet</h4>
                                     <p>No transactions have been registered with the student, you can start by sending them money first </p>
                                     <a className="font-size-24px d-none" href="" data-bs-toggle="modal" data-bs-target="#walletTopUp">Send Money</a>
-                                    <a href="javascript: void(0);" data-bs-toggle="modal" data-bs-target="#walletTopUp" className="text-primary font-16">Send Money <span className="flip-x"><span ><i class="mdi mdi-arrow-right-thick"></i></span></span> </a>
+                                    <a href="javascript: void(0);" data-bs-toggle="modal" data-bs-target="#walletTopUp" className="text-primary font-16">Top Up Account <span className="flip-x"><span ><i class="mdi mdi-arrow-right-thick"></i></span></span> </a>
                                 </div>
                             </div>
                         </div>

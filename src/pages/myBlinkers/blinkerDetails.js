@@ -35,16 +35,44 @@ const BlinkerDetails =()=> {
     const[monthStart,setMonthStart]=useState(Moment().startOf('month').format('YYYY-MM-DD 00:00:00'))
     const[monthEnd,setMonthEnd]=useState(Moment().endOf('month').format('YYYY-MM-DD 23:59:59'))
 
+    const[last30DaysStart,setLast30DaysStart]=useState(Moment().subtract(30, 'days').format('YYYY-MM-DD 00:00:00'))
+    const[last30DaysEnd,setLast30DaysEnd]=useState(Moment().format('YYYY-MM-DD 23:59:59'))
+
+    const[graphPeriodStart,setGraphPeriodStart]=useState(Moment().subtract(6, 'months').format('YYYY-MM-DD 00:00:00'))
+    const[graphPeriodEnd,setGraphPeriodEnd]=useState(Moment().format('YYYY-MM-DD 23:59:59'))
+
     const[dateStart,setDateStart]=useState(Moment().format('YYYY-MM-DD 00:00:00'))
     const[dateEnd,setDateEnd]=useState(Moment().format('YYYY-MM-DD 23:59:59'))
 
     const[dailyUsage,setDailyUsage]=useState("0")
     const[weeklyUsage,setWeeklyUsage]=useState("0")
     const[monthlyUsage,setMonthlyUsage]=useState("0")
+    const[last30Usage,setLast30Usage]=useState("0")
+    const[graphUsage,setGraphUsage]=useState("0")
 
     const[dailyDep,setDailyDep]=useState("0")
     const[weeklyDep,setWeeklyDep]=useState("0")
     const[monthlyDep,setMonthlyDep]=useState("0")
+    const[last30Dep,setLast30Dep]=useState("0")
+    const[graphDep,setGraphDep]=useState("0")
+
+    //editing information form hooks
+    const[firstName,setFirstName]=useState("")
+    const[midName,setMidName]=useState("")
+    const[lastName,setLastName]=useState("")
+    const[blinkerEmail,setBlinkerEmail]=useState("")
+    const[blinkerPhone,setBlinkerPhone]=useState("")
+    const[blinkerGender,setBlinkerGender]=useState("")
+    const[blinkerUserName,setBlinkerUserName]=useState("")
+    const[identificationType,setIdentificationType]=useState("")
+    const[identificationNum,setIdentificationNum]=useState("")
+    const[userType,setUserType]=useState("")
+
+    const[submitClicked,setSubmitClicked]=useState(false)
+    const[detailsChanged,setDetailsChanged]=useState(false)
+    const[changingDetails,setChangingDetails]=useState("")
+    const[guardianId,setGuardianId]=useState(JSON.parse(localStorage.getItem("parentId")))
+
     
 
 
@@ -69,6 +97,8 @@ const BlinkerDetails =()=> {
    
 
     useEffect(() => {
+        //alert(guardianId)
+        setDetailsChanged(false)
         console.log(selectedStudentId)
         //load before showiing data
         setLoading(true);
@@ -77,12 +107,36 @@ const BlinkerDetails =()=> {
         setstudents(allBlinkers)
         setFirstStudent(allBlinkers[selectedStudentId])
         setMyBlinkersCount(allBlinkers.length)
-        console.log(allBlinkers[selectedStudentId])
+        console.log(allBlinkers)
+
 
         AuthService.getStudentDetails(selectedStudentId).then((res)=>{
             
               
             setStudentProfile(res.data.data.userProfile)
+
+            setFirstName(res.data.data.userProfile.firstName)
+            setMidName(res.data.data.userProfile.middleName)
+            setLastName(res.data.data.userProfile.lastName)
+            //setBlinkerPhone(res.data.data.userProfile)
+            //setBlinkerEmail(res.data.data.userProfile)
+            setBlinkerGender(res.data.data.userProfile.gender)
+            setBlinkerUserName(res.data.data.userProfile.gender)
+            setUserType(res.data.data.userProfile.userType)
+            setIdentificationType(res.data.data.userProfile.identificationType)
+            setIdentificationNum(res.data.data.userProfile.identificationNo)
+
+            if(res.data.data.userProfile.gender==="Female")  {
+                $('#radioFemale').prop('checked', true);
+                $('#radioMale').prop('checked', false);
+            }
+
+            if(res.data.data.userProfile.gender==="Male")  {
+                $('#radioFemale').prop('checked', false);
+                $('#radioMale').prop('checked', true);
+            }
+            
+
             setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
             setCardBal(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').currentBalance)
             console.log("the blink wallet account Id is:"+blinkWalletAccountNum)
@@ -106,11 +160,12 @@ const BlinkerDetails =()=> {
 
         })
         
-    },[selectedStudentId])
+    },[selectedStudentId,detailsChanged])
 
     // Daily transactions
     useEffect(()=>{
         setDailyUsage("0")
+        setDailyDep("0")
         
         let theAmounts=0 
         let deposit=0
@@ -135,7 +190,8 @@ const BlinkerDetails =()=> {
         }).catch((err)=>{
             console.log(err)
             //alert("error")
-            setDailyUsage(0)
+            setDailyUsage("0")
+            setDailyDep("0")
         })
 
     },[selectedStudentId,theDate])
@@ -143,6 +199,7 @@ const BlinkerDetails =()=> {
     //weekly transactions
     useEffect(()=>{
         setWeeklyUsage("0")
+        setWeeklyDep("0")
         let theAmounts=0 
         let depAmount=0
         AuthService.getTransactionsByDate(selectedStudentId,weekStart,weekEnd).then((res)=>{
@@ -179,6 +236,7 @@ const BlinkerDetails =()=> {
     // monthly usage
     useEffect(()=>{
         setMonthlyUsage("0")
+        setMonthlyDep("0")
         let theAmounts=0 
         let depAmount=0
 
@@ -208,7 +266,8 @@ const BlinkerDetails =()=> {
         }).catch((err)=>{
             console.log(err)
             //alert("error")
-            setMonthlyUsage(0)
+            setMonthlyUsage("0")
+            setMonthlyDep("0")
         })
 
 
@@ -216,8 +275,98 @@ const BlinkerDetails =()=> {
 
     },[theMonth,selectedStudentId])
 
-    //console.log(fetchedStudentDetails.userProfile.institution.institutionName)
-   
+    //calculating averages
+    useEffect(()=>{
+        setLast30Usage("0")
+        setLast30Dep("0")
+        let theAmounts=0 
+        let depAmount=0
+
+        AuthService.getTransactionsByDate(selectedStudentId,last30DaysStart,last30DaysEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    
+                    
+                }
+                if(transaction.transType==="Money_transfer"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                }
+
+                if(transaction.transType==="Deposit"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    depAmount+=parseFloat(transaction.amount)
+                }
+
+                
+
+                setLast30Usage(theAmounts/30)
+                setLast30Dep(depAmount/30)
+                
+                
+            })
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setLast30Usage("0")
+            setLast30Dep("0")
+        })
+
+
+        
+
+    },[last30DaysEnd,last30DaysStart])
+
+    //graph data
+
+    useEffect(()=>{
+        setGraphDep("0")
+        setGraphUsage("0")
+        let theAmounts=0 
+        let depAmount=0
+
+        AuthService.getTransactionsByDate(selectedStudentId,graphPeriodStart,graphPeriodEnd).then((res)=>{
+            res.data.data.map((transaction,index)=>{
+                if(transaction.transType==="Merchant_Pay"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                    
+                    
+                }
+                if(transaction.transType==="Money_transfer"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    theAmounts+=parseFloat(transaction.amount)
+                }
+
+                if(transaction.transType==="Deposit"){
+                    console.log("The transaction amount of item "+index+" is "+transaction.amount)
+                    depAmount+=parseFloat(transaction.amount)
+                }
+
+                
+
+                setGraphUsage(theAmounts)
+                setGraphDep(depAmount)
+                
+                
+            })
+
+            
+        }).catch((err)=>{
+            console.log(err)
+            //alert("error")
+            setLast30Usage("0")
+            setLast30Dep("0")
+        })
+
+
+        
+
+    },[graphPeriodStart,graphPeriodEnd])
 
     
     const getInstitututionName=(studentId)=>{
@@ -233,6 +382,67 @@ const BlinkerDetails =()=> {
         })
         return studentInstitutionName
     }
+
+    const changeBlinkerDetails=async(event)=>{
+        event.preventDefault()
+        setSubmitClicked(true)
+
+        let data={
+            "firstName": firstName, 
+            "middleName": midName, 
+            "lastName": lastName,  
+            "userName": "Jimmyv2", 
+            "gender": blinkerGender, 
+            "email": blinkerEmail, 
+            "userType": "Student", 
+            "identificationType": identificationType,
+            "msisdn": blinkerPhone, 
+            "identificationNo": identificationNum,
+            "blinkId":"",
+            "userId":selectedStudentId
+          }
+
+          AuthService.editBlinkAccount(data).then((res)=>{
+            console.log(res)
+            if(res.status===200){
+                setDetailsChanged(true)
+                setSubmitClicked(false)
+                setChangingDetails("Profile Details Updated")
+                $('.edit-account .btn-close').click()
+
+                //updating local storage associates
+                AuthService.getStudentDetails(guardianId).then((res)=>{
+                    if(res.status===200){
+                        localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
+                    }
+                })
+
+            }
+            else{
+                setChangingDetails("Error, Try again later")
+            }
+          }).catch((err)=>{
+            console.log(err)
+            setSubmitClicked(false)
+            setChangingDetails("Error, Try again later")
+          })
+    }
+
+    const genderChange=async(event)=>{
+        console.log(event.target.value); 
+        if(event.target.value==="Female")  {
+            $('#radioFemale').prop('checked', true);
+            $('#radioMale').prop('checked', false);
+        }
+
+        if(event.target.value==="Male")  {
+            $('#radioMale').prop('checked', true);
+            $('#radioFemale').prop('checked', false);
+        }
+
+        setBlinkerGender(event.target.value)
+    }
+    
 
     
     
@@ -297,7 +507,7 @@ const BlinkerDetails =()=> {
 
                         {/* profile picture */}
                             <div class=" mb-2 position-relative">
-                                <button class="avatar-title change-pic rounded-circle btn btn-info font-size-16">
+                                <button class="avatar-title d-none change-pic rounded-circle btn btn-info font-size-16">
                                     <i class="mdi-camera-outline mdi font-size-20 text-white"></i>
                                 </button>
                                 <img src="assets/images/users/avatar-1.jpg" class="avatar-md rounded-circle img-thumbnail d-none" alt=""/>
@@ -314,7 +524,7 @@ const BlinkerDetails =()=> {
                             <small className="text-muted text-capitalize">{schoolName}</small>
                         </div>
                         <div>
-                            <button className="btn btn-info waves-effect waves-light mt-3">Edit Details</button>
+                            <button className="btn btn-info waves-effect waves-light mt-3" data-bs-toggle="modal" data-bs-target=".edit-account">Edit Details</button>
                         </div>
 
 
@@ -335,12 +545,12 @@ const BlinkerDetails =()=> {
                                         <i class="mdi mdi-arrow-up-bold"></i>
                                     </span>
                                 </div>
-                                <p className="fw-semibold text-black mb-0">KES 200.00</p>
-                                <small>Avg. Monthly Deposits</small>
+                                <p className="fw-semibold text-black mb-0">{StdFunctions.kenyaCurrency(last30Dep)}</p>
+                                <small>Avg. Daily Deposits</small>
                             </div>
 
                             <div className="col-6">
-                                <p className="fw-semibold text-black mb-0">KES 200.00</p>
+                                <p className="fw-semibold text-black mb-0">{StdFunctions.kenyaCurrency(last30Usage)}</p>
                                 <small>Avg. Monthly Usage</small>
                             </div>
                         </div>
@@ -390,7 +600,12 @@ const BlinkerDetails =()=> {
                             <div class="d-flex w-100">
                                 <div class="d-flex align-items-center justify-content-between w-100 ">
                                     <h4 class="card-title mb-0 me-3">This Month's Summary</h4>
-                                    <div>
+                                    <div className="d-fle d-none justify-content-end align-items-center">
+
+                                        <button type="button" className="btn me-3 btn-flex flex-grow-1 btn-flex btn-outline-primary no-wrap btn-sm  waves-effect btn-label waves-light">
+                                            <i className="mdi mdi-calendar-question label-icon"></i> Custom Date
+                                        </button>
+
                                         <div class="input-group input-group-sm">
                                             <select class="form-select form-select-sm">
                                                 <option value="JA" selected="">Jan</option>
@@ -398,9 +613,11 @@ const BlinkerDetails =()=> {
                                                 <option value="NO">Nov</option>
                                                 <option value="OC">Oct</option>
                                             </select>
-                                                <label class="input-group-text">Month</label>
-                                            </div>
+                                            <label class="input-group-text">Month</label>
                                         </div>
+                                       
+                                    </div>
+                                       
                                     </div>
                                     
                                 </div>
@@ -487,12 +704,43 @@ const BlinkerDetails =()=> {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div> 
+
+                                                                       
                                 </div>
                             </div>
 
                             <div className="card-body">
+                                <div className="row">
+                                    <div className="col-sm-12 col-lg-12 py-2">
+                                        <div className="p-0 rounded ">
+                                            <div className="d-flex align-items-center mb-3">
+                                                <div className="d-flex flex-column">
+                                                    <div className="d-flex align-items-center mb-4">
+                                                        <div className="avatar-xs me-3">
+                                                            <span className="avatar-title rounded-circle bg-dark bg-soft text-black font-size-18">
+                                                                <i className="mdi mdi-chart-line-variant"></i>
+                                                            </span>
+                                                        </div>
+                                                        <h5 className="font-size-14 mb-0 text-capitalize">Last six Months Overview</h5>
+                                                    </div>
 
+                                                    <div className="mb-0 text-muted">
+                                                        <p className="mb-0 pb-0">Amount Spent</p>
+                                                        <h4>{StdFunctions.kenyaCurrency(graphUsage)}</h4>
+                                                        <div><span className="badge badge-soft-success font-size-12 me-1"> {StdFunctions.kenyaCurrency(graphDep)} </span> Deposits</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="row">
+                                                <div className="col-lg-12">
+                                                    <div>graph comes here</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -501,6 +749,99 @@ const BlinkerDetails =()=> {
         </div>
 
         {/* <!-- end row --> */}
+        </div>
+
+        {/* edit account details modal */}
+
+        <div className="modal fade edit-account" tabindex="-1" role="dialog" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h5 className="modal-title">Edit The Blinker Details</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                       <form onSubmit={changeBlinkerDetails} className="row" id="edit-blinker">
+                            <div className="col-12 mb-3">
+                                <div className="form-group">
+                                    <label>First Name</label>
+                                    <input className="form-control" required value={firstName} onChange={(event)=>setFirstName(event.target.value)} type="text" placeholder="First Name" />
+                                </div>
+                            </div>
+
+                            <div className="col-6 mb-3">
+                                <div className="form-group">
+                                    <label>Middle Name</label>
+                                    <input className="form-control" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
+                                </div>
+                            </div>
+
+                            <div className="col-6 mb-3">
+                                <div className="form-group">
+                                    <label>Last Name</label>
+                                    <input className="form-control" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <div class="mt-4">
+                                    <h5 class="font-size-14 mb-1">Binker's Gender</h5>
+                                   <div onChange={genderChange} className="d-flex">
+                                        <div class="form-check mb-3 me-3">
+                                            <input class="form-check-input" value="Male" type="radio" name="blinkerGender" id="radioMale" />
+                                            <label class="form-check-label" for="radioMale">
+                                                Male
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input"  value="Female" type="radio" name="blinkerGender" id="radioFemale" />
+                                            <label class="form-check-label" for="radioFemale">
+                                                Female
+                                            </label>
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+
+                            <div className="col-12 mb-3">
+                                <div className="form-group">
+                                    <label>Phone No.</label>
+                                    <input className="form-control"  onChange={(event)=>setBlinkerPhone(event.target.value)} type="text" placeholder="Enter Phone No." />
+                                </div>
+                            </div>
+
+                            <div className="col-12 mb-3">
+                                <div className="form-group">
+                                    <label>Email Address</label>
+                                    <input className="form-control"  onChange={(event)=>setBlinkerEmail(event.target.value)} type="text" placeholder="email@email.com" />
+                                </div>
+                            </div>
+                       </form>
+                    </div>
+                    <div className="modal-footer">
+
+                        {submitClicked? (
+                                <button disabled="true" type="submit" form="edit-blinker"   className="btn-flex btn-secondary opacity-50 w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
+                                    <div class="spinner-border text-white m-0 me-2" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">Save Changes</span>
+                                </button>
+                            ):(
+                                <button type="submit" form="edit-blinker"   className="btn-flex btn-success w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
+                                    <div class="spinner-border d-none text-white m-0 me-2" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    <span className="">Save Changes</span>
+                                </button>
+                            )
+                        }
+
+
+                    </div>
+                    
+                </div>
+            </div>
         </div>
 
         </>
