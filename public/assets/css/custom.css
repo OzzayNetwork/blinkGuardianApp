@@ -1705,6 +1705,16 @@
                     height: 48px !important;
                     width: 48px !important;
                 }
+                .the-toast{
+                    bottom:50px;
+                    z-index: 2000;
+                    min-width: 135px;
+                    border-radius: .25rem;
+                    width: auto !important;
+                }
+                .the-toast .toast-body{
+                    border-radius: .2rem;
+                }
 
                 
                

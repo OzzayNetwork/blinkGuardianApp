@@ -67,6 +67,7 @@ const BlinkerDetails =()=> {
     const[identificationType,setIdentificationType]=useState("")
     const[identificationNum,setIdentificationNum]=useState("")
     const[userType,setUserType]=useState("")
+    const[formChanged,setFormChanged]=useState("false")
 
     const[submitClicked,setSubmitClicked]=useState(false)
     const[detailsChanged,setDetailsChanged]=useState(false)
@@ -108,6 +109,7 @@ const BlinkerDetails =()=> {
         setFirstStudent(allBlinkers[selectedStudentId])
         setMyBlinkersCount(allBlinkers.length)
         console.log(allBlinkers)
+        setFormChanged(false)
 
 
         AuthService.getStudentDetails(selectedStudentId).then((res)=>{
@@ -118,10 +120,10 @@ const BlinkerDetails =()=> {
             setFirstName(res.data.data.userProfile.firstName)
             setMidName(res.data.data.userProfile.middleName)
             setLastName(res.data.data.userProfile.lastName)
-            //setBlinkerPhone(res.data.data.userProfile)
-            //setBlinkerEmail(res.data.data.userProfile)
+            setBlinkerPhone(res.data.data.msisdn)
+            setBlinkerEmail(res.data.data.email)
             setBlinkerGender(res.data.data.userProfile.gender)
-            setBlinkerUserName(res.data.data.userProfile.gender)
+            setBlinkerUserName(res.data.data.userName)
             setUserType(res.data.data.userProfile.userType)
             setIdentificationType(res.data.data.userProfile.identificationType)
             setIdentificationNum(res.data.data.userProfile.identificationNo)
@@ -391,7 +393,7 @@ const BlinkerDetails =()=> {
             "firstName": firstName, 
             "middleName": midName, 
             "lastName": lastName,  
-            "userName": "Jimmyv2", 
+            "userName": blinkerUserName, 
             "gender": blinkerGender, 
             "email": blinkerEmail, 
             "userType": "Student", 
@@ -409,6 +411,16 @@ const BlinkerDetails =()=> {
                 setSubmitClicked(false)
                 setChangingDetails("Profile Details Updated")
                 $('.edit-account .btn-close').click()
+
+                $('#the-toast').addClass('show').addClass('bg-success').removeClass('bg-danger').removeClass('animate__fadeOutDown')
+                $('#the-toast .toast-body').text("Account details Updated")
+                
+                setTimeout(() => {                  
+                    $('#the-toast').addClass('animate__fadeOutDown')
+                  }, 4000);  
+                  setTimeout(() => {                  
+                    $('#the-toast').removeClass('show')
+                  }, 5000);
 
                 //updating local storage associates
                 AuthService.getStudentDetails(guardianId).then((res)=>{
@@ -430,6 +442,8 @@ const BlinkerDetails =()=> {
 
     const genderChange=async(event)=>{
         console.log(event.target.value); 
+        setFormChanged(true)
+
         if(event.target.value==="Female")  {
             $('#radioFemale').prop('checked', true);
             $('#radioMale').prop('checked', false);
@@ -441,6 +455,11 @@ const BlinkerDetails =()=> {
         }
 
         setBlinkerGender(event.target.value)
+    }
+
+    const changingFormCheck=async(event)=>{
+        setFormChanged(true)
+        //alert("form changed")
     }
     
 
@@ -560,6 +579,27 @@ const BlinkerDetails =()=> {
                             { " "+Moment(fetchedStudentDetails.dateCreated).add(3, 'hours').calendar(null, {sameElse: 'DD MMM YYYY  hh:mm A' })}
                         </p>
                     </div>
+                    <div className="px-3 pb-3">
+                       
+                        {StdFunctions.areTheyThesame(blinkerEmail,"") ? (
+                                    <></>
+                                ):(
+                                    <p className="mb-0 d-flex align-items-center text-primary">
+                                        <i class="mdi mdi-email-outline mr-2 font-18px"></i><span className="px-2">{blinkerEmail}</span>
+                                    </p>
+                                )
+                            }
+
+                            {StdFunctions.areTheyThesame(blinkerPhone,"") ? (
+                                    <></>
+                                ):(
+                                    <p className={`mb-0 align-items-center text-primary ${StdFunctions.areTheyThesame(blinkerPhone,"") ? "d-none" : "d-flex"}`}  className="">
+                                        <i class="mdi mdi-phone mr-2 font-18px"></i><span className="px-2">{blinkerPhone}</span>
+                                    </p>
+                                )
+                            }
+                    </div>
+                   
                     
                     <div className="card-header bg-white border-top">
                         <h6 className="text-uppercase mb-3">Account Options</h6>
@@ -761,80 +801,98 @@ const BlinkerDetails =()=> {
                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
-                       <form onSubmit={changeBlinkerDetails} className="row" id="edit-blinker">
-                            <div className="col-12 mb-3">
-                                <div className="form-group">
-                                    <label>First Name</label>
-                                    <input className="form-control" required value={firstName} onChange={(event)=>setFirstName(event.target.value)} type="text" placeholder="First Name" />
+                       <form onSubmit={changeBlinkerDetails}   id="edit-blinker">
+                           <div className="row" onChange={changingFormCheck}>
+                                <div className="col-12 mb-3">
+                                    <div className="form-group">
+                                        <label>First Name</label>
+                                        <input className="form-control" required value={firstName} onChange={(event)=>setFirstName(event.target.value)} type="text" placeholder="First Name" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="col-6 mb-3">
-                                <div className="form-group">
-                                    <label>Middle Name</label>
-                                    <input className="form-control" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
+                                <div className="col-6 mb-3">
+                                    <div className="form-group">
+                                        <label>Middle Name</label>
+                                        <input className="form-control" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="col-6 mb-3">
-                                <div className="form-group">
-                                    <label>Last Name</label>
-                                    <input className="form-control" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
+                                <div className="col-6 mb-3">
+                                    <div className="form-group">
+                                        <label>Last Name</label>
+                                        <input className="form-control" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-12 mb-3">
-                                <div class="mt-4">
-                                    <h5 class="font-size-14 mb-1">Binker's Gender</h5>
-                                   <div onChange={genderChange} className="d-flex">
-                                        <div class="form-check mb-3 me-3">
-                                            <input class="form-check-input" value="Male" type="radio" name="blinkerGender" id="radioMale" />
-                                            <label class="form-check-label" for="radioMale">
-                                                Male
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input"  value="Female" type="radio" name="blinkerGender" id="radioFemale" />
-                                            <label class="form-check-label" for="radioFemale">
-                                                Female
-                                            </label>
-                                        </div>
-                                   </div>
+                                <div class="col-12 mb-3">
+                                    <div class="mt-4">
+                                        <h5 class="font-size-14 mb-1">Binker's Gender</h5>
+                                    <div onChange={genderChange} className="d-flex">
+                                            <div class="form-check mb-3 me-3">
+                                                <input class="form-check-input" value="Male" type="radio" name="blinkerGender" id="radioMale" />
+                                                <label class="form-check-label" for="radioMale">
+                                                    Male
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input"  value="Female" type="radio" name="blinkerGender" id="radioFemale" />
+                                                <label class="form-check-label" for="radioFemale">
+                                                    Female
+                                                </label>
+                                            </div>
+                                    </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="col-12 mb-3">
-                                <div className="form-group">
-                                    <label>Phone No.</label>
-                                    <input className="form-control"  onChange={(event)=>setBlinkerPhone(event.target.value)} type="text" placeholder="Enter Phone No." />
+                                <div className="col-12 mb-3">
+                                    <div className="form-group">
+                                        <label>Phone No.</label>
+                                        <input className="form-control" value={blinkerPhone}  onChange={(event)=>setBlinkerPhone(event.target.value)} type="text" placeholder="Enter Phone No." />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div className="col-12 mb-3">
-                                <div className="form-group">
-                                    <label>Email Address</label>
-                                    <input className="form-control"  onChange={(event)=>setBlinkerEmail(event.target.value)} type="text" placeholder="email@email.com" />
+                                <div className="col-12 mb-3">
+                                    <div className="form-group">
+                                        <label>Email Address</label>
+                                        <input className="form-control" value={blinkerEmail}  onChange={(event)=>setBlinkerEmail(event.target.value)} type="text" placeholder="email@email.com" />
+                                    </div>
                                 </div>
-                            </div>
+                           </div>
                        </form>
                     </div>
                     <div className="modal-footer">
 
-                        {submitClicked? (
+                        {formChanged ?
+                         <>
+                            {submitClicked ? 
+                            <>
                                 <button disabled="true" type="submit" form="edit-blinker"   className="btn-flex btn-secondary opacity-50 w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
                                     <div class="spinner-border text-white m-0 me-2" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     <span className="">Save Changes</span>
                                 </button>
-                            ):(
+                            </> 
+                            : 
+                            <>
                                 <button type="submit" form="edit-blinker"   className="btn-flex btn-success w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
                                     <div class="spinner-border d-none text-white m-0 me-2" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
                                     <span className="">Save Changes</span>
                                 </button>
-                            )
+                            </>
+                            }
+                        </> 
+                        :
+                        <>
+                            <button disabled="true" type="submit" form="edit-blinker"   className="btn-flex btn-secondary opacity-50 w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
+                                <div class="spinner-border text-white m-0 me-2 d-none" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                                <span className="">Save Changes</span>
+                            </button>
+                        </>
                         }
 
 

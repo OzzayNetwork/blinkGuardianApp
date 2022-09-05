@@ -68,6 +68,8 @@ $(window).on('load', function() {
     
 
     
+
+    
     $('body').on('click', '.btn-sen', function(){
         $('#walletTopUp .modal-footer').addClass('d-none');
         $('#walletTopUp .close-modal').addClass('d-none');

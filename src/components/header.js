@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
 import {Link,useLocation,matchRoutes} from "react-router-dom"
 import StdFunctions from "../services/standard.functions";
+import $ from 'jquery';
 
 
 // import $ from 'jquery';
@@ -23,6 +24,17 @@ const Header=()=>{
   const[onlineWeb,setOnlineWeb]=useState("")
   const[offlineWeb,setOfflineWeb]=useState("")
   const[areWeOffline,setAreWeOffline]=useState(false)
+
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/631603c054f06e12d892d405/1gc6vtacp';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  
 
   useEffect(()=>{
    
@@ -62,6 +74,8 @@ const Header=()=>{
   useEffect(()=>{
     setTheLocation(currentWindow)
   },[theLocation])
+
+ 
 
   if (currentWindow.includes(ourBaseURL)) {
     console.log("We are at the authentication pages");
@@ -503,8 +517,16 @@ const Header=()=>{
     </div>
 
     {/* toasts go here */}
-   
+    <div aria-live="polite position-relative" className="d-flex align-items-center justify-content-center "  aria-atomic="true">
+      <div className="toast bg-success position-fixed the-toast animate__animated   animate__bounceInUp bounceIn" id="the-toast">
+       
+        <div className="toast-body  text-white  w-auto d-flex align-items-center justify-content-center text-center">
+          Details Updated
+        </div>
+      </div>
+    </div>
     {/* toasts end here */}
+
    
     
     </>

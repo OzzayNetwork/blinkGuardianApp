@@ -609,6 +609,16 @@ const Home=()=>{
                 $('.account-limit-modal .modal-footer ').addClass('d-none')
                 setIsDailyLimitSet(true)
 
+                $('#the-toast').addClass('show').addClass('bg-success').removeClass('bg-danger').removeClass('animate__fadeOutDown')
+                $('#the-toast .toast-body').text("New Expenditure limit set")
+                
+                setTimeout(() => {                  
+                    $('#the-toast').addClass('animate__fadeOutDown')
+                  }, 4000);  
+                  setTimeout(() => {                  
+                    $('#the-toast').removeClass('show')
+                  }, 5000);
+
                 if(res.data.data.limitStatus==="Inactive"){
                     AuthService.inactivateLimit(data).then((res)=>{
                         if(res.status===200){
@@ -664,6 +674,18 @@ const Home=()=>{
                  setIsDailyLimitSet(false)
                  setDailyCardLimit("Not Set")
                  console.log(res.data)
+
+                 $('.account-limit-modal .btn-close').click()
+
+                 $('#the-toast').addClass('show').addClass('bg-success').removeClass('bg-danger').removeClass('animate__fadeOutDown')
+                $('#the-toast .toast-body').text("Expenditure limit Disabled")
+                
+                setTimeout(() => {                  
+                    $('#the-toast').addClass('animate__fadeOutDown')
+                  }, 4000);  
+                  setTimeout(() => {                  
+                    $('#the-toast').removeClass('show')
+                  }, 5000);
                 
              }
             
@@ -687,6 +709,7 @@ const Home=()=>{
             console.log(res)
             setBlockErrMsg(res.data.statusDescription)
             if(res.status===200){
+                alert("Unblocked")
                 setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
                 setBlockImg("assets/images/Account-options/block.svg")
                 setCardIsBlocked(false)
@@ -697,7 +720,8 @@ const Home=()=>{
                 $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
                 $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
                 $('.block-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
-
+               
+               
             }
         }).catch((err)=>{
 
@@ -787,6 +811,7 @@ const Home=()=>{
            setBlockErrMsg(res.data.statusDescription) 
             if(res.status===200){
                
+               
                 setSelectedStudentActiveStatus(true)
                 setBlockErrMsg(firstStudent?.firstName+"'s Account was succesfully reactivated.") 
                 
@@ -799,6 +824,17 @@ const Home=()=>{
                 $('.btn-set-unblock').prop('disabled', false).siblings().prop('disabled', false);
                 $('.btn-set-unblock').children("div").addClass('d-none').siblings('span').removeClass('d-none')
                 $('.block-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+                $('.account-block-modal .btn-close').click()
+                
+                $('#the-toast').addClass('show').addClass('bg-success').removeClass('bg-danger').removeClass('animate__fadeOutDown')
+                $('#the-toast .toast-body').text(firstStudent?.firstName+"'s Card has been Unblocked")
+                
+                setTimeout(() => {                  
+                    $('#the-toast').addClass('animate__fadeOutDown')
+                  }, 4000);  
+                  setTimeout(() => {                  
+                    $('#the-toast').removeClass('show')
+                  }, 5000);
             }
             else{
                 alert("Action cant be performed at the moment. Try again later")
@@ -1790,7 +1826,7 @@ const Home=()=>{
                                                 {StdFunctions.isMerchantPay(transactionServiceCategory)?(
                                                     <tr>
                                                     <th colspan="4" className="text-black text-uppercase pb-0 mb-0">
-                                                        <blockquote className=""><span className="text-muted">Transaction Ref.</span> {transactionDetails?.receiptNumber}</blockquote>
+                                                        <blockquote className=""><span className="text-muted">Receipt No.</span> {transactionDetails?.receiptNumber}</blockquote>
                                                     </th>
                                                 </tr>
                                             ):(

@@ -197,9 +197,11 @@ class stdFunctions {
     areTheyThesame(str1,str2){
 
         if(str1===str2){
+            //alert("they are the same")
             return true
         }
         else{
+            //alert("Not the same")
             return false
         }
     }
