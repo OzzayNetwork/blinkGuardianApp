@@ -523,7 +523,7 @@ const Transactions =()=> {
                                 <thead className="table-light text-capitalize">
                                     <tr className="table-dark">
                                         <th></th>
-                                        <th>Receipt No.</th>
+                                        <th>Transaction Ref</th>
                                         <th>Transaction Type</th>
                                         <th scope="col">Debited At</th>
                                         <th>Deposit from</th>
@@ -1060,7 +1060,7 @@ const Transactions =()=> {
                                             {StdFunctions.isMerchantPay(transactionServiceCategory)?(
                                                 <></>
                                             ):(
-                                               <p className="mb-0 pb-0 mt-3"><blockquote className="text-center"><span className="text-muted">Receipt No.</span> {transactionDetails?.receiptNumber}</blockquote></p>
+                                               <p className="mb-0 pb-0 mt-3"><blockquote className="text-center"><span className="text-muted">Transaction Ref</span> {transactionDetails?.receiptNumber}</blockquote></p>
                                                                                           
                                             )}
 
@@ -1078,7 +1078,7 @@ const Transactions =()=> {
                                                 {StdFunctions.isMerchantPay(transactionServiceCategory)?(
                                                     <tr>
                                                     <th colspan="4" className="text-black text-uppercase pb-0 mb-0">
-                                                        <blockquote className=""><span className="text-muted">Receipt No.</span> {transactionDetails?.receiptNumber}</blockquote>
+                                                        <blockquote className=""><span className="text-muted">Transaction Ref</span> {transactionDetails?.receiptNumber}</blockquote>
                                                     </th>
                                                 </tr>
                                             ):(

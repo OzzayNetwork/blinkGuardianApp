@@ -502,6 +502,9 @@ const Header=()=>{
       </div>
     </div>
 
+    {/* toasts go here */}
+   
+    {/* toasts end here */}
    
     
     </>

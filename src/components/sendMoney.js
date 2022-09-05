@@ -951,7 +951,7 @@ $('.payment-prev').unbind().on('click', function(){
                                               <div className="accordion-body">
                                                   <div>
                                                       <p>
-                                                          A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}</strong> plus <strong className="text-black">KES 50 as transaction</strong> fee will be sent to the MPESA number you enter below.
+                                                          A payment request of <strong className="text-black">{StdFunctions.kenyaCurrency(sendAmount)}</strong> will be sent to the MPESA number you enter below.
                                                       </p>
                                                   </div>
                                                   <div className="form-group">
