@@ -844,14 +844,14 @@ const BlinkerDetails =()=> {
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-3">
+                                <div className="col-12 mb-3 d-none">
                                     <div className="form-group">
                                         <label>Phone No.</label>
                                         <input className="form-control" value={blinkerPhone}  onChange={(event)=>setBlinkerPhone(event.target.value)} type="text" placeholder="Enter Phone No." />
                                     </div>
                                 </div>
 
-                                <div className="col-12 mb-3">
+                                <div className="col-12 mb-3 d-none">
                                     <div className="form-group">
                                         <label>Email Address</label>
                                         <input className="form-control" value={blinkerEmail}  onChange={(event)=>setBlinkerEmail(event.target.value)} type="text" placeholder="email@email.com" />
