@@ -489,7 +489,7 @@ const Transactions =()=> {
                         </div>
                         </div>
                     </div>
-                    <div className="card-header bg-white pt-0 pr-0 p-0 d-flex justify-content-between align-items-center w-100 border-bottom">
+                    <div className="card-header bg-white pt-0 pr-0 p-0 d-flex justify-content-between align-items-center w-100 border-bottom d-sm-none d-md-flex">
 
                     <div className="btn-toolbar p-3 d-flex justify-content-between align-items-center w-100" role="toolbar">
                         <div className="d-md-flex d-none align-items-center">
