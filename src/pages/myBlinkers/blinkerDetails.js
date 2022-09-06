@@ -811,21 +811,21 @@ const BlinkerDetails =()=> {
                                 <div className="col-12 mb-3">
                                     <div className="form-group">
                                         <label>First Name</label>
-                                        <input className="form-control" required value={firstName} onChange={(event)=>setFirstName(event.target.value)} type="text" placeholder="First Name" />
+                                        <input className="form-control" pattern="[A-Za-z]{2,}" required value={firstName} onChange={(event)=>setFirstName(event.target.value)} type="text" placeholder="First Name" />
                                     </div>
                                 </div>
 
                                 <div className="col-12 mb-3">
                                     <div className="form-group">
                                         <label>Middle Name</label>
-                                        <input className="form-control" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
+                                        <input className="form-control" pattern="[A-Za-z]{2,}" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
                                     </div>
                                 </div>
 
                                 <div className="col-12 mb-3">
                                     <div className="form-group">
                                         <label>Last Name</label>
-                                        <input className="form-control" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
+                                        <input className="form-control" pattern="[A-Za-z]{2,}" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
                                     </div>
                                 </div>
 
@@ -880,7 +880,7 @@ const BlinkerDetails =()=> {
                             </> 
                             : 
                             <>
-                                <button type="submit" form="edit-blinker"   className="btn-flex btn-success w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
+                                <button type="submit" form="edit-blinker"   className="btn-flex btn-primary w-100 waves-effect  btn text-center justify-items-center align-items-center btn-block-card-close">
                                     <div class="spinner-border d-none text-white m-0 me-2" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
