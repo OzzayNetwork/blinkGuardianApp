@@ -636,7 +636,7 @@ const BlinkerDetails =()=> {
                             </span>
                         </a>
 
-                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-flex mouse-pointer align-items-center py-2 text-danger">
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-fle d-none mouse-pointer align-items-center py-2 text-danger">
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
                             <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
                             <span class="d-flex align-items-center change-icon">
