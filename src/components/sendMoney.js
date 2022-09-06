@@ -786,8 +786,8 @@ $('.payment-prev').unbind().on('click', function(){
           </div>
 
           {/* send money offcanvas */}
-        <div className={`offcanvas offcanvas-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3566" : ""}`} tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
-        <div className={`offcanvas-header ${StdFunctions.isDeviceAnAndroiid() ? "pt-556" : ""}`}>
+        <div className={`offcanvas offcanvas-bottom border-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3566" : ""}`} tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
+        <div className={`offcanvas-header border-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-556" : ""}`}>
 
             {stkSent ? (
                                <>
@@ -795,14 +795,14 @@ $('.payment-prev').unbind().on('click', function(){
                                </>
                             ):(
                                 <>
-                                    <h5 id="offcanvasBottomExpenditureLabel">Top Up Student's Account</h5>
+                                    <h5 id="offcanvasBottomExpenditureLabel mb-0">Top Up Student's Account</h5>
                                     <button type="button" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </>
                             )
                         }
                         </div>
 
-            <form id="send-money-2" onSubmit={sendMoneyStart}  className="offcanvas-body p-0">
+            <form id="send-money-2" onSubmit={sendMoneyStart}  className="offcanvas-body pt-3 pb-0 px-0">
                 <div className="payment-panel-parent">
                           <div className="recepient-account payment-panel payment-active-panel">
                               <label for="" className="mb-0 pb-0 px-3">Recepient, Blink account & Amount</label>
@@ -1234,7 +1234,7 @@ $('.payment-prev').unbind().on('click', function(){
                           </div>
                       </div>
             </form>
-            <div className="offcanvas-header d-flex flex-column">
+            <div className="offcanvas-header d-flex flex-column boarder-top-canvas">
 
             {/* the send money buttons */}
                         {stkSent ? (

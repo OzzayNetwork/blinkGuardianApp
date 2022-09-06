@@ -2051,12 +2051,12 @@ const Home=()=>{
 
         {/* expenditure mobile */}
                                     
-        <div className={`offcanvas offcanvas-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3" : ""}`}   tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
-            <div className={`offcanvas-header ${StdFunctions.isDeviceAnAndroiid() ? "pt-5" : ""}`}>
-                <h5 className="offcanvas-title">Expenditure Limits</h5>
+        <div className={`offcanvas offcanvas-bottom border-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3678" : ""}`}   tabindex="-1" id="offcanvas-limits" aria-labelledby="offcanvasBottomLabel">
+            <div className={`offcanvas-header border-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-5678" : ""}`}>
+                <h5 className="offcanvas-title mb-0">Expenditure Limits</h5>
                 <button type="button mt-4" className="btn-close text-reset waves-effect" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body p-0 d-flex flex-column justify-content-between">
+            <form id="changeLimit2" onSubmit={newLimit} className="offcanvas-body px-0 pb-0 pt-3 d-flex flex-column justify-content-between">
                 <div className="form-content w-100">
                     <div className="waves-effect col-12 mb-0 d-flex align-items-end">
                         <div className="mb-0 d-flex flex-grow-1  align-items-center waves-effect align-items-center p-3 limit-container">

@@ -40,6 +40,10 @@
             height: 100%;
         }
 
+        .boarder-top-canvas{
+            border-top:1px solid #eff2f7;
+        }
+
         .offcanvas-body {            
             overflow-y: scroll;
             /* height: 20%; */
