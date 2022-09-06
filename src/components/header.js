@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Helmet } from "react-helmet";
 import {Link,useLocation,matchRoutes} from "react-router-dom"
 import StdFunctions from "../services/standard.functions";
+import ChatWidget from "./chatWidget";
 import $ from 'jquery';
 
 
@@ -25,15 +26,7 @@ const Header=()=>{
   const[offlineWeb,setOfflineWeb]=useState("")
   const[areWeOffline,setAreWeOffline]=useState(false)
 
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/631603c054f06e12d892d405/1gc6vtacp';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-  })();
+
   
 
   useEffect(()=>{
@@ -526,8 +519,11 @@ const Header=()=>{
       </div>
     </div>
     {/* toasts end here */}
-
-   
+   <div className="chat-widget-cont">
+    <ChatWidget/>
+   </div>
+    {/* chat widget appears here */}
+  
     
     </>
   );

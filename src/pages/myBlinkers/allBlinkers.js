@@ -128,7 +128,7 @@ const AllBlinkers =()=> {
                                     </thead>
                                     <tbody>                                 
 
-                                    {students.length> 1 && students.map((item, index)=>(
+                                    {students.map((item, index)=>(
                                             <tr>                                           
                                                 <td>
                                                     <a class="d-flex p-0 m-0 waves-effect dropdown-item d-flex align-items-center">
