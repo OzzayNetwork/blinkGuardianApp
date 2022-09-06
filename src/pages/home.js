@@ -565,7 +565,8 @@ const Home=()=>{
       })
 
 
-    const newLimit=async(event)=>{
+    
+      const newLimit=async(event)=>{
 
         let data={
             "amount":newDailyCardLimit,
@@ -2170,7 +2171,7 @@ const Home=()=>{
 
                 </div>
             </form>
-            </div>
+        </div>
             
 
         {/* blocking card modal */}

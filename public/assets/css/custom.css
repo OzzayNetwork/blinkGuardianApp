@@ -32,7 +32,7 @@
            .offcanvas-bottom {
             right: 0;
             left: 0;
-            min-height: 100vh;
+            /* min-height: 100vh; */
             max-height: none;
             border-top: 1px solid #f6f6f6;
             -webkit-transform: translateY(100%);

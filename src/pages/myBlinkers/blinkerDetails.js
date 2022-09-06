@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Helmet} from "react-helmet";
 import AuthService from "../../services/auth.service";
 import StdFunctions from "../../services/standard.functions";
+import BlockBlinker from "../../components/blockBlinker";
+import AccountLimits from "../../components/AccountLimit.js";
 import Moment from 'moment'
 import {Link,useLocation,matchRoutes,useParams} from "react-router-dom";
 import $ from 'jquery';
@@ -608,7 +610,7 @@ const BlinkerDetails =()=> {
                     <div className="card-header bg-white border-top">
                         <h6 className="text-uppercase mb-3">Account Options</h6>
 
-                        <a className="d-flex align-items-center py-2">
+                        <a className="d-flex align-items-center py-2 mouse-pointer changeLimitLink" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                             <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
                             <span className="flex-grow-1"> Change Expenditure Limit</span>
                             <span class="d-flex align-items-center change-icon">
@@ -624,11 +626,22 @@ const BlinkerDetails =()=> {
                             </span>
                         </a>
 
-                        <a className="d-flex align-items-center py-2 text-danger">
+                        
+
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-modal" className="d-flex mouse-pointer align-items-center py-2 text-danger">
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
                             <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
                             <span class="d-flex align-items-center change-icon">
                                 <i class="bx bx-chevron-right font-size-30 text-danger"></i>
+                            </span>
+                        </a>
+
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-flex mouse-pointer align-items-center py-2 text-danger">
+                            <span className="mdi mdi-cancel me-2 font-24px "></span>
+                            <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
+                            <span class="d-flex align-items-center change-icon">
+                                <input type="checkbox" id="switch3" switch="bool" checked />
+                                <label for="switch3" data-on-label="Yes" data-off-label="No"></label>
                             </span>
                         </a>
 
@@ -906,6 +919,8 @@ const BlinkerDetails =()=> {
                 </div>
             </div>
         </div>
+        <BlockBlinker/>
+        <AccountLimits/>
 
         </>
     );

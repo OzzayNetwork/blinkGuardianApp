@@ -786,8 +786,8 @@ $('.payment-prev').unbind().on('click', function(){
           </div>
 
           {/* send money offcanvas */}
-        <div className={`offcanvas offcanvas-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3" : ""}`} tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
-        <div className={`offcanvas-header ${StdFunctions.isDeviceAnAndroiid() ? "pt-5" : ""}`}>
+        <div className={`offcanvas offcanvas-bottom ${StdFunctions.isDeviceAnAndroiid() ? "pt-3566" : ""}`} tabindex="-1" id="offcanvas-send-money" aria-labelledby="offcanvasBottomLabel">
+        <div className={`offcanvas-header ${StdFunctions.isDeviceAnAndroiid() ? "pt-556" : ""}`}>
 
             {stkSent ? (
                                <>
