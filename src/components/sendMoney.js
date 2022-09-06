@@ -311,7 +311,7 @@ $('.payment-prev').unbind().on('click', function(){
     return (
         <>
           <Helmet>
-            <title>Blink! | Top up student account</title>
+            <title>Blink! | Top up student's account</title>
           </Helmet>
           <div className="modal fade" id="walletTopUp" tabindex="-1" role="dialog" aria-bs-labelledby="exampleModalCenterTitle" aria-bs-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
               <div className="modal-dialog modal-dialog-centered" role="document">

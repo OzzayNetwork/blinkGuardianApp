@@ -15,6 +15,8 @@ const BlinkerDetails =()=> {
      const [loading, setLoading] = useState(false);
      const [quote, setQuote] = useState({});
      const [selectedStudentId,setSelectedStudentId]=useState(theNewStudentId)
+     
+     const[isMobileBrowser,setIsMobileBrowser]=useState(StdFunctions.isMobileBrowser)
 
     const [students, setstudents] = useState([])
     const [studentProfile, setStudentProfile] = useState({})
@@ -93,7 +95,9 @@ const BlinkerDetails =()=> {
     const idParams=useParams();
     console.log("The params are")
     console.log(JSON.stringify(idParams))
-    //alert("we are here")
+    
+    
+   
 
    
 
@@ -622,7 +626,7 @@ const BlinkerDetails =()=> {
 
                         <a className="d-flex align-items-center py-2 text-danger">
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
-                            <span className="flex-grow-1"> Block Tom</span>
+                            <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
                             <span class="d-flex align-items-center change-icon">
                                 <i class="bx bx-chevron-right font-size-30 text-danger"></i>
                             </span>
@@ -792,9 +796,10 @@ const BlinkerDetails =()=> {
         </div>
 
         {/* edit account details modal */}
+        
 
         <div className="modal fade edit-account" tabindex="-1" role="dialog" aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered">
+            <div className={`modal-dialog  ${StdFunctions.isMobilePhone() ? "modal-fullscreen" : "modal-dialog-centered"}`}>
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">Edit The Blinker Details</h5>
@@ -810,14 +815,14 @@ const BlinkerDetails =()=> {
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-3">
+                                <div className="col-12 mb-3">
                                     <div className="form-group">
                                         <label>Middle Name</label>
                                         <input className="form-control" required value={midName} onChange={(event)=>setMidName(event.target.value)} type="text" placeholder="First Name" />
                                     </div>
                                 </div>
 
-                                <div className="col-6 mb-3">
+                                <div className="col-12 mb-3">
                                     <div className="form-group">
                                         <label>Last Name</label>
                                         <input className="form-control" required value={lastName} onChange={(event)=>setLastName(event.target.value)} type="text" placeholder="First Name" />
