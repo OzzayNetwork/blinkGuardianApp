@@ -19,6 +19,10 @@ const ChatWidget=()=>{
     s0.parentNode.insertBefore(s1,s0);
     })();
 
+   
+
+    
+
     const location = useLocation();
     let currentWindow=location.pathname;
     //alert(currentWindow)

@@ -152,6 +152,10 @@ $('.this-year').text(currentYear);
 $('body .loginPageOnly').next('main').addClass('d-none');
 
 $(document).ready(function() {
+
+    // customizing tawk
+    
+    
     $('.selectpicker').selectpicker();
     $('.selectpicker').selectpicker('render')
 });

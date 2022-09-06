@@ -519,9 +519,9 @@ const Header=()=>{
       </div>
     </div>
     {/* toasts end here */}
-   <div className="chat-widget-cont">
-    <ChatWidget/>
-   </div>
+    <div className="chat-widget-cont">
+      <div><ChatWidget/></div>
+    </div>
     {/* chat widget appears here */}
   
     
