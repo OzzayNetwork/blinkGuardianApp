@@ -610,7 +610,15 @@ const BlinkerDetails =()=> {
                     <div className="card-header bg-white border-top">
                         <h6 className="text-uppercase mb-3">Account Options</h6>
 
-                        <a className="d-flex align-items-center py-2 mouse-pointer changeLimitLink" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
+                        <a className="d-sm-none d-md-flex align-items-center py-2 mouse-pointer changeLimitLink" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
+                            <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
+                            <span className="flex-grow-1"> Change Expenditure Limit</span>
+                            <span class="d-flex align-items-center change-icon">
+                                <i class="bx bx-chevron-right font-size-30 text-primary"></i>
+                            </span>
+                        </a>
+
+                        <a className="align-items-center py-2 mouse-pointer changeLimitLink d-md-none d-sm-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-limits" aria-controls="offcanvasBottom">
                             <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
                             <span className="flex-grow-1"> Change Expenditure Limit</span>
                             <span class="d-flex align-items-center change-icon">

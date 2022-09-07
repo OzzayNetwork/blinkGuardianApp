@@ -510,7 +510,7 @@ const Header=()=>{
     </div>
 
     {/* toasts go here */}
-    <div aria-live="polite position-relative" className="d-flex align-items-center justify-content-center "  aria-atomic="true">
+    <div aria-live="polite position-relative" className="d-flex align-items-center justify-content-center pb-0"  aria-atomic="true">
       <div className="toast bg-success position-fixed the-toast animate__animated   animate__bounceInUp bounceIn" id="the-toast">
        
         <div className="toast-body  text-white  w-auto d-flex align-items-center justify-content-center text-center">

@@ -653,6 +653,7 @@ const Home=()=>{
             "addedBy":StdFunctions.parentId,
             "kidUserId":firstStudent.userId
           }
+          alert(firstStudent.userId)
 
           AuthService.inactivateLimit(data).then((res)=>{           
             console.log(res)

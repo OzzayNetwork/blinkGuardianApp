@@ -1261,6 +1261,9 @@
             }
 
             @media (max-width: 576px) {
+                #the-toast{
+                    font-size: 12px;
+                }
                 .history-card{
                     height: auto !important;
                     margin-bottom: 0px !important;
@@ -1718,8 +1721,14 @@
                 .the-toast .toast-body{
                     border-radius: .2rem;
                 }
-                .offcanvas,.modal{
+                .offcanvas,.modal,.toast{
                     z-index:2000000000000000;
+                }
+                .toast{
+                    z-index: 20000000000000000000 !important;
+                }
+                #the-toast{
+                    background-color:#202124 !important;
                 }
                
 

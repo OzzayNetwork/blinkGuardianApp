@@ -12,6 +12,7 @@ const BlockBlinker=()=>{
   const[statusUpdate,setStatusUpdate]=useState("")
 
   const [students, setstudents] = useState([])
+  const[blockLable,setBlockLable]=useState("")
 
   //Accounts states start here
   const [loading, setLoading] = useState(false);
@@ -59,7 +60,9 @@ const BlockBlinker=()=>{
         //setstudents(allBlinkers)
         setFirstStudent(allBlinkers[0])
     
-      AuthService.getStudentDetails(theNewStudentId).then((res)=>{    
+      AuthService.getStudentDetails(theNewStudentId).then((res)=>{  
+        //alert(res.data.data.userProfile.firstName) 
+        //alert(res.data.data.userProfile.status) 
        
         setStudentProfile(res.data.data.userProfile)
         setBlinkWalletAccountNum(res.data.data.userProfile.blinkaccounts.find(x=>x.blinkersAccountType==='POCKECT_MONEY').accountNumber)
@@ -76,34 +79,36 @@ const BlockBlinker=()=>{
         console.log(allBlinkAccounts)
         setLoading(false);
 
+        //the account details to check for blocking
+        if(res.data.data.userProfile.status==="Disabled"){
+            setSelectedStudentActiveStatus(false)
+            setCardIsBlocked(true)
+    
+            setBlockMsg(res.data.data.userProfile.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
+            setBlockTitle(res.data.data.userProfile.firstName+"'s Card Has Been Blocked")
+            setBlockImg("assets/images/animated/credit-card.gif")
+            setBlockLable("Unblock "+res.data.data.userProfile.firstName)
+        }
+        else{
+            setSelectedStudentActiveStatus(true)
+            setCardIsBlocked(false)
+    
+            setBlockTitle("Block " +res.data.data.userProfile.firstName+"'s Card")
+            setBlockMsg("Are you sure you want to block the card?")
+            setBlockImg("assets/images/Account-options/block.svg")
+            setBlockLable("Block "+res.data.data.userProfile.firstName)
+            
+        }
+
 
     }).catch((err)=>{
       console.log(err)
+      alert("Error occured at blocking")
     })
   },[theNewStudentId])
 
   // seeing if student is blocked
-  useEffect(()=>{
-
-    
-    if(fetchedStudentDetails.status==="Disabled"){
-        setSelectedStudentActiveStatus(false)
-        setCardIsBlocked(true)
-
-        setBlockMsg(studentProfile?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
-        setBlockTitle(studentProfile.firstName+"'s Card Has Been Blocked")
-        setBlockImg("assets/images/animated/credit-card.gif")
-    }
-    else{
-        setSelectedStudentActiveStatus(true)
-        setCardIsBlocked(false)
-
-        setBlockTitle("Block " +studentProfile?.firstName+"'s Card")
-        setBlockMsg("Are you sure you want to block the card?")
-        setBlockImg("assets/images/Account-options/block.svg")
-        
-    }
-  },[theNewStudentId])
+  
 
   // blocking and unblocking
   const blockCard2=async(event)=>{
@@ -126,12 +131,13 @@ const BlockBlinker=()=>{
             setCardIsBlocked(true)
             $('.btn-block-card').prop('disabled', false).siblings().prop('disabled', false)
             $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
+            setBlockLable("Unblock "+res.data.data.userProfile.firstName)
         }
         else{
             alert("Action cant be performed at the moment. Try again later")
         }
     }).catch((err)=>{
-        alert("Something went wrong, try again later")
+        // alert("Something went wrong, try again later")
     })
 }
 
@@ -163,7 +169,7 @@ const unBlockCard2=async(event)=>{
             
             $('#the-toast').addClass('show').addClass('bg-success').removeClass('bg-danger').removeClass('animate__fadeOutDown')
             $('#the-toast .toast-body').text(studentProfile?.firstName+"'s Card has been Unblocked")
-            
+            setBlockLable("Block "+res.data.data.userProfile.firstName)
             setTimeout(() => {                  
                 $('#the-toast').addClass('animate__fadeOutDown')
               }, 4000);  
@@ -175,7 +181,13 @@ const unBlockCard2=async(event)=>{
             alert("Action cant be performed at the moment. Try again later")
         }
     }).catch((err)=>{
-        alert("Something went wrong, try again later")
+        // alert("Something went wrong, try again later")
+        setTimeout(() => {                  
+            $('#the-toast').addClass('animate__fadeOutDown')
+          }, 4000);  
+          setTimeout(() => {                  
+            $('#the-toast').removeClass('show')
+          }, 5000);
     })
 }
 
