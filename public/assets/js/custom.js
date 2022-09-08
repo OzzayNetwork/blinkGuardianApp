@@ -151,6 +151,20 @@ $('.this-year').text(currentYear);
 // $('.loginPageOnly').next('main').addClass('d-none');
 $('body .loginPageOnly').next('main').addClass('d-none');
 
+window.onhashchange = function() {
+    $('.modal-backdrop').remove();
+
+    $('body').attr('style', function(i, style)
+    {
+        return style && style.replace(/overflow[^;]+;?/g, '');
+    });
+
+    $('body').attr('style', function(i, style)
+    {
+        return style && style.replace(/padding-right[^;]+;?/g, '');
+    });
+   }
+
 $(document).ready(function() {
 
     // customizing tawk

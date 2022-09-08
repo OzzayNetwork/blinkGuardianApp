@@ -103,7 +103,7 @@ const BlockBlinker=()=>{
 
     }).catch((err)=>{
       console.log(err)
-      alert("Error occured at blocking")
+     // alert("Error occured at blocking")
     })
   },[theNewStudentId])
 
@@ -134,7 +134,7 @@ const BlockBlinker=()=>{
             setBlockLable("Unblock "+res.data.data.userProfile.firstName)
         }
         else{
-            alert("Action cant be performed at the moment. Try again later")
+           // alert("Action cant be performed at the moment. Try again later")
         }
     }).catch((err)=>{
         // alert("Something went wrong, try again later")
@@ -178,7 +178,7 @@ const unBlockCard2=async(event)=>{
               }, 5000);
         }
         else{
-            alert("Action cant be performed at the moment. Try again later")
+           // alert("Action cant be performed at the moment. Try again later")
         }
     }).catch((err)=>{
         // alert("Something went wrong, try again later")

@@ -311,7 +311,7 @@ const disableLimit=async(event)=>{
        console.log(err)
        $('.disable-limits').prop('disabled', false);  
         $('.disable-limits').children('div').addClass('d-none').removeClass('animate__animated').siblings('span').removeClass('d-none')   
-         alert("somethong went wrong")    
+         //alert("somethong went wrong")    
      })
 }
 

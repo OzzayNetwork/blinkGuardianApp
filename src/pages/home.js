@@ -232,7 +232,7 @@ const Home=()=>{
                 }
             }
             else{
-                alert("what just happened")
+               // alert("what just happened")
             }
             
         }).catch((err)=>{
@@ -653,7 +653,7 @@ const Home=()=>{
             "addedBy":StdFunctions.parentId,
             "kidUserId":firstStudent.userId
           }
-          alert(firstStudent.userId)
+          //alert(firstStudent.userId)
 
           AuthService.inactivateLimit(data).then((res)=>{           
             console.log(res)
@@ -711,7 +711,7 @@ const Home=()=>{
             console.log(res)
             setBlockErrMsg(res.data.statusDescription)
             if(res.status===200){
-                alert("Unblocked")
+               // alert("Unblocked")
                 setBlockMsg(firstStudent?.firstName+" Will be unable to access the funds from the card. Do you want to unblock?")
                 setBlockImg("assets/images/Account-options/block.svg")
                 setCardIsBlocked(false)
@@ -760,7 +760,7 @@ const Home=()=>{
                  //$('.btn-block-card-close').removeClass('d-none')
              }
              else{
-                alert("Could not block Card")
+               // alert("Could not block Card")
              }
             
           
@@ -795,10 +795,10 @@ const Home=()=>{
                 $('.btn-block-card').children("div").addClass('d-none').siblings('span').removeClass('d-none')
             }
             else{
-                alert("Action cant be performed at the moment. Try again later")
+               // alert("Action cant be performed at the moment. Try again later")
             }
         }).catch((err)=>{
-            alert("Something went wrong, try again later")
+            //alert("Something went wrong, try again later")
         })
     }
 

@@ -69,6 +69,8 @@ function App() {
 
   const [theParentId, setTheParentId] = useState("0K");
   const [isActive, setIsActive] = useState(false);
+  
+ 
   //alert("main hook "+theParentId)
 
   // useEffect(setParentId(JSON.parse(localStorage.getItem('parentId')),parentId))

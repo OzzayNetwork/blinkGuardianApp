@@ -77,6 +77,10 @@ const BlinkerDetails =()=> {
     const[detailsChanged,setDetailsChanged]=useState(false)
     const[changingDetails,setChangingDetails]=useState("")
     const[guardianId,setGuardianId]=useState(JSON.parse(localStorage.getItem("parentId")))
+    
+    const [selectedStudentActiveStatus,setSelectedStudentActiveStatus]=useState(true)
+    const[cardIsBlocked,setCardIsBlocked]=useState(false)
+
 
     
 
@@ -162,6 +166,18 @@ const BlinkerDetails =()=> {
             console.log(allBlinkAccounts)
             console.log(studentProfile)
             setLoading(false);
+
+            if(res.data.data.status==="Disabled"){
+                setSelectedStudentActiveStatus(false)
+                setCardIsBlocked(true)
+    
+            }
+            else{
+                setSelectedStudentActiveStatus(true)
+                setCardIsBlocked(false)
+    
+                
+            }
 
 
         }).catch((err)=>{
@@ -636,17 +652,22 @@ const BlinkerDetails =()=> {
 
                         
 
-                        <a data-bs-toggle="modal" data-bs-target=".account-block-modal" className="d-flex waves-effect mouse-pointer align-items-center py-2 text-danger">
-                            <span className="mdi mdi-cancel me-2 font-24px "></span>
-                            <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-modal"  className={`d-flex waves-effect mouse-pointer align-items-center py-2   ${cardIsBlocked ? "text-primary" : "text-danger"}`} >
+                            
+                            {cardIsBlocked?
+                            ( <><span className="mdi mdi-key-variant me-2 font-24px "></span><span className="flex-grow-1"> Unblock {studentProfile?.firstName}</span></>):
+                            ( <><span className="mdi mdi-cancel me-2 font-24px "></span><span className="flex-grow-1"> Block {studentProfile?.firstName}</span></>)}
+                           
                             <span class="d-flex align-items-center change-icon">
                                 <i class="bx bx-chevron-right font-size-30 text-danger"></i>
                             </span>
                         </a>
 
-                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-fle waves-effect d-none mouse-pointer align-items-center py-2 text-danger">
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className={`d-fle waves-effect d-none mouse-pointer align-items-center py-2  ${cardIsBlocked ? "text-info" : "text-danger"}`} >
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
-                            <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
+                            {cardIsBlocked?
+                            ( <><span className="mdi mdi-key-variant me-2 font-24px "></span><span className="flex-grow-1"> Unblock {studentProfile?.firstName}</span></>):
+                            ( <><span className="mdi mdi-cancel me-2 font-24px "></span><span className="flex-grow-1"> Block {studentProfile?.firstName}</span></>)}
                             <span class="d-flex align-items-center change-icon">
                                 <input type="checkbox" id="switch3" switch="bool" checked />
                                 <label for="switch3" data-on-label="Yes" data-off-label="No"></label>
@@ -800,7 +821,7 @@ const BlinkerDetails =()=> {
 
                                             <div className="row">
                                                 <div className="col-lg-12">
-                                                    <div>graph comes here</div>
+                                                    <div className="d-none">graph comes here</div>
                                                 </div>
                                             </div>
                                         </div>
