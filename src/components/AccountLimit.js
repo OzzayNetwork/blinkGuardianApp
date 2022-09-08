@@ -187,7 +187,7 @@ const newLimit=async(event)=>{
         "blinkAccountId":selectedPocketMoneyId,
         "limitPeriod":"DAILY",
         "limitStatus":"Active",
-        "addedBy":studentProfile.parentId,
+        "addedBy":StdFunctions.parentId,
         "kidUserId":theNewStudentId,
       }
       console.log(firstStudent)
@@ -217,7 +217,7 @@ const newLimit=async(event)=>{
             $('.limit-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
             $('.close-limit-box').addClass('d-none')   
             $('.limit-msg').removeClass('d-none').removeClass('fade')
-            seterrorMsg("Daily transaction limit for "+firstStudent?.firstName +" "+firstStudent?.middleName+" has been updated to "+StdFunctions.kenyaCurrency(newDailyCardLimit))
+            seterrorMsg("Daily transaction limit for "+studentProfile?.firstName +" "+studentProfile?.middleName+" has been updated to "+StdFunctions.kenyaCurrency(newDailyCardLimit))
             $('.btn-set-limit-sm').prop('disabled', true);
             setDailyCardLimit(newDailyCardLimit)
             setIsDailyLimitSet(true)

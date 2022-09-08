@@ -610,7 +610,7 @@ const BlinkerDetails =()=> {
                     <div className="card-header bg-white border-top">
                         <h6 className="text-uppercase mb-3">Account Options</h6>
 
-                        <a className="d-sm-none d-md-flex align-items-center py-2 mouse-pointer changeLimitLink" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
+                        <a className="d-sm-none waves-effect d-md-flex align-items-center py-2 mouse-pointer changeLimitLink" data-bs-toggle="modal" data-bs-target=".account-limit-modal">
                             <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
                             <span className="flex-grow-1"> Change Expenditure Limit</span>
                             <span class="d-flex align-items-center change-icon">
@@ -618,7 +618,7 @@ const BlinkerDetails =()=> {
                             </span>
                         </a>
 
-                        <a className="align-items-center py-2 mouse-pointer changeLimitLink d-md-none d-sm-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-limits" aria-controls="offcanvasBottom">
+                        <a className="align-items-center waves-effect py-2 mouse-pointer changeLimitLink d-md-none d-sm-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-limits" aria-controls="offcanvasBottom">
                             <span className="mdi mdi-calendar-alert me-2 font-24px "></span>
                             <span className="flex-grow-1"> Change Expenditure Limit</span>
                             <span class="d-flex align-items-center change-icon">
@@ -626,7 +626,7 @@ const BlinkerDetails =()=> {
                             </span>
                         </a>
 
-                        <a className="d-flex align-items-center py-2">
+                        <a className="d-fle d-none align-items-center waves-effect py-2">
                             <span className="mdi-comment-alert-outline mdi me-2 font-24px "></span>
                             <span className="flex-grow-1"> Notification Level</span>
                             <span class="d-flex align-items-center change-icon">
@@ -636,7 +636,7 @@ const BlinkerDetails =()=> {
 
                         
 
-                        <a data-bs-toggle="modal" data-bs-target=".account-block-modal" className="d-flex mouse-pointer align-items-center py-2 text-danger">
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-modal" className="d-flex waves-effect mouse-pointer align-items-center py-2 text-danger">
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
                             <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
                             <span class="d-flex align-items-center change-icon">
@@ -644,7 +644,7 @@ const BlinkerDetails =()=> {
                             </span>
                         </a>
 
-                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-fle d-none mouse-pointer align-items-center py-2 text-danger">
+                        <a data-bs-toggle="modal" data-bs-target=".account-block-moda" className="d-fle waves-effect d-none mouse-pointer align-items-center py-2 text-danger">
                             <span className="mdi mdi-cancel me-2 font-24px "></span>
                             <span className="flex-grow-1"> Block {studentProfile?.firstName}</span>
                             <span class="d-flex align-items-center change-icon">
