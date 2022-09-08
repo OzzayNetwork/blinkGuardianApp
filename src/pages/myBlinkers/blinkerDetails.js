@@ -659,7 +659,7 @@ const BlinkerDetails =()=> {
                             ( <><span className="mdi mdi-cancel me-2 font-24px "></span><span className="flex-grow-1"> Block {studentProfile?.firstName}</span></>)}
                            
                             <span class="d-flex align-items-center change-icon">
-                                <i class="bx bx-chevron-right font-size-30 text-danger"></i>
+                                <i className={`bx bx-chevron-right font-size-30  ${cardIsBlocked ? "text-primary" : "text-danger"}`} ></i>
                             </span>
                         </a>
 
