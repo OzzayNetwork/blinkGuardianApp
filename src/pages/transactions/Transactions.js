@@ -554,7 +554,7 @@ const Transactions =()=> {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="text-capitalize text-nowrap fw-semibold">{transaction.receiptNumber}</td>
+                                            <td className="text-capitalize text-nowrap fw-semibold cursor-pointer"  onClick={()=> clickedTransaction(transaction?.transactionId,transaction?.blinkMerchant.merchantName,transaction?.service.institution.commission,transaction?.service.institution.institutionName,transaction?.transType,transaction.productsSold)} data-bs-toggle="modal" data-bs-target="#transaction-details">{transaction.receiptNumber}</td>
                                             <td className="text-capitalize">
                                                 
                                                 {StdFunctions.areTheyThesame(transaction.transType,"Money_transfer")?(
@@ -1049,7 +1049,14 @@ const Transactions =()=> {
                                         )}
                                    
                                 </h2>
-                                <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+
+                                    {StdFunctions.areTheyThesame(transactionServiceCategory,"Deposit")?(
+                                        <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+
+                                    ):(
+                                        <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(0.00)}</span> </p>
+                                                          
+                                    )}
 
                             </div>
                             <div className="px-4 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100 px-sm-0">

@@ -260,6 +260,18 @@ const SendMoney=()=>{
         //window.location.reload(false);
     }
 
+    //setting amiunt sending
+    const amountSending=async(event)=>{
+        console.log(event.target.value); 
+        setSendAmount(event.target.value)
+       if(event.target.value<=transactionFee){
+        $('.amount-send-input').addClass('text-danger')
+       }
+       else{
+        $('.amount-send-input').removeClass('text-danger')
+       }
+    }
+
 
     //sending payment
    //sending payment
@@ -456,9 +468,11 @@ $('.payment-prev').unbind().on('click', function(){
   
                                   <label for="" className="text-capitalize">Amount to send</label>
                                   <div className="form-floating mb-3">
-                                      <input type="number" autoComplete="off" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name" required ="true" onChange={(event)=>setSendAmount(event.target.value)} name="SendAMount"/>
+                                      <input type="number" autoComplete="off" className="form-control font-21 text-info form-control-lg amount-send-input" id="amount-input" min={transactionFee} placeholder="Enter Name" required ="true" onChange={amountSending} name="SendAMount"/>
                                       <label for="floatingnameInput">KES</label>
                                   </div>
+                                  <div className="d-flex align-items-center px-3 justify-content-center"><span class="badge badge-soft-success font-size-14">  {"Transaction Fee: "+StdFunctions.kenyaCurrency(transactionFee)} </span></div>
+
                                   
                               </div>
                               
@@ -769,7 +783,7 @@ $('.payment-prev').unbind().on('click', function(){
                   </form>
                   <div className="modal-footer d-flex">
                       <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previous </button>
-                        {StdFunctions.isGreaterThanZero(sendAmount)? (
+                        {StdFunctions.amountIsGreaterThan(transactionFee,sendAmount)? (
                             <button  className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
                             
                                 ) : (
@@ -921,10 +935,11 @@ $('.payment-prev').unbind().on('click', function(){
                                   <div className="px-3">
                                     <label for="" className="text-capitalize">Amount to send</label>
                                     <div className="form-floating mb-3">
-                                        <input type="number" autoComplete="off" className="form-control font-21 text-info form-control-lg" id="amount-input" placeholder="Enter Name" required ="true" onChange={(event)=>setSendAmount(event.target.value)} name="SendAMount"/>
+                                        <input type="number" autoComplete="off" className="form-control font-21 text-info form-control-lg text-danger amount-send-input" id="amount-input" min={transactionFee} placeholder="Enter Name" required ="true" onChange={amountSending} name="SendAMount"/>
                                         <label for="floatingnameInput">KES</label>
                                     </div>
                                   </div>
+                                  <div className="d-flex align-items-center px-3 justify-content-center"><span class="badge badge-soft-success font-size-14">  {"Transaction Fee: "+StdFunctions.kenyaCurrency(transactionFee)} </span></div>
                                   
                               </div>
                               
@@ -1245,7 +1260,7 @@ $('.payment-prev').unbind().on('click', function(){
                                 <>
                                 <div className="d-flex col-12 align-items justify-content-between">
                                  <button href="javascript: void(0);" disabled className="btn btn-outline-light waves-effect waves-light payment-prev"> <i className="mdi mdi-arrow-left ms-1"></i> Previous </button>
-                                    {StdFunctions.isGreaterThanZero(sendAmount)? (
+                                    {StdFunctions.amountIsGreaterThan(transactionFee,sendAmount)? (
                                         <button  className="btn btn-primary waves-effect waves-light payment-next">Next <i className="mdi mdi-arrow-right ms-1"></i></button>
                                         
                                             ) : (

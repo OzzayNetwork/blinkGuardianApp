@@ -113,6 +113,17 @@ class stdFunctions {
         }
     }
 
+    //checking wich value is greater
+    amountIsGreaterThan=(str1,str2)=>{
+        str1=parseFloat(str1)
+        str2=parseFloat(str2)
+        if(str2>str1){
+            return true
+        }
+        else{
+            return false
+        }
+    }
     //checking if a number is greater than 0
     isGreaterThanZero=(str)=>{
         str=parseFloat(str)

@@ -505,6 +505,7 @@ const Home=()=>{
         setTransactionInstitution(transactingInstitute)
         setTransactionServiceCategory(serviceCategory)
         setTransactionFee(transactionFee)
+        console.log(transactionFee)
 
         console.log("the clicked transaction Produuct Items")
         console.log(transactionProducts)
@@ -1799,8 +1800,14 @@ const Home=()=>{
                                         )}
                                    
                                 </h2>
-                                <p className="text-uppercase mb-4">Transaction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
 
+                                {StdFunctions.areTheyThesame(transactionServiceCategory,"Deposit")?(
+                                        <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+
+                                    ):(
+                                        <p className="text-uppercase mb-4">Tranasction Fee <span className="fw-semibold">{StdFunctions.kenyaCurrency(transactionFee)}</span> </p>
+                                                          
+                                    )}
                             </div>
                             <div className="px-4 px-sm-0 mb-4 transactions-details-table text-left d-flex justify-items-center align-items-center w-100">
                             
