@@ -20,6 +20,10 @@ class AuthService {
       return axiosInstance.post(baseUrl+"/api/v2/admin/auth/login-with-usertype",data)
    }
 
+   phoneLogin(data){
+      return axiosInstance.post(baseUrl+"/api/v2/admin/auth/login-with-msisdn",data)
+   }
+
    fetchTransactionByTransactionId(transactionId){
       return axiosInstance.post(baseUrl+"/api/v2/transactions/fetchTransactionByTransactionId/"+transactionId)
    }

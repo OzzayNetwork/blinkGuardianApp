@@ -32,6 +32,12 @@ const[midName,setMidName]=useState("")
       password: passWord,
       userType: "Parent",
     };
+
+    let data2 = {
+      msisdn: username,
+      password: passWord,
+      userType: "Parent",
+    };
     
     console.log(data)
     AuthService.logIn(data).then((res) => {
@@ -81,21 +87,63 @@ const[midName,setMidName]=useState("")
               setMidName(res.data.data.userProfile.lastName)
              
             }
-          
-
-         
-           
            
         }
       }).catch((err)=>{
-        console.log(err.response.data.statusDescription);
-        seterrorMsg(err.response.data.statusDescription)
-        setLoginClicked(false)
-        //  $('.msg-holder-err ').removeClass('d-none');
-        //  $('.msg-holder-err .alert').alert('show');
-        //  alert("we are not logger");
-         //show
-        $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');;
+        console.log(err)
+        AuthService.phoneLogin(data2).then((res2)=>{
+          if(res2.status===200){
+            seterrorMsg(res2.data.statusDescription)
+            console.log(res2)
+            if(res2.data.data.passwordSet===true){
+              //setting the local storage with some data
+              localStorage.setItem("parentId", res2.data.data.userId)
+              localStorage.setItem("parentEmail", res2.data.data.email)
+              localStorage.setItem("parentPhone", res2.data.data.msisdn)
+              localStorage.setItem("parentUserName", res2.data.data.userName)
+              localStorage.setItem("parentUserFName", res2.data.data.userProfile.firstName)
+              localStorage.setItem("parentUserLName", res2.data.data.userProfile.lastName)
+              localStorage.setItem("guardianWalletBal", res2.data.data.userProfile.blinkaccounts[0].currentBalance)
+              localStorage.setItem("guardianBlinkers", JSON.stringify(res2.data.data.associates))
+              //localStorage.setItem("parentFName",res.data.userProfile.firstName);
+              //setting active blinker
+              localStorage.setItem("activeBlinker", JSON.stringify(res2.data.data.associates[res2.data.data.associates.length-1].userId))
+              localStorage.setItem("activeBlinkerIndex", JSON.stringify(res2.data.data.associates.length-1))
+              //alert(  localStorage.setItem("parentId", res.data.data.userId))
+              console.log(localStorage)
+              // alert( localStorage.setItem("parentFName",res.data.userProfile.firstName))
+              $('#login-msg').show().addClass('show').addClass('alert-success').removeClass('d-none').removeClass('alert-danger').children('i').addClass('mdi-check-all').removeClass('mdi-block-helper');
+              setUsername(data.email);
+              //alert(res.data.data.userId);
+              window.location.reload()
+              console.log(localStorage);
+              //setTheParentId(res.data.data.userId);
+              //alert(theParentId = {parentId})
+              //alert(theParentId)
+           }
+           else{
+              // $('.msg-holder').removeClass('d-none')
+              console.log(res2.data.data.passwordSet)
+              console.log(res2.data.data)
+              setLoginClicked(false)
+              document.getElementById("password-modal").click();
+              setFname(res2.data.data.userProfile.firstName)
+              setMidName(res2.data.data.userProfile.lastName)
+           }
+          }
+
+        }).catch((error2)=>{
+          //alert("some error")
+          console.log(error2.response.data.statusDescription);
+          seterrorMsg(error2.response.data.statusDescription)
+          setLoginClicked(false)
+          //  $('.msg-holder-err ').removeClass('d-none');
+          //  $('.msg-holder-err .alert').alert('show');
+          //  alert("we are not logger");
+          //show
+          $('#login-msg').show().addClass('show').addClass('alert-danger').removeClass('d-none').removeClass('alert-success').children('i').addClass('mdi-block-helper').removeClass('mdi-check-all');;
+        })
+        
       })
   };
 
@@ -130,13 +178,13 @@ const[midName,setMidName]=useState("")
           <form onSubmit={loginStart}>
             <div className="mb-3">
               <label for="username" className="form-label">
-                Email address
+                Email or Phone No.
               </label>
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 id="username"
-                placeholder="email@email.com"
+                placeholder="Enter your Email address or Phone Number"
                 onChange={(event)=>setUsername(event.target.value)}
                 required="true"
                 required parsley-type="email"

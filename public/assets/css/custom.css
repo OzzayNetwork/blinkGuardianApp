@@ -1403,6 +1403,9 @@
                 .pr-sm-2{
                     padding-right: .75rem !important;
                 }
+                .pt-sm-1{
+                    padding-top: .25rem !important;
+                }
             }
             
             @media screen and (max-width: 767px) {

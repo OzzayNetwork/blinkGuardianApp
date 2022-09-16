@@ -25,6 +25,7 @@ const Header=()=>{
   const[onlineWeb,setOnlineWeb]=useState("")
   const[offlineWeb,setOfflineWeb]=useState("")
   const[areWeOffline,setAreWeOffline]=useState(false)
+  const[isBlinkerDetails,setIsBlinkerDetails]=useState(false)
 
 
   
@@ -67,6 +68,24 @@ const Header=()=>{
   useEffect(()=>{
     setTheLocation(currentWindow)
   },[theLocation])
+
+  let viewport_width = window.innerWidth;
+  //alert(viewport_width)
+
+  if(StdFunctions.includes(currentWindow,"/BlinkerDetails/")===true){
+    $('#page-topbar').addClass('d-sm-none').addClass('d-md-inline')
+   
+    if(viewport_width<=576){
+      $('.page-content').addClass('pt-sm-1')
+    }
+  }
+  else{
+    $('#page-topbar').removeClass('d-sm-none')
+    $('.page-content').removeClass('pt-sm-1')
+  }
+
+
+  
 
  
 
@@ -145,9 +164,15 @@ const Header=()=>{
                 <h5 className="ms-3 mb-0 pb-0 text-black">Transactions</h5>
                 
               }
+              
 
               { StdFunctions.equalTo(currentWindow,"/") &&
               <h5 className="ms-3 mb-0 pb-0 text-black">Hi,  {parentFName}</h5>
+                
+              }
+
+              { StdFunctions.includes(currentWindow,"/BlinkerDetails/") &&
+              <h5 className="ms-3 mb-0 pb-0 text-black">Account Details</h5>
                 
               }
 
@@ -383,15 +408,15 @@ const Header=()=>{
               </button>
               <div className="dropdown-menu dropdown-menu-end">
                 {/* <!-- item--> */}
-                <a className="dropdown-item" href="myprofile.html">
+                <a className="dropdown-item" href="#">
                   <i className="bx bx-user font-size-16 align-middle me-1"></i>{" "}
                   <span key="t-profile">My Profile</span>
                 </a>
-                <a className="dropdown-item" href="my-logs.html">
+                <a className="dropdown-item" href="#">
                   <i className="bx bx-time font-size-16 align-middle me-1"></i>{" "}
                   <span key="t-profile">My Logs</span>
                 </a>
-                <a className="dropdown-item" href="auth-lock-screen.html">
+                <a className="dropdown-item" href="#">
                   <i className="bx bx-lock-open font-size-16 align-middle me-1"></i>{" "}
                   <span key="t-lock-screen">Lock screen</span>
                 </a>

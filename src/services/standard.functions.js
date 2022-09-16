@@ -99,6 +99,20 @@ class stdFunctions {
         }
     }
 
+    //includes function
+    includes(str1,str2){
+       
+        if(str1.includes(str2))
+        {
+            //alert("i do have")
+            return true
+        }
+        else{
+            //alert("I dont")
+            return false
+        }
+    }
+
     //checking if a number is greater than 0
     isGreaterThanZero=(str)=>{
         str=parseFloat(str)
