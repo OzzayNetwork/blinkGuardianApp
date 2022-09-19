@@ -53,7 +53,7 @@ const Sidebar=()=>{
                           
   
   
-                          <li>
+                          <li className="d-none">
                               <a  className="waves-effect has-arrow">
                                   <i className="mdi dripicons-heart"></i>
                                   <span>Donation Programs</span>
@@ -65,7 +65,7 @@ const Sidebar=()=>{
                               </ul>
                           </li>
   
-                          <li>
+                          <li className="d-none">
                               <a  className="waves-effect has-arrow">
                                   <i className="mdi mdi-clipboard-text-outline"></i>
                                   <span>Tasks</span>
