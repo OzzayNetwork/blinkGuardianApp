@@ -46,6 +46,7 @@ const[midName,setMidName]=useState("")
         if(res.status===200){
             seterrorMsg(res.data.statusDescription)
             if(res.data.data.passwordSet===true){
+              //alert("we are logging in")
                //setting the local storage with some data
               localStorage.setItem("parentId", res.data.data.userId)
               localStorage.setItem("parentEmail", res.data.data.email)
@@ -53,7 +54,15 @@ const[midName,setMidName]=useState("")
               localStorage.setItem("parentUserName", res.data.data.userName)
               localStorage.setItem("parentUserFName", res.data.data.userProfile.firstName)
               localStorage.setItem("parentUserLName", res.data.data.userProfile.lastName)
-              localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+              if(res.data.data.userProfile.blinkaccounts.length !=0){
+                //alert("It is not null")
+                localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+              }
+              else{
+                //alert("It is null")
+                localStorage.setItem("guardianWalletBal", 0)
+
+              }
               localStorage.setItem("guardianBlinkers", JSON.stringify(res.data.data.associates))
               //localStorage.setItem("parentFName",res.data.userProfile.firstName);
 
