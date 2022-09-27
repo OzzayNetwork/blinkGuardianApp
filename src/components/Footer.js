@@ -23,7 +23,7 @@ const Footer=()=>{
                 <div className="container-fluid ">
                   <div className="row ">
                     <div className="col-sm-6 col-6">
-                      <span className="this-year"></span> © Blink!
+                      <span className="this-year"></span> © NatShule Digital Wallet
                       {/* <span>{this.props.params.id}</span> */}
                     </div>
                     <div className="col-sm-6 col-6">

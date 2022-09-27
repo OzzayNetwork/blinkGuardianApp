@@ -1288,14 +1288,14 @@ const Home=()=>{
                                         
                                         </div>
                                         <div>
-                                            <img src="assets/images/logo-files/blink-white.svg" className="img" alt="" height="40px"/>
+                                            <img src="assets/images/logo-files/blink-white.svg" className="img" alt="" height="50px"/>
                                         </div>
                                 </div>
 
                                     <div className="d-flex align-content-center align-items-center mb-3">
                                     
                                         <div className="flex-grow-1">
-                                            <p className="m-0 p-0 text-white-50">Blink Wallet Holder</p>
+                                            <p className="m-0 p-0 text-white-50">Wallet Holder</p>
                                             <h4 className="font-size-15 mb-0 text-white text-capitalize">{studentProfile?.institution != undefined && studentProfile.firstName+" "+studentProfile.middleName}</h4>
                                             
                                         </div>

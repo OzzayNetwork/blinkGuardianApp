@@ -1483,7 +1483,7 @@
                     /* background-color: orangered; */
                     content: "";
                     z-index: -1;
-                    background-image: linear-gradient(to right, #ee6b20c4, #f9000085);
+                    background-image: linear-gradient(to right, #e91e6366, #f9b715);
                     backdrop-filter: blur(17px);
                   }
                   .flip-x{

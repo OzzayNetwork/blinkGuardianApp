@@ -47,7 +47,7 @@ const Sidebar=()=>{
 
                           <li className={`${ StdFunctions.equalTo(currentWindow,"/MyBlinkers")? "mm-active" : ""}`}>
                               <Link to="/MyBlinkers" className={`waves-effect ${ StdFunctions.equalTo(currentWindow,"/MyBlinkers")? "active" : ""}`}>
-                              <i className="mdi mdi-account-child"></i><span>My blinkers</span>
+                              <i className="mdi mdi-account-child"></i><span>My Dependants</span>
                               </Link>
                           </li>
                           

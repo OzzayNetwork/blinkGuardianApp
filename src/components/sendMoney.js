@@ -353,7 +353,7 @@ $('.payment-prev').unbind().on('click', function(){
   
                       <div className="payment-panel-parent">
                           <div className="recepient-account payment-panel payment-active-panel">
-                              <h5 className="text-capitalize text-black fw-medium">Recepient, Blink account & Amount </h5>
+                              <h5 className="text-capitalize text-black fw-medium">Recepient, Dependant & Amount </h5>
                               <label className="text-capitalize text-muted">Blinker receiving the money</label>
                               
                               <div>
