@@ -112,7 +112,15 @@ const[midName,setMidName]=useState("")
               localStorage.setItem("parentUserName", res2.data.data.userName)
               localStorage.setItem("parentUserFName", res2.data.data.userProfile.firstName)
               localStorage.setItem("parentUserLName", res2.data.data.userProfile.lastName)
-              localStorage.setItem("guardianWalletBal", res2.data.data.userProfile.blinkaccounts[0].currentBalance)
+              if(res.data.data.userProfile.blinkaccounts.length !=0){
+                //alert("It is not null")
+                localStorage.setItem("guardianWalletBal", res.data.data.userProfile.blinkaccounts[0].currentBalance)
+              }
+              else{
+                //alert("It is null")
+                localStorage.setItem("guardianWalletBal", 0)
+
+              }
               localStorage.setItem("guardianBlinkers", JSON.stringify(res2.data.data.associates))
               //localStorage.setItem("parentFName",res.data.userProfile.firstName);
               //setting active blinker
