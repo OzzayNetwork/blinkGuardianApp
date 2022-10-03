@@ -813,7 +813,7 @@ const Transactions =()=> {
                                                     {StdFunctions.isDepositTransaction(transaction.transType)?(
                                                         StdFunctions.phoneOutput(transaction.accountFrom)
                                                     ):(
-                                                        transaction.blinkMerchant.merchantName                                                              
+                                                        transaction.blinkMerchant.merchantName +" "                                                             
                                                     )}
                                                     <span className="product-items" 
                                                     
