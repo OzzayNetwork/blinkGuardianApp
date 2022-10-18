@@ -167,7 +167,7 @@ const[midName,setMidName]=useState("")
   return (
     <>
       <Helmet>
-        <title>Blink! | Login to your account</title>
+        <title>NatShule Digital Wallet for Students</title>
       </Helmet>
       <div className="my-auto">
         <div>

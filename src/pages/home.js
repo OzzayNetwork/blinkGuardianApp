@@ -886,7 +886,7 @@ const Home=()=>{
         }
 
         <Helmet>
-        <title>Blink! | Digital Wallet for Students</title>
+        <title>NatShule Digital Wallet for Students</title>
         </Helmet>    {/* the modals container */}
         <div className="container-fluid">
 

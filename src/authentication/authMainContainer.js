@@ -106,7 +106,7 @@ const AuthMainContainer =()=>{
   
                                       <div className="mt-4 mt-md-5 text-center">
                                           <p className="mb-0">©
-                                          <span className="this-year"></span> Blink! <strong>Student Digital wallet</strong></p>
+                                          <span className="this-year"></span> NatShule <strong>Student Digital wallet</strong></p>
                                       </div>
                                   </div>
   
